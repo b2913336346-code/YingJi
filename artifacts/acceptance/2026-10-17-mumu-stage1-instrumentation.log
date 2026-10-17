@@ -1,0 +1,356 @@
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+com.yingji.app.presentation.settings.SettingsScreenTest:
+INSTRUMENTATION_STATUS: test=defaultSortSelectionDispatchesCallback
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=defaultSortSelectionDispatchesCallback
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=countsAndIndependentCategoryAndTagClicksAreDisplayed
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '校园测试' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #114 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@9b040ad'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.countsAndIndependentCategoryAndTagClicksAreDisplayed(SettingsScreenTest.kt:123)
+
+INSTRUMENTATION_STATUS: stream=
+Error in countsAndIndependentCategoryAndTagClicksAreDisplayed(com.yingji.app.presentation.settings.SettingsScreenTest):
+java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '校园测试' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #114 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@9b040ad'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.countsAndIndependentCategoryAndTagClicksAreDisplayed(SettingsScreenTest.kt:123)
+
+INSTRUMENTATION_STATUS: test=countsAndIndependentCategoryAndTagClicksAreDisplayed
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=cancelRenameDoesNotWriteAndSystemCategoryHasNoEditEntry
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=cancelRenameDoesNotWriteAndSystemCategoryHasNoEditEntry
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=categoryAndTagWithSameDatabaseIdCanBeDisplayed
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '测试标签' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #381 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@2e2e820'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.categoryAndTagWithSameDatabaseIdCanBeDisplayed(SettingsScreenTest.kt:88)
+
+INSTRUMENTATION_STATUS: stream=
+Error in categoryAndTagWithSameDatabaseIdCanBeDisplayed(com.yingji.app.presentation.settings.SettingsScreenTest):
+java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '测试标签' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #381 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@2e2e820'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.categoryAndTagWithSameDatabaseIdCanBeDisplayed(SettingsScreenTest.kt:88)
+
+INSTRUMENTATION_STATUS: test=categoryAndTagWithSameDatabaseIdCanBeDisplayed
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=deleteUsesIndependentClickAreaAndRequiresConfirmation
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=deleteUsesIndependentClickAreaAndRequiresConfirmation
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=6
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=tagSaveErrorsStayInDialogAndSuccessfulRetryClosesIt
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=6
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=tagSaveErrorsStayInDialogAndSuccessfulRetryClosesIt
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=7
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=themeStatisticsAndDialogCancelCallbacksRemainAvailable
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=7
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=themeStatisticsAndDialogCancelCallbacksRemainAvailable
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=8
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=addCategoryDialogValidatesInputAndSubmitsEnteredName
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=8
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=addCategoryDialogValidatesInputAndSubmitsEnteredName
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=9
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=renameCategoryPrefillsNameRejectsBlankAndKeepsIndependentClickArea
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.settings.SettingsScreenTest
+INSTRUMENTATION_STATUS: current=9
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=renameCategoryPrefillsNameRejectsBlankAndKeepsIndependentClickArea
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=10
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+com.yingji.app.presentation.category.CategoryTagViewModelTest:
+INSTRUMENTATION_STATUS: test=cancelledWriteReleasesSavingStateWithoutReportingFailure
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=10
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=cancelledWriteReleasesSavingStateWithoutReportingFailure
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=11
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=failedWriteReleasesSavingStateAndAllowsRetry
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=11
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=failedWriteReleasesSavingStateAndAllowsRetry
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=12
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=consumingResultWhileSavingDoesNotAllowDuplicateWrites
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.presentation.category.CategoryTagViewModelTest
+INSTRUMENTATION_STATUS: current=12
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=consumingResultWhileSavingDoesNotAllowDuplicateWrites
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=13
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+com.yingji.app.data.repository.CategoryRepositoryRenameTest:
+INSTRUMENTATION_STATUS: test=renameTrimsNameAndKeepsIdsAndMovieRelations
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=13
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=renameTrimsNameAndKeepsIdsAndMovieRelations
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=14
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=uniqueIndexConflictsAreReportedEvenIfPrecheckMissesThem
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=14
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=uniqueIndexConflictsAreReportedEvenIfPrecheckMissesThem
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=15
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=renameRejectsBlankDuplicateAndSystemCategory
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=15
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=renameRejectsBlankDuplicateAndSystemCategory
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=16
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=renamedNamesAndRelationsRemainAfterDatabaseReopen
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=16
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=renamedNamesAndRelationsRemainAfterDatabaseReopen
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=17
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=unchangedNamesSucceedAndMissingRowsDoNotReportSuccess
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.yingji.app.data.repository.CategoryRepositoryRenameTest
+INSTRUMENTATION_STATUS: current=17
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=17
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=unchangedNamesSucceedAndMissingRowsDoNotReportSuccess
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_RESULT: stream=
+
+Time: 9.819
+There were 2 failures:
+1) countsAndIndependentCategoryAndTagClicksAreDisplayed(com.yingji.app.presentation.settings.SettingsScreenTest)
+java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '校园测试' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #114 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@9b040ad'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.countsAndIndependentCategoryAndTagClicksAreDisplayed(SettingsScreenTest.kt:123)
+2) categoryAndTagWithSameDatabaseIdCanBeDisplayed(com.yingji.app.presentation.settings.SettingsScreenTest)
+java.lang.AssertionError: Failed: performScrollToNode(Text + EditableText contains '测试标签' (ignoreCase: false))
+The node is no longer in the tree, last known semantics:
+Node #381 at (l=0.0, t=150.0, r=1920.0, b=1092.0)px
+IsTraversalGroup = 'true'
+VerticalScrollAxisRange = 'ScrollAxisRange(value=0.0, maxValue=100.0, reverseScrolling=false)'
+CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@2e2e820'
+Actions = [ScrollBy, ScrollByOffset, IndexForKey, ScrollToIndex, GetScrollViewportLength]
+Has 12 children, 1 sibling
+Original selector: (ScrollToIndex is defined) && (hasAnyDescendantThat(Text + EditableText contains '查看统计' (ignoreCase: false)))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:165)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.scrollToMatchingDescendantOrReturnScrollable(Actions.kt:285)
+	at androidx.compose.ui.test.ActionsKt.performScrollToNode(Actions.kt:258)
+	at com.yingji.app.presentation.settings.SettingsScreenTest.categoryAndTagWithSameDatabaseIdCanBeDisplayed(SettingsScreenTest.kt:88)
+
+FAILURES!!!
+Tests run: 17,  Failures: 2
+
+
+INSTRUMENTATION_CODE: -1
+
