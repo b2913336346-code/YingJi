@@ -3,6 +3,7 @@ package com.yingji.app.presentation.search
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.hasText
 import com.yingji.app.domain.model.MovieSortOption
 import com.yingji.app.domain.model.MovieStatus
 import com.yingji.app.domain.model.ThemeMode
@@ -37,9 +38,9 @@ class SearchScreenFilterTest {
             }
         }
 
-        composeRule.onNodeWithText(MovieStatus.FINISHED.value).performClick()
-        composeRule.onNodeWithText(WatchTimeField.END_TIME.displayName).performClick()
-        composeRule.onNodeWithText(MovieSortOption.CREATED_ASC.displayName).performClick()
+        composeRule.scrollToSearchFilter(hasText(MovieStatus.FINISHED.value)).performClick()
+        composeRule.scrollToSearchFilter(hasText(WatchTimeField.END_TIME.displayName)).performClick()
+        composeRule.scrollToSearchFilter(hasText(MovieSortOption.CREATED_ASC.displayName)).performClick()
 
         composeRule.runOnIdle {
             assertEquals(MovieStatus.FINISHED, selectedStatus)

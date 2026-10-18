@@ -56,7 +56,6 @@ class FilterAndSortMoviesUseCase(
         criteria: MovieSearchCriteria,
     ): Boolean {
         val field = criteria.timeField ?: return true
-        if (criteria.fromTime == null && criteria.toTime == null) return true
         return histories.any { history ->
             val timestamp = when (field) {
                 WatchTimeField.START_TIME -> history.startTime
@@ -79,19 +78,20 @@ class FilterAndSortMoviesUseCase(
             compareBy<Movie> { it.createTime }.thenBy { it.id },
         )
         MovieSortOption.NAME_ASC -> movies.sortedWith(
-            compareBy<Movie> { it.name.lowercase() }.thenByDescending { it.createTime },
+            compareBy<Movie> { it.name.lowercase() }.thenByDescending { it.createTime }
+                .thenByDescending { it.id },
         )
         MovieSortOption.WATCH_START_DESC -> movies.sortedWith(
             compareByDescending<Movie> { movie ->
                 historiesByMovieId[movie.id]?.maxOfOrNull(WatchHistory::startTime)
                     ?: Long.MIN_VALUE
-            }.thenByDescending { it.createTime },
+            }.thenByDescending { it.createTime }.thenByDescending { it.id },
         )
         MovieSortOption.WATCH_END_DESC -> movies.sortedWith(
             compareByDescending<Movie> { movie ->
                 historiesByMovieId[movie.id]?.mapNotNull(WatchHistory::endTime)?.maxOrNull()
                     ?: Long.MIN_VALUE
-            }.thenByDescending { it.createTime },
+            }.thenByDescending { it.createTime }.thenByDescending { it.id },
         )
     }
 }

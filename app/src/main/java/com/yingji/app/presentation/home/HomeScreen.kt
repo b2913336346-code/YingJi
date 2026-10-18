@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.presentation.movie.MovieListScreen
 import com.yingji.app.domain.model.MovieDisplayMode
+import com.yingji.app.domain.model.MovieSortOption
 
 @Composable
 fun HomeScreen(
@@ -13,6 +14,8 @@ fun HomeScreen(
     onAddMovieClick: () -> Unit,
     onSearchClick: () -> Unit,
     defaultDisplayMode: MovieDisplayMode = MovieDisplayMode.LIST,
+    sortOption: MovieSortOption? = null,
+    onSortOptionChange: (MovieSortOption) -> Unit = {},
 ) {
     MovieListScreen(
         title = "首页",
@@ -22,5 +25,7 @@ fun HomeScreen(
         onAddMovieClick = onAddMovieClick,
         onSearchClick = onSearchClick,
         defaultDisplayMode = defaultDisplayMode,
+        sortOption = sortOption,
+        onSortOptionChange = onSortOptionChange,
     )
 }

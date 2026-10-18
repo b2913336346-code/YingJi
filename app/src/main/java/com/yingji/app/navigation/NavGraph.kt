@@ -42,8 +42,8 @@ import com.yingji.app.YingJiApplication
 import com.yingji.app.data.database.DatabaseHealthMonitor
 import com.yingji.app.data.database.DatabaseHealthState
 import com.yingji.app.presentation.home.HomeScreen
+import com.yingji.app.presentation.common.DatabaseProtectionHost
 import com.yingji.app.presentation.category.CategoryTagViewModel
-import com.yingji.app.presentation.category.MovieCollectionUiState
 import com.yingji.app.presentation.category.MovieRelationsUiState
 import com.yingji.app.presentation.history.HistoryScreen
 import com.yingji.app.presentation.history.HistoryViewModel
@@ -69,6 +69,18 @@ fun YingJiNavGraph() {
     val navController = rememberNavController()
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
     val application = LocalContext.current.applicationContext as YingJiApplication
+    val protection = application.databaseProtection
+    val protectionState by protection.state.collectAsStateWithLifecycle()
+    val health by DatabaseHealthMonitor.state.collectAsStateWithLifecycle()
+    LaunchedEffect(protection) { protection.initialize() }
+    if (protectionState.initializing) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+        return
+    }
+    if (health is DatabaseHealthState.Unavailable) {
+        DatabaseProtectionHost(protection, protectionState)
+        return
+    }
     val movieViewModel: MovieViewModel = viewModel(
         factory = MovieViewModel.factory(
             movieRepository = application.movieRepository,
@@ -105,12 +117,19 @@ fun YingJiNavGraph() {
     val categoryTagUiState by categoryTagViewModel.uiState.collectAsStateWithLifecycle()
     val categoryTagActionState by categoryTagViewModel.actionState.collectAsStateWithLifecycle()
     val searchUiState by searchViewModel.uiState.collectAsStateWithLifecycle()
+    val catalogUiState by searchViewModel.catalogUiState.collectAsStateWithLifecycle()
     val themeMode by settingsViewModel.themeMode.collectAsStateWithLifecycle()
     val movieDisplayMode by settingsViewModel.movieDisplayMode.collectAsStateWithLifecycle()
+    val displayModeSaveError by settingsViewModel.displayModeSaveError.collectAsStateWithLifecycle()
     val movieSortOption by settingsViewModel.movieSortOption.collectAsStateWithLifecycle()
+    val sortSaveError by settingsViewModel.sortSaveError.collectAsStateWithLifecycle()
     val statisticsUiState by statisticsViewModel.uiState.collectAsStateWithLifecycle()
     val databaseHealthState by DatabaseHealthMonitor.state.collectAsStateWithLifecycle()
     val databaseSnackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(searchUiState.errorMessage) {
+        searchUiState.errorMessage?.let { databaseSnackbarHostState.showSnackbar(it) }
+    }
 
     LaunchedEffect(databaseHealthState) {
         val unavailable = databaseHealthState as? DatabaseHealthState.Unavailable
@@ -213,39 +232,47 @@ fun YingJiNavGraph() {
         ) {
             composable(Screen.Home.route) {
                 HomeScreen(
-                    movies = movieUiState.movies,
+                    movies = catalogUiState.movies,
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onAddMovieClick = openAddMovie,
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(Screen.WantToWatch.route) {
                 WantToWatchScreen(
-                    movies = movieUiState.movies,
+                    movies = catalogUiState.movies,
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onAddMovieClick = openAddMovie,
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(Screen.Watching.route) {
                 WatchingScreen(
-                    movies = movieUiState.movies,
+                    movies = catalogUiState.movies,
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onAddMovieClick = openAddMovie,
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(Screen.Finished.route) {
                 FinishedScreen(
-                    movies = movieUiState.movies,
+                    movies = catalogUiState.movies,
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onAddMovieClick = openAddMovie,
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(Screen.Mine.route) {
@@ -256,8 +283,12 @@ fun YingJiNavGraph() {
                     onThemeModeChange = settingsViewModel::setThemeMode,
                     displayMode = movieDisplayMode,
                     onDisplayModeChange = settingsViewModel::setMovieDisplayMode,
+                    displayModeSaveError = displayModeSaveError,
+                    onDisplayModeSaveErrorConsumed = settingsViewModel::consumeDisplayModeSaveError,
                     sortOption = movieSortOption,
                     onSortOptionChange = settingsViewModel::setMovieSortOption,
+                    sortSaveError = sortSaveError,
+                    onSortSaveErrorConsumed = settingsViewModel::consumeSortSaveError,
                     onStatisticsClick = { navController.navigate(Screen.Statistics.route) },
                     onAddCategory = categoryTagViewModel::addCustomCategory,
                     onRenameCategory = categoryTagViewModel::renameCategory,
@@ -300,20 +331,16 @@ fun YingJiNavGraph() {
                 arguments = listOf(navArgument("categoryId") { type = NavType.LongType }),
             ) { entry ->
                 val categoryId = entry.arguments?.getLong("categoryId") ?: -1L
-                val collectionFlow = remember(categoryId) {
-                    categoryTagViewModel.observeCategoryCollection(categoryId)
-                }
-                val collection by collectionFlow.collectAsStateWithLifecycle(
-                    initialValue = MovieCollectionUiState(title = "分类", movies = emptyList()),
-                )
                 MovieListScreen(
-                    title = collection.title,
-                    movies = collection.movies,
+                    title = catalogUiState.categories.firstOrNull { it.id == categoryId }?.name ?: "分类",
+                    movies = catalogUiState.moviesByCategory[categoryId].orEmpty(),
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onBack = { navController.popBackStack() },
                     emptyMessage = "暂无作品",
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(
@@ -321,20 +348,16 @@ fun YingJiNavGraph() {
                 arguments = listOf(navArgument("tagId") { type = NavType.LongType }),
             ) { entry ->
                 val tagId = entry.arguments?.getLong("tagId") ?: -1L
-                val collectionFlow = remember(tagId) {
-                    categoryTagViewModel.observeTagCollection(tagId)
-                }
-                val collection by collectionFlow.collectAsStateWithLifecycle(
-                    initialValue = MovieCollectionUiState(title = "标签", movies = emptyList()),
-                )
                 MovieListScreen(
-                    title = collection.title,
-                    movies = collection.movies,
+                    title = catalogUiState.tags.firstOrNull { it.id == tagId }?.name ?: "标签",
+                    movies = catalogUiState.moviesByTag[tagId].orEmpty(),
                     categoryNamesByMovieId = categoryTagUiState.categoryNamesByMovieId,
                     onMovieClick = openMovie,
                     onBack = { navController.popBackStack() },
                     emptyMessage = "暂无作品",
                     defaultDisplayMode = movieDisplayMode,
+                    sortOption = catalogUiState.sortOption,
+                    onSortOptionChange = searchViewModel::selectSortOption,
                 )
             }
             composable(Screen.AddMovie.route) {

@@ -41,8 +41,10 @@ fun LocalPoster(
 ) {
     val context = LocalContext.current
     var bitmap by remember(path, maxDecodeSizePx) { mutableStateOf<ImageBitmap?>(null) }
+    var isLoading by remember(path, maxDecodeSizePx) { mutableStateOf(!path.isNullOrBlank()) }
     LaunchedEffect(path, maxDecodeSizePx) {
         bitmap = null
+        isLoading = !path.isNullOrBlank()
         if (!path.isNullOrBlank()) {
             bitmap = withContext(Dispatchers.IO) {
                 runCatching {
@@ -54,6 +56,7 @@ fun LocalPoster(
                 }.getOrNull()
             }
         }
+        isLoading = false
     }
 
     Box(
@@ -68,6 +71,11 @@ fun LocalPoster(
                 contentScale = ContentScale.Crop,
             )
         } else {
+            val placeholder = when {
+                path.isNullOrBlank() -> "无海报"
+                isLoading -> "海报加载中"
+                else -> "海报加载失败"
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -78,11 +86,11 @@ fun LocalPoster(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Movie,
-                    contentDescription = "暂无海报",
+                    contentDescription = if (path.isNullOrBlank()) "暂无海报" else placeholder,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = "无海报",
+                    text = placeholder,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

@@ -14,8 +14,9 @@ class HistoryRepository(
     fun observeByMovieId(movieId: Long): Flow<List<WatchHistory>> =
         DatabaseHealthMonitor.protectRead(watchHistoryDao.observeByMovieId(movieId))
 
-    suspend fun getById(historyId: Long): WatchHistory? =
+    suspend fun getById(historyId: Long): WatchHistory? = DatabaseHealthMonitor.protectQuery {
         watchHistoryDao.getById(historyId)
+    }
 
     suspend fun insert(history: WatchHistory): Long = DatabaseHealthMonitor.protectWrite {
         watchHistoryDao.insert(history)

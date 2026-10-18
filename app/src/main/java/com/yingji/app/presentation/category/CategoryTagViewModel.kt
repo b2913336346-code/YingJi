@@ -9,6 +9,7 @@ import com.yingji.app.data.entity.Movie
 import com.yingji.app.data.entity.MovieCategory
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.data.repository.CategoryRepository
+import com.yingji.app.data.database.DatabaseHealthMonitor
 import com.yingji.app.data.repository.SaveNameResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
@@ -97,12 +98,12 @@ class CategoryTagViewModel(
     }
 
     fun observeCategoriesForMovie(movieId: Long): Flow<List<Category>> =
-        repository.observeCategoriesForMovie(movieId)
+        DatabaseHealthMonitor.protectUiRead(repository.observeCategoriesForMovie(movieId))
 
     fun observeTagsForMovie(movieId: Long): Flow<List<Tag>> =
-        repository.observeTagsForMovie(movieId)
+        DatabaseHealthMonitor.protectUiRead(repository.observeTagsForMovie(movieId))
 
-    fun observeCategoryCollection(categoryId: Long): Flow<MovieCollectionUiState> = combine(
+    fun observeCategoryCollection(categoryId: Long): Flow<MovieCollectionUiState> = DatabaseHealthMonitor.protectUiRead(combine(
         repository.observeCategory(categoryId),
         repository.observeMoviesForCategory(categoryId),
     ) { category, movies ->
@@ -112,7 +113,9 @@ class CategoryTagViewModel(
         )
     }
 
-    fun observeTagCollection(tagId: Long): Flow<MovieCollectionUiState> = combine(
+    )
+
+    fun observeTagCollection(tagId: Long): Flow<MovieCollectionUiState> = DatabaseHealthMonitor.protectUiRead(combine(
         repository.observeTag(tagId),
         repository.observeMoviesForTag(tagId),
     ) { tag, movies ->
@@ -122,7 +125,9 @@ class CategoryTagViewModel(
         )
     }
 
-    fun observeMovieRelations(movieId: Long): Flow<MovieRelationsUiState> = combine(
+    )
+
+    fun observeMovieRelations(movieId: Long): Flow<MovieRelationsUiState> = DatabaseHealthMonitor.protectUiRead(combine(
         repository.observeCategoriesForMovie(movieId),
         repository.observeTagsForMovie(movieId),
     ) { categories, tags ->
@@ -131,7 +136,7 @@ class CategoryTagViewModel(
             categoryId = categories.singleOrNull()?.id,
             tagIds = tags.mapTo(mutableSetOf()) { it.id },
         )
-    }
+    })
 
     fun addCustomCategory(name: String) {
         saveName { repository.addCustomCategory(name) }

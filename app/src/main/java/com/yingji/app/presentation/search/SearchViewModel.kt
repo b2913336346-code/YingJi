@@ -1,5 +1,6 @@
 package com.yingji.app.presentation.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.CancellationException
 
 data class SearchUiState(
     val query: String = "",
@@ -36,6 +43,16 @@ data class SearchUiState(
     val toTime: Long? = null,
     val sortOption: MovieSortOption = MovieSortOption.CREATED_DESC,
     val categoryNamesByMovieId: Map<Long, String> = emptyMap(),
+    val errorMessage: String? = null,
+)
+
+data class MovieCatalogUiState(
+    val movies: List<Movie> = emptyList(),
+    val categories: List<Category> = emptyList(),
+    val tags: List<Tag> = emptyList(),
+    val moviesByCategory: Map<Long, List<Movie>> = emptyMap(),
+    val moviesByTag: Map<Long, List<Movie>> = emptyMap(),
+    val sortOption: MovieSortOption = MovieSortOption.CREATED_DESC,
 )
 
 private data class SearchData(
@@ -65,6 +82,7 @@ class SearchViewModel(
     settingsRepository: ThemeRepository,
 ) : ViewModel() {
     private val filters = MutableStateFlow(SearchFilters())
+    private val dataError = MutableStateFlow<String?>(null)
     private val filterAndSortMovies = FilterAndSortMoviesUseCase()
 
     private val classificationData = combine(
@@ -82,13 +100,39 @@ class SearchViewModel(
         historyRepository.observeAll(),
     ) { data, histories ->
         data.copy(histories = histories)
-    }
+    }.catch { exception ->
+        if (exception is CancellationException) throw exception
+        Log.e("SearchViewModel", "Failed to load search data", exception)
+        dataError.value = "搜索数据加载失败，请重新打开应用重试"
+        emit(SearchData(emptyList(), emptyList(), emptyList(), emptyList(), emptyList(), emptyList()))
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), replay = 1)
+
+    val catalogUiState = combine(
+        data,
+        filters.map { it.sortOverride }.distinctUntilChanged(),
+        settingsRepository.movieSortOption,
+    ) { data, sortOverride, defaultSort ->
+        val sort = sortOverride ?: defaultSort
+        val movies = filterAndSortMovies(
+            data.movies, data.histories, data.movieCategories, data.movieTags,
+            MovieSearchCriteria(sortOption = sort),
+        )
+        MovieCatalogUiState(
+            movies = movies,
+            categories = data.categories,
+            tags = data.tags,
+            moviesByCategory = groupCatalogMovies(movies, data.movieCategories.map { it.movieId to it.categoryId }),
+            moviesByTag = groupCatalogMovies(movies, data.movieTags.map { it.movieId to it.tagId }),
+            sortOption = sort,
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MovieCatalogUiState())
 
     val uiState = combine(
         data,
         filters,
         settingsRepository.movieSortOption,
-    ) { data, filters, defaultSortOption ->
+        dataError,
+    ) { data, filters, defaultSortOption, error ->
         val sortOption = filters.sortOverride ?: defaultSortOption
         val categoryNamesById = data.categories.associate { it.id to it.name }
         SearchUiState(
@@ -121,6 +165,7 @@ class SearchViewModel(
             categoryNamesByMovieId = data.movieCategories.mapNotNull { relation ->
                 categoryNamesById[relation.categoryId]?.let { name -> relation.movieId to name }
             }.toMap(),
+            errorMessage = error,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -129,45 +174,45 @@ class SearchViewModel(
     )
 
     fun updateQuery(value: String) {
-        filters.value = filters.value.copy(query = value)
+        filters.update { it.copy(query = value) }
     }
 
     fun selectCategory(categoryId: Long?) {
-        filters.value = filters.value.copy(categoryId = categoryId)
+        filters.update { it.copy(categoryId = categoryId) }
     }
 
     fun selectTag(tagId: Long?) {
-        filters.value = filters.value.copy(tagId = tagId)
+        filters.update { it.copy(tagId = tagId) }
     }
 
     fun selectStatus(status: MovieStatus?) {
-        filters.value = filters.value.copy(status = status)
+        filters.update { it.copy(status = status) }
     }
 
     fun selectTimeField(field: WatchTimeField?) {
-        filters.value = if (field == null) {
-            filters.value.copy(timeField = null, fromTime = null, toTime = null)
-        } else {
-            filters.value.copy(timeField = field)
+        filters.update { current ->
+            if (field == null) {
+                current.copy(timeField = null, fromTime = null, toTime = null)
+            } else {
+                current.copy(timeField = field)
+            }
         }
     }
 
     fun setFromTime(value: Long?) {
-        filters.value = filters.value.copy(
-            fromTime = value,
-            toTime = filters.value.toTime?.takeIf { value == null || it >= value },
-        )
+        filters.update { current ->
+            current.copy(fromTime = value, toTime = current.toTime?.takeIf { value == null || it >= value })
+        }
     }
 
     fun setToTime(value: Long?) {
-        filters.value = filters.value.copy(
-            fromTime = filters.value.fromTime?.takeIf { value == null || it <= value },
-            toTime = value,
-        )
+        filters.update { current ->
+            current.copy(fromTime = current.fromTime?.takeIf { value == null || it <= value }, toTime = value)
+        }
     }
 
     fun selectSortOption(option: MovieSortOption) {
-        filters.value = filters.value.copy(sortOverride = option)
+        filters.update { it.copy(sortOverride = option) }
     }
 
     companion object {
@@ -187,4 +232,18 @@ class SearchViewModel(
                 ) as T
         }
     }
+}
+
+private fun groupCatalogMovies(
+    movies: List<Movie>,
+    links: List<Pair<Long, Long>>,
+): Map<Long, List<Movie>> {
+    val groupsByMovie = links.groupBy({ it.first }, { it.second })
+    val groups = mutableMapOf<Long, MutableList<Movie>>()
+    movies.forEach { movie ->
+        groupsByMovie[movie.id].orEmpty().distinct().forEach { groupId ->
+            groups.getOrPut(groupId) { mutableListOf() }.add(movie)
+        }
+    }
+    return groups
 }

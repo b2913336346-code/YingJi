@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextOverflow
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.domain.model.MovieDisplayMode
+import com.yingji.app.domain.model.MovieSortOption
 import com.yingji.app.ui.common.LocalPoster
 import com.yingji.app.ui.common.MinimalEmptyState
 import com.yingji.app.ui.common.MinimalMotionDuration
@@ -59,6 +60,8 @@ fun MovieListScreen(
     onBack: (() -> Unit)? = null,
     emptyMessage: String = "还没有作品",
     defaultDisplayMode: MovieDisplayMode = MovieDisplayMode.LIST,
+    sortOption: MovieSortOption? = null,
+    onSortOptionChange: (MovieSortOption) -> Unit = {},
 ) {
     var displayMode by rememberSaveable(title, defaultDisplayMode) {
         mutableStateOf(defaultDisplayMode)
@@ -98,14 +101,24 @@ fun MovieListScreen(
             }
         },
     ) { innerPadding ->
-        MovieCollectionContent(
-            movies = movies,
-            categoryNamesByMovieId = categoryNamesByMovieId,
-            displayMode = displayMode,
-            onMovieClick = onMovieClick,
-            emptyMessage = emptyMessage,
-            modifier = Modifier.padding(innerPadding),
-        )
+        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            sortOption?.let { selected ->
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    contentAlignment = Alignment.CenterEnd,
+                ) {
+                    MovieSortMenu(selected, onSortOptionChange)
+                }
+            }
+            MovieCollectionContent(
+                movies = movies,
+                categoryNamesByMovieId = categoryNamesByMovieId,
+                displayMode = displayMode,
+                onMovieClick = onMovieClick,
+                emptyMessage = emptyMessage,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
@@ -143,7 +156,7 @@ fun MovieCollectionContent(
                 }
             }
             else -> LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(3),
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),

@@ -57,6 +57,7 @@ object DatabaseModule {
                 DATABASE_NAME,
             )
                 .addMigrations(*migrations)
+                .openHelperFactory(PreservingOpenHelperFactory())
                 .addCallback(INTEGRITY_CHECK_CALLBACK)
                 .build()
                 .also { instance = it }
@@ -73,6 +74,7 @@ object DatabaseModule {
             } catch (exception: Exception) {
                 if (!DatabaseHealthMonitor.reportIfCorruption(exception)) {
                     Log.e(TAG, "Database integrity check could not be completed", exception)
+                    DatabaseHealthMonitor.stop(classifyDatabaseIssue(exception))
                 }
             }
         }

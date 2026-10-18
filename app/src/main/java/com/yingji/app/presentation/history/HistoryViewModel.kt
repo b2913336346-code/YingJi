@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.yingji.app.data.entity.WatchHistory
 import com.yingji.app.data.repository.HistoryRepository
+import com.yingji.app.data.database.DatabaseHealthMonitor
 import com.yingji.app.domain.usecase.RecordWatchUseCase
 import com.yingji.app.presentation.common.runDatabaseWriteAction
 import kotlinx.coroutines.CancellationException
@@ -28,7 +29,7 @@ class HistoryViewModel(
     val actionState: StateFlow<HistoryActionState> = _actionState.asStateFlow()
 
     fun observeByMovieId(movieId: Long): Flow<List<WatchHistory>> =
-        historyRepository.observeByMovieId(movieId)
+        DatabaseHealthMonitor.protectUiRead(historyRepository.observeByMovieId(movieId))
 
     fun startWatching(movieId: Long) {
         runHistoryAction {

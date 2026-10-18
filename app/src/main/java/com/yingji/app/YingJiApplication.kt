@@ -2,6 +2,9 @@ package com.yingji.app
 
 import android.app.Application
 import com.yingji.app.data.database.DatabaseModule
+import com.yingji.app.data.database.DatabaseBackupStore
+import com.yingji.app.data.database.DatabaseProtectionCoordinator
+import java.io.File
 import com.yingji.app.data.repository.HistoryRepository
 import com.yingji.app.data.repository.CategoryRepository
 import com.yingji.app.data.repository.MovieRepository
@@ -11,6 +14,17 @@ import com.yingji.app.data.repository.ThemeRepository
 import com.yingji.app.di.AppModule
 
 class YingJiApplication : Application() {
+    internal var databaseProtectionForTesting: DatabaseProtectionCoordinator? = null
+    val databaseProtection: DatabaseProtectionCoordinator
+        get() = databaseProtectionForTesting ?: productionDatabaseProtection
+
+    private val productionDatabaseProtection: DatabaseProtectionCoordinator by lazy {
+        DatabaseProtectionCoordinator(
+            marker = File(noBackupFilesDir, "database-protection.state"),
+            backups = DatabaseBackupStore(getDatabasePath("yingji.db"), File(noBackupFilesDir, "db-preservation")),
+        )
+    }
+
     private val database by lazy {
         DatabaseModule.provideDatabase(this)
     }

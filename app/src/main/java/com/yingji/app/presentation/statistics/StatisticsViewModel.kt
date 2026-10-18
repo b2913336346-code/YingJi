@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.yingji.app.data.repository.HistoryRepository
 import com.yingji.app.data.repository.MovieRepository
+import com.yingji.app.data.database.DatabaseHealthMonitor
 import com.yingji.app.domain.usecase.CalculateStatisticsUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -15,7 +16,7 @@ class StatisticsViewModel(
     historyRepository: HistoryRepository,
     calculateStatistics: CalculateStatisticsUseCase,
 ) : ViewModel() {
-    val uiState = combine(
+    val uiState = DatabaseHealthMonitor.protectUiRead(combine(
         movieRepository.observeAll(),
         historyRepository.observeAll(),
     ) { movies, histories ->
@@ -28,7 +29,7 @@ class StatisticsViewModel(
             totalWatchDuration = statistics.totalWatchDuration,
             isLoaded = true,
         )
-    }.stateIn(
+    }).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = StatisticsUiState(),

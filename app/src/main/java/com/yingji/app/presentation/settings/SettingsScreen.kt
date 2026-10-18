@@ -39,8 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.yingji.app.BuildConfig
 import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.domain.model.ThemeMode
@@ -77,8 +77,12 @@ fun SettingsScreen(
     onThemeModeChange: (ThemeMode) -> Unit,
     displayMode: MovieDisplayMode = MovieDisplayMode.LIST,
     onDisplayModeChange: (MovieDisplayMode) -> Unit = {},
+    displayModeSaveError: String? = null,
+    onDisplayModeSaveErrorConsumed: () -> Unit = {},
     sortOption: MovieSortOption = MovieSortOption.CREATED_DESC,
     onSortOptionChange: (MovieSortOption) -> Unit = {},
+    sortSaveError: String? = null,
+    onSortSaveErrorConsumed: () -> Unit = {},
     onStatisticsClick: () -> Unit,
     onAddCategory: (String) -> Unit,
     onRenameCategory: (Category, String) -> Unit = { _, _ -> },
@@ -97,6 +101,20 @@ fun SettingsScreen(
     var editTarget by remember { mutableStateOf<EditTarget?>(null) }
     var deleteTarget by remember { mutableStateOf<DeleteTarget?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(sortSaveError) {
+        sortSaveError?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            onSortSaveErrorConsumed()
+        }
+    }
+
+    LaunchedEffect(displayModeSaveError) {
+        displayModeSaveError?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            onDisplayModeSaveErrorConsumed()
+        }
+    }
 
     LaunchedEffect(actionState.saveSucceeded, actionState.message, addType, editTarget) {
         when {
@@ -262,24 +280,6 @@ fun SettingsScreen(
                     },
                     onDelete = { deleteTarget = DeleteTarget.TagTarget(tag) },
                 )
-            }
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    Text(
-                        text = "应用版本",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
             }
         }
     }

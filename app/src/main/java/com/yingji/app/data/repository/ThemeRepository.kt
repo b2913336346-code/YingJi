@@ -1,6 +1,8 @@
 package com.yingji.app.data.repository
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -16,9 +18,10 @@ import kotlinx.coroutines.flow.map
 private val Context.themeDataStore by preferencesDataStore(name = "theme_settings")
 
 class ThemeRepository(
-    private val context: Context,
+    context: Context,
+    private val dataStore: DataStore<Preferences> = context.themeDataStore,
 ) {
-    val themeMode: Flow<ThemeMode> = context.themeDataStore.data
+    val themeMode: Flow<ThemeMode> = dataStore.data
         .catch { exception ->
             if (exception is IOException) emit(emptyPreferences()) else throw exception
         }
@@ -30,7 +33,7 @@ class ThemeRepository(
                 ?: ThemeMode.SYSTEM
         }
 
-    val movieDisplayMode: Flow<MovieDisplayMode> = context.themeDataStore.data
+    val movieDisplayMode: Flow<MovieDisplayMode> = dataStore.data
         .catch { exception ->
             if (exception is IOException) emit(emptyPreferences()) else throw exception
         }
@@ -38,7 +41,7 @@ class ThemeRepository(
             parseMovieDisplayMode(preferences[MOVIE_DISPLAY_MODE_KEY])
         }
 
-    val movieSortOption: Flow<MovieSortOption> = context.themeDataStore.data
+    val movieSortOption: Flow<MovieSortOption> = dataStore.data
         .catch { exception ->
             if (exception is IOException) emit(emptyPreferences()) else throw exception
         }
@@ -47,19 +50,19 @@ class ThemeRepository(
         }
 
     suspend fun setThemeMode(themeMode: ThemeMode) {
-        context.themeDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[THEME_MODE_KEY] = themeMode.name
         }
     }
 
     suspend fun setMovieDisplayMode(mode: MovieDisplayMode) {
-        context.themeDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[MOVIE_DISPLAY_MODE_KEY] = mode.name
         }
     }
 
     suspend fun setMovieSortOption(option: MovieSortOption) {
-        context.themeDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[MOVIE_SORT_OPTION_KEY] = option.name
         }
     }

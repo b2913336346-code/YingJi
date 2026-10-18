@@ -4,7 +4,9 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -15,6 +17,7 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.printToLog
 import androidx.compose.runtime.mutableStateOf
 import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Tag
@@ -29,6 +32,11 @@ import org.junit.Assert.assertEquals
 class SettingsScreenTest {
     @get:Rule
     val composeRule = createComposeRule()
+
+    private fun settingsList() = composeRule.onNode(
+        hasScrollToIndexAction() and
+            SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange),
+    )
 
     @Test
     fun defaultSortSelectionDispatchesCallback() {
@@ -51,8 +59,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule
-            .onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("默认排序"))
         composeRule.onNodeWithText(MovieSortOption.CREATED_ASC.displayName).performClick()
 
@@ -63,6 +70,8 @@ class SettingsScreenTest {
 
     @Test
     fun categoryAndTagWithSameDatabaseIdCanBeDisplayed() {
+        val categoryClicks = mutableListOf<Long>()
+        val tagClicks = mutableListOf<Long>()
         composeRule.setContent {
             YingJiTheme(themeMode = ThemeMode.LIGHT) {
                 SettingsScreen(
@@ -79,14 +88,30 @@ class SettingsScreenTest {
                     onDeleteCategory = {},
                     onAddTag = {},
                     onDeleteTag = {},
+                    onCategoryClick = { categoryClicks.add(it) },
+                    onTagClick = { tagClicks.add(it) },
                 )
             }
         }
 
-        composeRule
-            .onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList().printToLog("SettingsListBeforeScroll")
+        settingsList().performScrollToNode(hasContentDescription("查看测试分类 作品"))
+        composeRule.onNode(hasClickAction() and hasContentDescription("查看测试分类 作品"))
+            .performClick()
+        composeRule.runOnIdle {
+            assertEquals(listOf(1L), categoryClicks)
+            assertEquals(emptyList<Long>(), tagClicks)
+        }
+        settingsList()
             .performScrollToNode(hasText("测试标签"))
+        settingsList().printToLog("SettingsListAfterScroll")
         composeRule.onNode(hasText("测试标签")).assertExists()
+        composeRule.onNode(hasClickAction() and hasContentDescription("查看测试标签 作品"))
+            .performClick()
+        composeRule.runOnIdle {
+            assertEquals(listOf(1L), categoryClicks)
+            assertEquals(listOf(1L), tagClicks)
+        }
     }
 
     @Test
@@ -113,15 +138,21 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule
-            .onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("动漫测试"))
         composeRule.onNodeWithText("12 个作品").assertExists()
+        composeRule.onNode(hasContentDescription("查看动漫测试 作品") and hasText("12 个作品"))
+            .assertExists()
         composeRule.onNode(hasClickAction() and hasText("动漫测试")).performClick()
-        composeRule
-            .onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        composeRule.runOnIdle {
+            assertEquals(7L, openedCategoryId)
+            assertEquals(null, openedTagId)
+        }
+        settingsList()
             .performScrollToNode(hasText("校园测试"))
         composeRule.onNodeWithText("3 个作品").assertExists()
+        composeRule.onNode(hasContentDescription("查看校园测试 作品") and hasText("3 个作品"))
+            .assertExists()
         composeRule.onNode(hasClickAction() and hasText("校园测试")).performClick()
 
         composeRule.runOnIdle {
@@ -151,8 +182,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule
-            .onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("待删除分类"))
         composeRule.onNodeWithContentDescription("删除待删除分类").performClick()
         composeRule.onNodeWithText("删除分类").assertExists()
@@ -259,7 +289,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("原分类"))
         composeRule.onNodeWithContentDescription("编辑原分类").performClick()
         composeRule.onNode(hasSetTextAction() and hasText("原分类")).assertExists()
@@ -305,7 +335,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("原标签"))
         composeRule.onNodeWithContentDescription("编辑原标签").performClick()
         composeRule.onNode(hasSetTextAction() and hasText("原标签")).assertExists()
@@ -357,7 +387,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNode(hasScrollToIndexAction() and hasAnyDescendant(hasText("查看统计")))
+        settingsList()
             .performScrollToNode(hasText("自定义"))
         composeRule.onNodeWithContentDescription("编辑电影").assertDoesNotExist()
         composeRule.onNodeWithContentDescription("编辑自定义").performClick()

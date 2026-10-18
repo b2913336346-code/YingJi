@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.domain.model.MovieStatus
 import com.yingji.app.domain.model.MovieDisplayMode
+import com.yingji.app.domain.model.MovieSortOption
 
 @Composable
 fun WantToWatchScreen(
@@ -12,6 +13,8 @@ fun WantToWatchScreen(
     onMovieClick: (Long) -> Unit,
     onAddMovieClick: () -> Unit,
     defaultDisplayMode: MovieDisplayMode = MovieDisplayMode.LIST,
+    sortOption: MovieSortOption? = null,
+    onSortOptionChange: (MovieSortOption) -> Unit = {},
 ) {
     MovieListScreen(
         title = MovieStatus.WANT_TO_WATCH.value,
@@ -20,5 +23,7 @@ fun WantToWatchScreen(
         onMovieClick = onMovieClick,
         onAddMovieClick = onAddMovieClick,
         defaultDisplayMode = defaultDisplayMode,
+        sortOption = sortOption,
+        onSortOptionChange = onSortOptionChange,
     )
 }

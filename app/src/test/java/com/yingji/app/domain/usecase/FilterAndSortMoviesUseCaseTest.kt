@@ -105,6 +105,54 @@ class FilterAndSortMoviesUseCaseTest {
         assertEquals(listOf(2L, 1L, 4L, 3L), byEnd.map { it.id })
     }
 
+    @Test
+    fun activeTimeFieldRequiresRecordedTimeEvenWithoutDateBounds() {
+        assertEquals(listOf(3L, 2L, 1L), evaluate(MovieSearchCriteria(
+            timeField = WatchTimeField.START_TIME,
+        )))
+        assertEquals(listOf(2L, 1L), evaluate(MovieSearchCriteria(
+            timeField = WatchTimeField.END_TIME,
+        )))
+    }
+
+    @Test
+    fun timeBoundsAreInclusiveAndCanBeOneSided() {
+        assertEquals(listOf(1L), evaluate(MovieSearchCriteria(
+            timeField = WatchTimeField.END_TIME, fromTime = 2_000L, toTime = 2_000L,
+        )))
+        assertEquals(listOf(2L), evaluate(MovieSearchCriteria(
+            timeField = WatchTimeField.START_TIME, fromTime = 3_000L,
+        )))
+        assertEquals(listOf(3L, 1L), evaluate(MovieSearchCriteria(
+            timeField = WatchTimeField.START_TIME, toTime = 1_500L,
+        )))
+    }
+
+    @Test
+    fun boundsMustMatchTheSameHistoryAndUnrestrictedTimeIgnoresBounds() {
+        val repeated = listOf(history(1L, 100L, 200L), history(1L, 900L, 1_000L))
+        assertEquals(emptyList<Long>(), useCase(movies, repeated, categories, tags,
+            MovieSearchCriteria(timeField = WatchTimeField.START_TIME, fromTime = 300L, toTime = 800L),
+        ).map { it.id })
+        assertEquals(listOf(4L, 3L, 2L, 1L), evaluate(MovieSearchCriteria(fromTime = 99_999L)))
+    }
+
+    @Test
+    fun allSortModesHaveStableTieBreakersAndEmptyResultsStayEmpty() {
+        val tied = listOf(movie(1L, "a", MovieStatus.FINISHED, 100L),
+            movie(2L, "A", MovieStatus.FINISHED, 100L))
+        MovieSortOption.entries.forEach { option ->
+            val expected = if (option == MovieSortOption.CREATED_ASC) listOf(1L, 2L) else listOf(2L, 1L)
+            assertEquals(option.name, expected, useCase(tied, emptyList(), emptyList(), emptyList(),
+                MovieSearchCriteria(sortOption = option)).map { it.id })
+        }
+        assertEquals(emptyList<Long>(), evaluate(MovieSearchCriteria(query = "no-match")))
+        assertEquals(emptyList<Movie>(), useCase(emptyList(), histories, categories, tags, MovieSearchCriteria()))
+    }
+
+    private fun evaluate(criteria: MovieSearchCriteria) =
+        useCase(movies, histories, categories, tags, criteria).map { it.id }
+
     private fun movie(id: Long, name: String, status: MovieStatus, createTime: Long) = Movie(
         id = id,
         name = name,

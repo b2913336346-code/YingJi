@@ -1,12 +1,16 @@
 package com.yingji.app.presentation.search
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -32,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.yingji.app.ui.common.MinimalEmptyState
 import com.yingji.app.domain.model.MovieDisplayMode
@@ -86,142 +91,152 @@ fun SearchScreen(
             )
         },
     ) { innerPadding ->
-        Column(
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            OutlinedTextField(
-                value = state.query,
-                onValueChange = onQueryChange,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                placeholder = { Text(text = "名称、拼音或首字母") },
-                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                trailingIcon = {
-                    if (state.query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Filled.Clear, contentDescription = "清空搜索")
+            val filterMaxHeight = maxHeight * 0.65f
+            Column(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .heightIn(max = filterMaxHeight)
+                        .testTag("search_filters")
+                        .verticalScroll(rememberScrollState()),
+                ) {
+                    OutlinedTextField(
+                        value = state.query,
+                        onValueChange = onQueryChange,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        placeholder = { Text(text = "名称、拼音或首字母") },
+                        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                        trailingIcon = {
+                            if (state.query.isNotEmpty()) {
+                                IconButton(onClick = { onQueryChange("") }) {
+                                    Icon(Icons.Filled.Clear, contentDescription = "清空搜索")
+                                }
+                            }
+                        },
+                        singleLine = true,
+                    )
+                    Text(
+                        text = "分类",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        item {
+                            FilterChip(
+                                selected = state.selectedCategoryId == null,
+                                onClick = { onCategorySelected(null) },
+                                label = { Text(text = "全部") },
+                            )
+                        }
+                        items(state.categories, key = { it.id }) { category ->
+                            FilterChip(
+                                selected = state.selectedCategoryId == category.id,
+                                onClick = {
+                                    onCategorySelected(
+                                        if (state.selectedCategoryId == category.id) null else category.id,
+                                    )
+                                },
+                                label = { Text(text = category.name) },
+                            )
                         }
                     }
-                },
-                singleLine = true,
-            )
-            Text(
-                text = "分类",
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            )
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                item {
-                    FilterChip(
-                        selected = state.selectedCategoryId == null,
-                        onClick = { onCategorySelected(null) },
-                        label = { Text(text = "全部") },
+                    Text(
+                        text = "标签",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
-                }
-                items(state.categories, key = { it.id }) { category ->
-                    FilterChip(
-                        selected = state.selectedCategoryId == category.id,
-                        onClick = {
-                            onCategorySelected(
-                                if (state.selectedCategoryId == category.id) null else category.id,
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        item {
+                            FilterChip(
+                                selected = state.selectedTagId == null,
+                                onClick = { onTagSelected(null) },
+                                label = { Text(text = "全部") },
                             )
-                        },
-                        label = { Text(text = category.name) },
-                    )
-                }
-            }
-            Text(
-                text = "标签",
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            )
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                item {
-                    FilterChip(
-                        selected = state.selectedTagId == null,
-                        onClick = { onTagSelected(null) },
-                        label = { Text(text = "全部") },
-                    )
-                }
-                items(state.tags, key = { it.id }) { tag ->
-                    FilterChip(
-                        selected = state.selectedTagId == tag.id,
-                        onClick = {
-                            onTagSelected(if (state.selectedTagId == tag.id) null else tag.id)
-                        },
-                        label = { Text(text = tag.name) },
-                    )
-                }
-            }
-            SearchOptionRow(
-                title = "观看状态",
-                allLabel = "全部",
-                allSelected = state.selectedStatus == null,
-                onAllSelected = { onStatusSelected(null) },
-                options = MovieStatus.entries,
-                selected = { state.selectedStatus == it },
-                label = MovieStatus::value,
-                onSelected = onStatusSelected,
-            )
-            SearchOptionRow(
-                title = "观看时间",
-                allLabel = "不限",
-                allSelected = state.timeField == null,
-                onAllSelected = { onTimeFieldSelected(null) },
-                options = WatchTimeField.entries,
-                selected = { state.timeField == it },
-                label = WatchTimeField::displayName,
-                onSelected = onTimeFieldSelected,
-            )
-            if (state.timeField != null) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    OutlinedButton(
-                        onClick = { dateTarget = WatchDateTarget.FROM },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(text = state.fromTime?.let(::formatWatchDate) ?: "开始日期")
+                        }
+                        items(state.tags, key = { it.id }) { tag ->
+                            FilterChip(
+                                selected = state.selectedTagId == tag.id,
+                                onClick = {
+                                    onTagSelected(if (state.selectedTagId == tag.id) null else tag.id)
+                                },
+                                label = { Text(text = tag.name) },
+                            )
+                        }
                     }
-                    OutlinedButton(
-                        onClick = { dateTarget = WatchDateTarget.TO },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(text = state.toTime?.let(::formatWatchDate) ?: "结束日期")
+                    SearchOptionRow(
+                        title = "观看状态",
+                        allLabel = "全部",
+                        allSelected = state.selectedStatus == null,
+                        onAllSelected = { onStatusSelected(null) },
+                        options = MovieStatus.entries,
+                        selected = { state.selectedStatus == it },
+                        label = MovieStatus::value,
+                        onSelected = onStatusSelected,
+                    )
+                    SearchOptionRow(
+                        title = "观看时间",
+                        allLabel = "不限",
+                        allSelected = state.timeField == null,
+                        onAllSelected = { onTimeFieldSelected(null) },
+                        options = WatchTimeField.entries,
+                        selected = { state.timeField == it },
+                        label = WatchTimeField::displayName,
+                        onSelected = onTimeFieldSelected,
+                    )
+                    if (state.timeField != null) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            OutlinedButton(
+                                onClick = { dateTarget = WatchDateTarget.FROM },
+                                modifier = Modifier.weight(1f),
+                            ) {
+                                Text(text = state.fromTime?.let(::formatWatchDate) ?: "开始日期")
+                            }
+                            OutlinedButton(
+                                onClick = { dateTarget = WatchDateTarget.TO },
+                                modifier = Modifier.weight(1f),
+                            ) {
+                                Text(text = state.toTime?.let(::formatWatchDate) ?: "结束日期")
+                            }
+                        }
                     }
+                    SearchOptionRow(
+                        title = "排序",
+                        allLabel = "",
+                        allSelected = false,
+                        onAllSelected = {},
+                        options = MovieSortOption.entries,
+                        selected = { state.sortOption == it },
+                        label = MovieSortOption::displayName,
+                        onSelected = onSortSelected,
+                        showAll = false,
+                    )
                 }
+                MovieCollectionContent(
+                    movies = state.movies,
+                    categoryNamesByMovieId = state.categoryNamesByMovieId,
+                    displayMode = displayMode,
+                    onMovieClick = onMovieClick,
+                    emptyMessage = state.errorMessage ?: "没有找到匹配的作品",
+                    modifier = Modifier.weight(1f),
+                )
             }
-            SearchOptionRow(
-                title = "排序",
-                allLabel = "",
-                allSelected = false,
-                onAllSelected = {},
-                options = MovieSortOption.entries,
-                selected = { state.sortOption == it },
-                label = MovieSortOption::displayName,
-                onSelected = onSortSelected,
-                showAll = false,
-            )
-            MovieCollectionContent(
-                movies = state.movies,
-                categoryNamesByMovieId = state.categoryNamesByMovieId,
-                displayMode = displayMode,
-                onMovieClick = onMovieClick,
-                emptyMessage = "没有找到匹配的作品",
-                modifier = Modifier.weight(1f),
-            )
         }
     }
 
