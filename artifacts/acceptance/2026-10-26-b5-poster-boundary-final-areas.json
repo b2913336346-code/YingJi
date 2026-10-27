@@ -1,0 +1,347 @@
+[
+  {
+    "id": 1,
+    "name": "基础作品库继续使用本地海报",
+    "evidence": [
+      "RemotePosterDetailScreenTest#anOrdinaryWorkDoesNotGainTheTmdbEntryOrStartAnyRequest",
+      "RemotePosterNavigationTest#ordinaryWorkKeepsActualDetailLayoutWithoutATmdbEntry"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/ui/common/LocalPoster.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterDetailScreenTest#anOrdinaryWorkDoesNotGainTheTmdbEntryOrStartAnyRequest",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-anOrdinaryWorkDoesNotGainTheTmdbEntryOrStartAnyRequest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterNavigationTest#ordinaryWorkKeepsActualDetailLayoutWithoutATmdbEntry",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterNavigationTest-ordinaryWorkKeepsActualDetailLayoutWithoutATmdbEntry.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "推荐在线预览不落盘",
+    "evidence": [
+      "TmdbPosterPreviewLoaderTest#officialHttpsPreviewDecodesInMemoryWithoutCredentialsCacheOrLocalFileWrites",
+      "TmdbPosterPreviewScreenTest#loadingThenDecodedPosterKeepsTheExistingAddActionInLightAndDarkThemes"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/data/ai/TmdbPosterPreviewLoader.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "TmdbPosterPreviewLoaderTest#officialHttpsPreviewDecodesInMemoryWithoutCredentialsCacheOrLocalFileWrites",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-TmdbPosterPreviewLoaderTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "TmdbPosterPreviewScreenTest#loadingThenDecodedPosterKeepsTheExistingAddActionInLightAndDarkThemes",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-TmdbPosterPreviewScreenTest-loadingThenDecodedPosterKeepsTheExistingAddActionInLightAndDarkThemes.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "加入作品不自动下载海报",
+    "evidence": [
+      "TmdbConfirmedImportTest#oneTypedDetailPerSaveUsesExistingTransactionAndPreservesLocalRelations",
+      "TmdbImportScreenTest#categoryIsRequiredAndConfirmedSavePreservesSelectedCategoryAndTagWithOnlyNamePrefilled"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/data/ai/TmdbImportUseCase.kt",
+      "app/src/main/java/com/yingji/app/presentation/movie/MovieViewModel.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "TmdbConfirmedImportTest#oneTypedDetailPerSaveUsesExistingTransactionAndPreservesLocalRelations",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-TmdbConfirmedImportTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "TmdbImportScreenTest#categoryIsRequiredAndConfirmedSavePreservesSelectedCategoryAndTagWithOnlyNamePrefilled",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-TmdbImportScreenTest-categoryIsRequiredAndConfirmedSavePreservesSelectedCategoryAndTagWithOnlyNamePrefilled.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "作品存在且用户主动确认后才保存",
+    "evidence": [
+      "RemotePosterSaveTest#noConfirmationMissingMovieOrMissingTmdbMappingNeverDownloadsOrWrites",
+      "RemotePosterDetailScreenTest#openingOnlyPreviewsInMemoryAndCancelPreservesTheOldImageAndRecord",
+      "RemotePosterDetailScreenTest#savingDisablesRepeatedConfirmationAndCannotStartAnotherDownload"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/presentation/movie/RemotePosterControls.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterSaveTest#noConfirmationMissingMovieOrMissingTmdbMappingNeverDownloadsOrWrites",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterDetailScreenTest#openingOnlyPreviewsInMemoryAndCancelPreservesTheOldImageAndRecord",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-openingOnlyPreviewsInMemoryAndCancelPreservesTheOldImageAndRecord.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterDetailScreenTest#savingDisablesRepeatedConfirmationAndCannotStartAnotherDownload",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-savingDisablesRepeatedConfirmationAndCannotStartAnotherDownload.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "成功留在详情、立即显示本地海报并提示",
+    "evidence": [
+      "RemotePosterDetailScreenTest#successfulConfirmationImmediatelyShowsTheLocalImageAndKeepsDetailAndRelations",
+      "RemotePosterNavigationTest#confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/presentation/movie/RemotePosterViewModel.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterDetailScreenTest#successfulConfirmationImmediatelyShowsTheLocalImageAndKeepsDetailAndRelations",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-successfulConfirmationImmediatelyShowsTheLocalImageAndKeepsDetailAndRelations.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterNavigationTest#confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterNavigationTest-confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "下载失败不影响作品和旧海报",
+    "evidence": [
+      "RemotePosterSaveTest#networkFailurePreservesTheWholeOriginalRecordAndItsFile",
+      "RemotePosterDetailScreenTest#imageDownloadFailureKeepsTheOldImageAndCanBeRetried"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/domain/usecase/SaveRemotePosterUseCase.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterSaveTest#networkFailurePreservesTheWholeOriginalRecordAndItsFile",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterDetailScreenTest#imageDownloadFailureKeepsTheOldImageAndCanBeRetried",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-imageDownloadFailureKeepsTheOldImageAndCanBeRetried.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "重开和进程重启不自动下载或替换本地海报",
+    "evidence": [
+      "RemotePosterNavigationTest#confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement",
+      "RemotePosterRestartTest#localPosterAndRelationsSurviveARealProcessRestartWithoutAnAutomaticDownload",
+      "RemotePosterNavigationRestartTest#savedLocalPosterRemainsVisibleAfterARealApplicationProcessRestart"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/navigation/NavGraph.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterNavigationTest#confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterNavigationTest-confirmedSaveStaysInActualDetailAndSurvivesBackAndReopeningWithoutAutomaticReplacement.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterRestartTest#localPosterAndRelationsSurviveARealProcessRestartWithoutAnAutomaticDownload",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-restart-data-prepare.log",
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-restart-data-verify.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterNavigationRestartTest#savedLocalPosterRemainsVisibleAfterARealApplicationProcessRestart",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-restart-ui-prepare.log",
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-restart-ui-verify.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "在线元数据与本地文件引用分离",
+    "evidence": [
+      "RemotePosterSaveTest#successChangesOnlyThePosterAndRemainsValidAfterReopeningTheDatabase",
+      "TmdbConfirmedImportTest#oneTypedDetailPerSaveUsesExistingTransactionAndPreservesLocalRelations"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/domain/ai/TmdbPoster.kt",
+      "app/src/main/java/com/yingji/app/data/repository/MovieRepository.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterSaveTest#successChangesOnlyThePosterAndRemainsValidAfterReopeningTheDatabase",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "TmdbConfirmedImportTest#oneTypedDetailPerSaveUsesExistingTransactionAndPreservesLocalRelations",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-TmdbConfirmedImportTest.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "临时文件校验后发布，失败不留错误引用",
+    "evidence": [
+      "RemotePosterFileStoreTest#publisherSeesOnlyAValidatedTemporaryFileBeforeFinalPublication",
+      "RemotePosterFileStoreTest#failedPublicationRemovesOnlyItsTemporaryAndNewFinalFiles",
+      "RemotePosterSaveTest#cancellationAfterFilePublicationCleansTheNewFileBeforeAnyDatabaseWrite"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/data/repository/PosterRepository.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterFileStoreTest#publisherSeesOnlyAValidatedTemporaryFileBeforeFinalPublication",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterFileStoreTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterFileStoreTest#failedPublicationRemovesOnlyItsTemporaryAndNewFinalFiles",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterFileStoreTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterSaveTest#cancellationAfterFilePublicationCleansTheNewFileBeforeAnyDatabaseWrite",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "数据库更新失败保留旧引用和旧文件，可重试",
+    "evidence": [
+      "RemotePosterSaveTest#failedDatabaseUpdateRemovesOnlyTheNewFileAndCanRetry",
+      "RemotePosterDetailScreenTest#failedDatabaseWriteHasNoFalseSuccessAndRetainsOriginalDataUntilRetry"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/data/repository/MovieRepository.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterSaveTest#failedDatabaseUpdateRemovesOnlyTheNewFileAndCanRetry",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterDetailScreenTest#failedDatabaseWriteHasNoFalseSuccessAndRetainsOriginalDataUntilRetry",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterDetailScreenTest-failedDatabaseWriteHasNoFalseSuccessAndRetainsOriginalDataUntilRetry.log"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "共享引用和目录外文件保护",
+    "evidence": [
+      "RemotePosterSaveTest#aSharedOldPosterSurvivesUntilTheLastReferenceIsReplaced",
+      "RemotePosterFileStoreTest#managedCleanupCannotDeleteAnOutsideFile",
+      "RemotePosterSaveTest#aConcurrentPosterChangeIsNotOverwrittenAndOnlyOurNewFileIsDiscarded"
+    ],
+    "source": [
+      "app/src/main/java/com/yingji/app/data/repository/MovieRepository.kt",
+      "app/src/main/java/com/yingji/app/data/repository/PosterRepository.kt"
+    ],
+    "status": "通过",
+    "verifiedEvidence": [
+      {
+        "id": "RemotePosterSaveTest#aSharedOldPosterSurvivesUntilTheLastReferenceIsReplaced",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterFileStoreTest#managedCleanupCannotDeleteAnOutsideFile",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterFileStoreTest.log"
+        ],
+        "passed": true
+      },
+      {
+        "id": "RemotePosterSaveTest#aConcurrentPosterChangeIsNotOverwrittenAndOnlyOurNewFileIsDiscarded",
+        "logs": [
+          "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b5-poster-boundary-unified-RemotePosterSaveTest.log"
+        ],
+        "passed": true
+      }
+    ]
+  }
+]

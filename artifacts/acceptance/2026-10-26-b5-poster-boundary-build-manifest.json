@@ -1,0 +1,17 @@
+[
+  {
+    "path": "E:/AIPM/Project/YingJi/app/build/outputs/apk/b5PosterAcceptance/app-b5PosterAcceptance.apk",
+    "bytes": 20351945,
+    "sha256": "95c72e49d88d989dee697cf03cffa667773bafb1bd1efae27570158470881b0f"
+  },
+  {
+    "path": "E:/AIPM/Project/YingJi/app/build/outputs/apk/androidTest/b5PosterAcceptance/app-b5PosterAcceptance-androidTest.apk",
+    "bytes": 2284316,
+    "sha256": "014f46d402cf55665d0c854ef712b9ef297047206fb0b7a6e1f2ad93ecde97a4"
+  },
+  {
+    "path": "E:/AIPM/Project/YingJi/app/schemas/com.yingji.app.data.database.AppDatabase/5.json",
+    "bytes": 20604,
+    "sha256": "b3f7d27b9771fd0659b1c068437bc03c633f96d47420ae6a93fcfdcad9ea17bd"
+  }
+]

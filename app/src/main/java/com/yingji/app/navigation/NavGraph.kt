@@ -18,13 +18,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
+import com.yingji.app.ui.common.YingJiSnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.saveable.LocalSaveableStateRegistry
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import com.yingji.app.presentation.ai.AiHomeViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -47,6 +53,8 @@ import com.yingji.app.presentation.category.CategoryTagViewModel
 import com.yingji.app.presentation.category.MovieRelationsUiState
 import com.yingji.app.presentation.history.HistoryScreen
 import com.yingji.app.presentation.history.HistoryViewModel
+import androidx.compose.runtime.DisposableEffect
+import com.yingji.app.presentation.movie.RemotePosterViewModel
 import com.yingji.app.presentation.movie.MovieDetailScreen
 import com.yingji.app.presentation.movie.MovieFormScreen
 import com.yingji.app.presentation.movie.MovieViewModel
@@ -65,7 +73,8 @@ import com.yingji.app.ui.common.MinimalMotionDuration
 import com.yingji.app.ui.common.BottomNavigationBarShape
 
 @Composable
-fun YingJiNavGraph() {
+fun YingJiNavGraph(aiHomeRepository: com.yingji.app.domain.ai.AiHomeRepository? = null, aiHomeViewModelOverride: AiHomeViewModel? = null,
+    remotePosterFactory: ((Long) -> androidx.lifecycle.ViewModelProvider.Factory)? = null) {
     val navController = rememberNavController()
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
     val application = LocalContext.current.applicationContext as YingJiApplication
@@ -81,10 +90,30 @@ fun YingJiNavGraph() {
         DatabaseProtectionHost(protection, protectionState)
         return
     }
+    val aiHomeViewModel: AiHomeViewModel = aiHomeViewModelOverride ?: viewModel(factory = AiHomeViewModel.factory(aiHomeRepository ?: application.aiHomeRepository,
+        if (aiHomeRepository == null) application.aiKeyConfigurationRepository else null,
+        if (aiHomeRepository == null) application.localProfileManagementRepository else null,
+        if (aiHomeRepository == null) application.tmdbCredentialRepository else null,
+        if (aiHomeRepository == null) application.tmdbCandidatePreview else null,
+        if (aiHomeRepository == null) application.tmdbMockRanking else null,
+        if (aiHomeRepository == null) application.personalizedRecommendation else null))
+    LaunchedEffect(aiHomeViewModel) {
+        aiHomeViewModel.keyConfigurationRequests.collect { navController.navigate(Screen.AiModelConfiguration.route) { launchSingleTop = true } }
+    }
+    // Confirmed TMDB drafts remain in memory; only the pending flag survives process recreation.
+    var tmdbDraft by remember { mutableStateOf<com.yingji.app.domain.ai.CatalogCandidate?>(null) }
+    var tmdbDraftPending by rememberSaveable { mutableStateOf(false) }
+    fun clearTmdbDraft() { tmdbDraft = null; tmdbDraftPending = false }
+    LaunchedEffect(currentDestination?.route) { if (currentDestination?.route != null && currentDestination?.route != Screen.AddMovie.route) clearTmdbDraft() }
+    var aiMovieDraft by rememberSaveable { mutableStateOf<String?>(null) }
+    var aiCandidateSource by rememberSaveable { mutableStateOf<String?>(null) }
+    var aiCandidateExternalId by rememberSaveable { mutableStateOf<String?>(null) }
     val movieViewModel: MovieViewModel = viewModel(
         factory = MovieViewModel.factory(
             movieRepository = application.movieRepository,
             posterRepository = application.posterRepository,
+            addRecommendedWork = application.addRecommendedWork,
+            importTmdbWork = application.importTmdbWork::invoke,
         ),
     )
     val historyViewModel: HistoryViewModel = viewModel(
@@ -146,6 +175,10 @@ fun YingJiNavGraph() {
         navController.navigate(Screen.MovieDetail.createRoute(movieId))
     }
     val openAddMovie: () -> Unit = {
+        clearTmdbDraft()
+        aiMovieDraft = null
+        aiCandidateSource = null
+        aiCandidateExternalId = null
         navController.navigate(Screen.AddMovie.route)
     }
     val openCategory: (Long) -> Unit = { categoryId ->
@@ -161,7 +194,7 @@ fun YingJiNavGraph() {
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        snackbarHost = { SnackbarHost(databaseSnackbarHostState) },
+        snackbarHost = { YingJiSnackbarHost(databaseSnackbarHostState) },
         bottomBar = {
             AnimatedVisibility(
                 visible = showBottomNavigation,
@@ -237,6 +270,19 @@ fun YingJiNavGraph() {
                     onMovieClick = openMovie,
                     onAddMovieClick = openAddMovie,
                     onSearchClick = { navController.navigate(Screen.Search.route) },
+                    aiViewModel = aiHomeViewModel,
+                    onAddTmdbMovie = { candidate ->
+                        aiMovieDraft = null; aiCandidateSource = null; aiCandidateExternalId = null
+                        tmdbDraft = candidate; tmdbDraftPending = true
+                        navController.navigate(Screen.AddMovie.route) { launchSingleTop = true }
+                    },
+                    onAddAiMovie = { item ->
+                        clearTmdbDraft()
+                        aiMovieDraft = item.title
+                        aiCandidateSource = item.candidateIdentity?.sourceId.orEmpty()
+                        aiCandidateExternalId = item.candidateIdentity?.externalId.orEmpty()
+                        navController.navigate(Screen.AddMovie.route) { launchSingleTop = true }
+                    },
                     defaultDisplayMode = movieDisplayMode,
                     sortOption = catalogUiState.sortOption,
                     onSortOptionChange = searchViewModel::selectSortOption,
@@ -290,6 +336,8 @@ fun YingJiNavGraph() {
                     sortSaveError = sortSaveError,
                     onSortSaveErrorConsumed = settingsViewModel::consumeSortSaveError,
                     onStatisticsClick = { navController.navigate(Screen.Statistics.route) },
+                    movieCount = movieUiState.movies.size.takeIf { movieUiState.isLoaded },
+                    onAiModelConfigurationClick = { navController.navigate(Screen.AiModelConfiguration.route) { launchSingleTop = true } },
                     onAddCategory = categoryTagViewModel::addCustomCategory,
                     onRenameCategory = categoryTagViewModel::renameCategory,
                     onDeleteCategory = categoryTagViewModel::deleteCustomCategory,
@@ -303,6 +351,11 @@ fun YingJiNavGraph() {
                     actionState = categoryTagActionState,
                     onActionResultConsumed = categoryTagViewModel::consumeActionResult,
                 )
+            }
+            composable(Screen.AiModelConfiguration.route) {
+                val config: com.yingji.app.presentation.ai.AiKeyConfigurationViewModel = viewModel(factory =
+                    com.yingji.app.presentation.ai.AiKeyConfigurationViewModel.factory(application.aiKeyConfigurationRepository))
+                com.yingji.app.presentation.ai.AiKeyConfigurationScreen(config) { navController.popBackStack() }
             }
             composable(Screen.Statistics.route) {
                 StatisticsScreen(
@@ -361,20 +414,28 @@ fun YingJiNavGraph() {
                 )
             }
             composable(Screen.AddMovie.route) {
+                if (tmdbDraftPending && tmdbDraft == null) {
+                    androidx.compose.material3.AlertDialog(onDismissRequest = { clearTmdbDraft(); navController.popBackStack() },
+                        title = { Text("候选会话已失效") }, text = { Text("请返回首页重新读取候选；本次未自动保存或转为普通新增。") },
+                        confirmButton = { androidx.compose.material3.TextButton(onClick = { clearTmdbDraft(); navController.popBackStack() }) { Text("返回首页") } })
+                } else CompositionLocalProvider(LocalSaveableStateRegistry provides if (tmdbDraftPending) null else LocalSaveableStateRegistry.current) {
                 MovieFormScreen(
                     title = Screen.AddMovie.title,
+                    initialName = tmdbDraft?.title ?: aiMovieDraft.orEmpty(),
                     categories = categoryTagUiState.categories,
                     tags = categoryTagUiState.tags,
                     isSaving = movieFormActionState.isSaving,
                     saveMessage = movieFormActionState.message,
                     onSaveMessageConsumed = movieViewModel::consumeFormMessage,
-                    onBack = { navController.popBackStack() },
+                    onBack = { clearTmdbDraft(); navController.popBackStack() },
                     onSave = { data ->
-                        movieViewModel.addMovie(data) {
-                            navController.popBackStack()
+                        movieViewModel.addMovie(data, recommendedIdentity = tmdbDraft?.identity ?: if (aiMovieDraft == null) null else
+                            com.yingji.app.domain.ai.CandidateIdentity(aiCandidateSource.orEmpty(), aiCandidateExternalId.orEmpty())) {
+                            clearTmdbDraft(); navController.popBackStack()
                         }
                     },
                 )
+                }
             }
             composable(
                 route = Screen.MovieDetail.route,
@@ -395,6 +456,16 @@ fun YingJiNavGraph() {
                     val selectedTags by selectedTagsFlow.collectAsStateWithLifecycle(
                         initialValue = emptyList(),
                     )
+                    val remotePoster: RemotePosterViewModel = viewModel(viewModelStoreOwner = entry, key = "remote-poster-" + movie.id,
+                        factory = remotePosterFactory?.invoke(movie.id) ?: RemotePosterViewModel.factory(
+                            hasSource = { application.movieRepository.hasRemotePosterSource(movie.id) },
+                            lookup = { application.tmdbPosterLookup(application.movieRepository.remotePosterTarget(movie.id).externalId) },
+                            save = { poster -> application.saveRemotePosterUseCase(movie.id, poster, confirmed = true) }))
+                    val remotePosterState by remotePoster.uiState.collectAsStateWithLifecycle()
+                    DisposableEffect(remotePoster) {
+                        remotePoster.enter()
+                        onDispose { remotePoster.leave() }
+                    }
                     MovieDetailScreen(
                         movie = movie,
                         categories = categoryTagUiState.categories,
@@ -424,6 +495,13 @@ fun YingJiNavGraph() {
                         },
                         actionState = movieActionState,
                         onActionMessageConsumed = movieViewModel::consumeActionMessage,
+                        relationMessage = categoryTagActionState.message,
+                        onRelationMessageConsumed = categoryTagViewModel::consumeActionResult,
+                        remotePosterState = remotePosterState,
+                        onRemotePosterOpen = remotePoster::open,
+                        onRemotePosterConfirm = remotePoster::confirm,
+                        onRemotePosterDismiss = remotePoster::dismiss,
+                        onRemotePosterMessageConsumed = remotePoster::consumeMessage,
                     )
                 } else {
                     LoadingOrMissingMovie(isLoaded = movieUiState.isLoaded)

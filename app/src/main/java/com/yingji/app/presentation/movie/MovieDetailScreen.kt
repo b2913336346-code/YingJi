@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -39,7 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
+import com.yingji.app.ui.common.YingJiSnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -52,6 +53,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -60,6 +62,7 @@ import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.domain.model.MovieStatus
+import com.yingji.app.domain.model.formatMovieRating
 import com.yingji.app.ui.common.LocalPoster
 
 private val DetailCardShape = RoundedCornerShape(16.dp)
@@ -82,6 +85,13 @@ fun MovieDetailScreen(
     onTagChange: (Tag, Boolean) -> Unit,
     actionState: MovieActionState = MovieActionState(),
     onActionMessageConsumed: () -> Unit = {},
+    relationMessage: String? = null,
+    onRelationMessageConsumed: () -> Unit = {},
+    remotePosterState: RemotePosterState = RemotePosterState(),
+    onRemotePosterOpen: () -> Unit = {},
+    onRemotePosterConfirm: () -> Unit = {},
+    onRemotePosterDismiss: () -> Unit = {},
+    onRemotePosterMessageConsumed: () -> Unit = {},
 ) {
     var confirmDelete by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -93,9 +103,23 @@ fun MovieDetailScreen(
         }
     }
 
+    LaunchedEffect(relationMessage) {
+        relationMessage?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            onRelationMessageConsumed()
+        }
+    }
+
+    LaunchedEffect(remotePosterState.message) {
+        remotePosterState.message?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            onRemotePosterMessageConsumed()
+        }
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { YingJiSnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
@@ -128,6 +152,7 @@ fun MovieDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag("movie_detail_content")
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -144,9 +169,12 @@ fun MovieDetailScreen(
                     path = movie.posterPath,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(360.dp),
+                        .height(360.dp)
+                        .testTag("detail_local_poster"),
                 )
             }
+
+            RemotePosterControls(remotePosterState, onRemotePosterOpen, onRemotePosterConfirm, onRemotePosterDismiss)
 
             DetailCard {
                 Text(
@@ -159,6 +187,8 @@ fun MovieDetailScreen(
                     Icons.Filled.BarChart,
                     "进度：${movie.currentEpisode} / ${movie.totalEpisode ?: "-"}",
                 )
+                DetailInfoRow(Icons.Filled.StarBorder,
+                    "评分：" + formatMovieRating(movie.rating) + if (movie.rating == null) "" else " / 10")
             }
 
             DetailCard {

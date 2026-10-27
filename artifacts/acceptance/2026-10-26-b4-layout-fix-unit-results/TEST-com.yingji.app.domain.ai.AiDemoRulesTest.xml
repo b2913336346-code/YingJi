@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.AiDemoRulesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-26T12:38:41" hostname="BUWENXU" time="0.021">
+  <properties/>
+  <testcase name="defaultsAreEmptyAndDoNotAuthorizeAllSources" classname="com.yingji.app.domain.ai.AiDemoRulesTest" time="0.004"/>
+  <testcase name="exactInputLengthBoundaryIsEnforced" classname="com.yingji.app.domain.ai.AiDemoRulesTest" time="0.016"/>
+  <testcase name="queryRequiresNonBlankInput" classname="com.yingji.app.domain.ai.AiDemoRulesTest" time="0.0"/>
+  <testcase name="shortcutsDoNotRequireFreeText" classname="com.yingji.app.domain.ai.AiDemoRulesTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

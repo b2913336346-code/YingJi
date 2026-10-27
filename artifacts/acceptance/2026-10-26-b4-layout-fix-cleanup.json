@@ -1,0 +1,130 @@
+{
+  "archives": [
+    {
+      "path": "/sdcard/Download/yingji-fixture-9d3df55c-db18-4b82-a379-c8dbed8e0d21.zip",
+      "sha256": "67462b4d8db87104238ae2f7a75971794f8eef3de90ffa8e5f5f2174de7471a0",
+      "entries": [
+        {
+          "name": "manifest.json",
+          "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+        },
+        {
+          "name": "fixture.db",
+          "data": "verified fixture evidence"
+        }
+      ],
+      "bytes": 707,
+      "removed": {
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "/sdcard/Download/yingji-fixture-6628136d-136d-4341-894d-471e85050d2e.zip",
+      "sha256": "eb3c7f88870c0630539bff2e1e1311ce81ad1885ad4de4e5cf6569cd3006edbe",
+      "entries": [
+        {
+          "name": "manifest.json",
+          "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+        },
+        {
+          "name": "fixture.db",
+          "data": "verified fixture evidence"
+        }
+      ],
+      "bytes": 707,
+      "removed": {
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "/sdcard/Download/yingji-fixture-8fc0836a-7053-4ef1-be2b-34a4279cead9.zip",
+      "sha256": "72efd431e46465defc74354d5a6fc8947a98777cac0e2ebafac348c0478cc92c",
+      "entries": [
+        {
+          "name": "manifest.json",
+          "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+        },
+        {
+          "name": "fixture.db",
+          "data": "verified fixture evidence"
+        }
+      ],
+      "bytes": 707,
+      "removed": {
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  ],
+  "images": [],
+  "packages": [
+    {
+      "pkg": "com.yingji.app.b4regression.acceptance.test",
+      "verifiedSha256": "ca64b585ce9b2cfeea5d5a50082208c7d6c93de4fb59094af38513fcfe458e6f",
+      "result": {
+        "exitCode": 0,
+        "stdout": "Success\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "pkg": "com.yingji.app.b4regression.acceptance",
+      "verifiedSha256": "48480a12a51e5a6397c06acbf982817fa716da826f06b4488614c98052d59ea6",
+      "result": {
+        "exitCode": 0,
+        "stdout": "Success\r\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "formalChecks": [
+    {
+      "when": "before uninstalls",
+      "exitCode": 0,
+      "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+      "stderr": ""
+    },
+    {
+      "when": "after com.yingji.app.b4regression.acceptance.test",
+      "exitCode": 0,
+      "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+      "stderr": ""
+    },
+    {
+      "when": "after com.yingji.app.b4regression.acceptance",
+      "exitCode": 0,
+      "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+      "stderr": ""
+    }
+  ],
+  "packagesBefore": {
+    "exitCode": 0,
+    "stdout": "package:com.yingji.app.b4regression.acceptance uid:10281\r\npackage:com.yingji.app uid:10264\r\npackage:com.yingji.app.b4regression.acceptance.test uid:10282\r\n",
+    "stderr": ""
+  },
+  "mediaBefore": {
+    "exitCode": 0,
+    "stdout": "No result found.\r\n",
+    "stderr": ""
+  },
+  "packagesAfter": {
+    "exitCode": 0,
+    "stdout": "package:com.yingji.app\r\n",
+    "stderr": ""
+  },
+  "archivesAfter": {
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "mediaAfter": {
+    "exitCode": 0,
+    "stdout": "No result found.\r\n",
+    "stderr": ""
+  }
+}

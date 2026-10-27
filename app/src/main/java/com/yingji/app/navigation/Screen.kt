@@ -26,6 +26,7 @@ sealed class Screen(
     data object Watching : Screen("watching", "观看中", Icons.Filled.PlayArrow)
     data object Finished : Screen("finished", "已看完", Icons.Filled.CheckCircle)
     data object Mine : Screen("mine", "我的", Icons.Filled.Person)
+    data object AiModelConfiguration : Screen("ai/model-configuration", "AI 模型配置", Icons.Filled.Person)
     data object AddMovie : Screen("movie/add", "新增作品", Icons.Filled.Add)
     data object MovieDetail : Screen("movie/{movieId}", "作品详情", Icons.Filled.Movie) {
         fun createRoute(movieId: Long): String = "movie/$movieId"

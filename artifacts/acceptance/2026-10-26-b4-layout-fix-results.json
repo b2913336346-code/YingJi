@@ -1,0 +1,1280 @@
+{
+  "date": "2026-10-26",
+  "phase": "修复异常并完整重跑 B4",
+  "status": "通过",
+  "totals": {
+    "batches": 73,
+    "executions": 144,
+    "passed": 144,
+    "failedBatches": 0,
+    "uniqueMethods": 143
+  },
+  "unit": {
+    "tests": 167,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "cold": {
+    "status": "PASS",
+    "executions": 40,
+    "passed": 40,
+    "method": "com.yingji.app.presentation.settings.MineMovieCountTest#totalUsesUniqueMoviesAndRefreshesAfterInsertRewatchAndDelete",
+    "queue": "2026-10-26-b4-regression-layout-fix-final-cold-queue.json"
+  },
+  "dataPreflight": {
+    "status": "PASS",
+    "executions": 91,
+    "passed": 91,
+    "queue": "2026-10-26-b4-regression-layout-fix-data-foreground-queue.json",
+    "note": "单列定向验证，不与最终完整 144 次叠加统计"
+  },
+  "areas": [
+    {
+      "title": "作品新增、编辑、删除与同名作品",
+      "classes": [
+        "com.yingji.app.presentation.B4AiIsolationAcceptanceTest"
+      ],
+      "ids": [
+        "com.yingji.app.presentation.MovieCrudAcceptanceTest#createEditCancelDeleteAndFailedDeleteRetryKeepTheWholeChainConsistent",
+        "com.yingji.app.presentation.MovieCrudAcceptanceTest#intentionallyRepeatedTitlesKeepSeparateIdsAndDeletingOnePreservesTheOther"
+      ],
+      "detail": "实际表单/详情页新增、编辑、取消、删除、失败删除重试，同名作品不同 ID；含三种 AI 故障下的实际基础 CRUD。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#configurationFailureDoesNotBlockActualBaseCrud",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-068-B4AiIsolationAcceptanceTest#configurationFailureDoesNotBlockActualBase.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#configurationFailureDoesNotBlockActualBaseCrud"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#recommendationTimeoutDoesNotBlockActualBaseCrud",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-069-B4AiIsolationAcceptanceTest#recommendationTimeoutDoesNotBlockActualBas.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#recommendationTimeoutDoesNotBlockActualBaseCrud"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#offlineRecommendationDoesNotBlockActualBaseCrud",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-070-B4AiIsolationAcceptanceTest#offlineRecommendationDoesNotBlockActualBas.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.B4AiIsolationAcceptanceTest#offlineRecommendationDoesNotBlockActualBaseCrud"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.MovieCrudAcceptanceTest#createEditCancelDeleteAndFailedDeleteRetryKeepTheWholeChainConsistent",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-026-MovieCrudAcceptanceTest#createEditCancelDeleteAndFailedDeleteRetryKeep.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.MovieCrudAcceptanceTest#createEditCancelDeleteAndFailedDeleteRetryKeepTheWholeChainConsistent"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.MovieCrudAcceptanceTest#intentionallyRepeatedTitlesKeepSeparateIdsAndDeletingOnePreservesTheOther",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-027-MovieCrudAcceptanceTest#intentionallyRepeatedTitlesKeepSeparateIdsAndD.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.MovieCrudAcceptanceTest#intentionallyRepeatedTitlesKeepSeparateIdsAndDeletingOnePreservesTheOther"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "分类、标签管理及关联",
+      "classes": [
+        "com.yingji.app.data.repository.CategoryRepositoryRenameTest",
+        "com.yingji.app.presentation.category.CategoryTagViewModelTest",
+        "com.yingji.app.presentation.settings.SettingsScreenTest"
+      ],
+      "ids": [],
+      "detail": "分类与标签同 ID 的独立定位、名称 trim/空白/重复、系统分类保护、失败重试、ID 与作品关联保留。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#defaultSortSelectionDispatchesCallback",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-005-SettingsScreenTest#defaultSortSelectionDispatchesCallback.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#defaultSortSelectionDispatchesCallback"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#categoryAndTagWithSameDatabaseIdCanBeDisplayed",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-006-SettingsScreenTest#categoryAndTagWithSameDatabaseIdCanBeDisplayed.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#categoryAndTagWithSameDatabaseIdCanBeDisplayed"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#countsAndIndependentCategoryAndTagClicksAreDisplayed",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-007-SettingsScreenTest#countsAndIndependentCategoryAndTagClicksAreDisplaye.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#countsAndIndependentCategoryAndTagClicksAreDisplayed"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#deleteUsesIndependentClickAreaAndRequiresConfirmation",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-008-SettingsScreenTest#deleteUsesIndependentClickAreaAndRequiresConfirmati.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#deleteUsesIndependentClickAreaAndRequiresConfirmation"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#addCategoryDialogValidatesInputAndSubmitsEnteredName",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-009-SettingsScreenTest#addCategoryDialogValidatesInputAndSubmitsEnteredNam.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#addCategoryDialogValidatesInputAndSubmitsEnteredName"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvailable",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-010-SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvaila.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvailable"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#renameCategoryPrefillsNameRejectsBlankAndKeepsIndependentClickArea",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-011-SettingsScreenTest#renameCategoryPrefillsNameRejectsBlankAndKeepsIndep.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#renameCategoryPrefillsNameRejectsBlankAndKeepsIndependentClickArea"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#tagSaveErrorsStayInDialogAndSuccessfulRetryClosesIt",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-012-SettingsScreenTest#tagSaveErrorsStayInDialogAndSuccessfulRetryClosesIt.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#tagSaveErrorsStayInDialogAndSuccessfulRetryClosesIt"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#cancelRenameDoesNotWriteAndSystemCategoryHasNoEditEntry",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-013-SettingsScreenTest#cancelRenameDoesNotWriteAndSystemCategoryHasNoEditE.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#cancelRenameDoesNotWriteAndSystemCategoryHasNoEditEntry"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-054-CategoryTagViewModelTest.log",
+          "ok": true,
+          "success": 3,
+          "expected": 3,
+          "completedIds": [
+            "com.yingji.app.presentation.category.CategoryTagViewModelTest#cancelledWriteReleasesSavingStateWithoutReportingFailure",
+            "com.yingji.app.presentation.category.CategoryTagViewModelTest#failedWriteReleasesSavingStateAndAllowsRetry",
+            "com.yingji.app.presentation.category.CategoryTagViewModelTest#consumingResultWhileSavingDoesNotAllowDuplicateWrites"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-060-CategoryRepositoryRenameTest.log",
+          "ok": true,
+          "success": 5,
+          "expected": 5,
+          "completedIds": [
+            "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameTrimsNameAndKeepsIdsAndMovieRelations",
+            "com.yingji.app.data.repository.CategoryRepositoryRenameTest#uniqueIndexConflictsAreReportedEvenIfPrecheckMissesThem",
+            "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameRejectsBlankDuplicateAndSystemCategory",
+            "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renamedNamesAndRelationsRemainAfterDatabaseReopen",
+            "com.yingji.app.data.repository.CategoryRepositoryRenameTest#unchangedNamesSucceedAndMissingRowsDoNotReportSuccess"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "搜索与组合筛选",
+      "classes": [
+        "com.yingji.app.presentation.search.SearchViewModelTest",
+        "com.yingji.app.presentation.search.SearchStage3ScreenTest",
+        "com.yingji.app.presentation.search.SearchScreenFilterTest"
+      ],
+      "ids": [],
+      "detail": "中文/拼音/首字母，分类/标签/状态/时间组合筛选，日期确认取消及日区间边界。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-021-SearchViewModelTest.log",
+          "ok": true,
+          "success": 6,
+          "expected": 6,
+          "completedIds": [
+            "com.yingji.app.presentation.search.SearchViewModelTest#combinedFiltersReachRoomDataAndClearingTimeRestoresUndatedMovies",
+            "com.yingji.app.presentation.search.SearchViewModelTest#readFailureReportsErrorAndDoesNotRetryInALoop",
+            "com.yingji.app.presentation.search.SearchViewModelTest#historyWriteUpdatesSharedSortAndTimeFilteredSearchWithoutReopening",
+            "com.yingji.app.presentation.search.SearchViewModelTest#catalogAndSearchShareSortButClassificationAndTagIdsRemainIndependent",
+            "com.yingji.app.presentation.search.SearchViewModelTest#rapidDateChangesRemainConsistentAndActiveFieldExcludesMissingTimes",
+            "com.yingji.app.presentation.search.SearchViewModelTest#defaultSortRestoresInNewViewModelAndSessionOverrideDoesNotRewriteIt"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchStage3ScreenTest#scrollingFiltersKeepsCombinedResultsClickableInListAndPosterWall",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-022-SearchStage3ScreenTest#scrollingFiltersKeepsCombinedResultsClickableIn.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.search.SearchStage3ScreenTest#scrollingFiltersKeepsCombinedResultsClickableInListAndPosterWall"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchStage3ScreenTest#dateDialogConfirmAndCancelExecuteCallbacksWithoutFixedDelays",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-023-SearchStage3ScreenTest#dateDialogConfirmAndCancelExecuteCallbacksWitho.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.search.SearchStage3ScreenTest#dateDialogConfirmAndCancelExecuteCallbacksWithoutFixedDelays"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchStage3ScreenTest#dataFailureIsVisibleInResultArea",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-024-SearchStage3ScreenTest#dataFailureIsVisibleInResultArea.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.search.SearchStage3ScreenTest#dataFailureIsVisibleInResultArea"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchScreenFilterTest#statusTimeAndSortControlsDispatchSelections",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-025-SearchScreenFilterTest#statusTimeAndSortControlsDispatchSelections.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.search.SearchScreenFilterTest#statusTimeAndSortControlsDispatchSelections"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "列表、海报墙、排序与默认展示入口",
+      "classes": [
+        "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest",
+        "com.yingji.app.presentation.movie.MovieSortScreenTest",
+        "com.yingji.app.presentation.settings.SettingsDisplayModeScreenTest",
+        "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest",
+        "com.yingji.app.presentation.settings.SettingsSortScreenTest",
+        "com.yingji.app.presentation.settings.SettingsSortViewModelTest"
+      ],
+      "ids": [],
+      "detail": "列表与三列海报墙共用结果，布局切换、长标题、缺失海报、排序点击与默认值保存失败反馈。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsSortViewModelTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-003-SettingsSortViewModelTest.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsSortViewModelTest#failedSortWriteReportsErrorAndRetryPersistsWithoutFalseSuccess"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsSortScreenTest#savedDefaultSortReflectsSelectionAndFailureKeepsPreviousChoice",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-004-SettingsSortScreenTest#savedDefaultSortReflectsSelectionAndFailureKeep.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsSortScreenTest#savedDefaultSortReflectsSelectionAndFailureKeepsPreviousChoice"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-014-SettingsDisplayModeViewModelTest.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest#failedWriteReportsErrorWithoutChangingDefaultAndRetrySucceeds"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsDisplayModeScreenTest#defaultDisplayChoiceDispatchesSelectionsAndReflectsSavedState",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-015-SettingsDisplayModeScreenTest#defaultDisplayChoiceDispatchesSelections.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsDisplayModeScreenTest#defaultDisplayChoiceDispatchesSelectionsAndReflectsSavedState"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsDisplayModeScreenTest#failedDefaultSaveShowsFeedbackAndKeepsSavedChoice",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-016-SettingsDisplayModeScreenTest#failedDefaultSaveShowsFeedbackAndKeepsSa.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsDisplayModeScreenTest#failedDefaultSaveShowsFeedbackAndKeepsSavedChoice"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieSortScreenTest#sortMenuReordersBothLayoutsAndKeepsMovieClickIdentity",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-035-MovieSortScreenTest#sortMenuReordersBothLayoutsAndKeepsMovieClickIdent.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieSortScreenTest#sortMenuReordersBothLayoutsAndKeepsMovieClickIdentity"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#switchingLayoutKeepsTheSameMoviesAndShowsMissingPosterPlaceholder",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-038-MovieDisplayModeScreenTest#switchingLayoutKeepsTheSameMoviesAndShowsMi.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#switchingLayoutKeepsTheSameMoviesAndShowsMissingPosterPlaceholder"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#posterWallHasThreeColumnsAndTruncatesLongTitles",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-039-MovieDisplayModeScreenTest#posterWallHasThreeColumnsAndTruncatesLongTi.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#posterWallHasThreeColumnsAndTruncatesLongTitles"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#changingQueryResultsKeepsSessionModeAndCorrectDetailId",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-040-MovieDisplayModeScreenTest#changingQueryResultsKeepsSessionModeAndCorr.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#changingQueryResultsKeepsSessionModeAndCorrectDetailId"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#largeCollectionScrollsToSameLastMovieInBothModes",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-041-MovieDisplayModeScreenTest#largeCollectionScrollsToSameLastMovieInBoth.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#largeCollectionScrollsToSameLastMovieInBothModes"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#emptyStateRemainsAvailableAfterRepeatedToggles",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-042-MovieDisplayModeScreenTest#emptyStateRemainsAvailableAfterRepeatedTogg.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#emptyStateRemainsAvailableAfterRepeatedToggles"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#localPosterLoadsLocalFileAndDistinguishesMissingAndFailedImages",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-043-MovieDisplayModeScreenTest#localPosterLoadsLocalFileAndDistinguishesMi.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.MovieDisplayModeScreenTest#localPosterLoadsLocalFileAndDistinguishesMissingAndFailedImages"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "观看状态、记录与时间边界",
+      "classes": [
+        "com.yingji.app.data.repository.WatchSessionConsistencyTest",
+        "com.yingji.app.data.database.AppDatabaseTest",
+        "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest"
+      ],
+      "ids": [],
+      "detail": "开始/结束观看、重刷、时间编辑及非法日期拒绝、已有活动记录时阻止回想看；事务回滚与并发唯一活动记录。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-056-WatchSessionConsistencyTest.log",
+          "ok": true,
+          "success": 10,
+          "expected": 10,
+          "completedIds": [
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#timeUpdatesUseCurrentDatabaseRowAndEndingTwiceDoesNotOverwriteTheFirstEnd",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#startAndEndSynchronizeStatusAndPreserveEarlierWatches",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#historyFailureRollsBackStatusAndDirectFinishedCreationRecordsZeroKnownDuration",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#reopeningAnOlderHistoryRejectsASecondActiveRecordWithoutChangingEitherRow",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#formSaveUsesSameSessionRulesAndRollsBackRelationsAndHistoryTogether",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#concurrentUseCasesAndRepositoriesCannotCreateTwoActiveRecords",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryEnd",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#sessionStatusAndTimestampsSurviveDatabaseReopen",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusTransitionsCreateAndCloseOneSessionAndBlockReturningToWantUntilFinished",
+            "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryInsertAndCanBeRetried"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-064-AppDatabaseTest.log",
+          "ok": true,
+          "success": 18,
+          "expected": 18,
+          "completedIds": [
+            "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+            "com.yingji.app.data.database.AppDatabaseTest#invalidWatchEndTimeDoesNotOverwriteHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#recordWatchCreatesNewRowsAndOnlyUpdatesSelectedHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#categoriesAndTagsKeepManyToManyRelations",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseRejectsOrphanHistoryAndPassesIntegrityCheck",
+            "com.yingji.app.data.database.AppDatabaseTest#concurrentCategoryAndTagSubmissionsCreateOnlyOneRowEach",
+            "com.yingji.app.data.database.AppDatabaseTest#addingTagsTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#watchHistoryPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#addingCategoriesTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#movieTypesIncludeDefaultsAndDoNotDuplicateCustomValues",
+            "com.yingji.app.data.database.AppDatabaseTest#insertingMultipleWatchRecordsKeepsEveryHistoryEntry",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseInsertFailureReturnsFailureInsteadOfThrowingFromNameSave",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCreateAndEditKeepRelationsAtomicAndPreserveHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#posterIsCopiedToPrivateStorageAndCanBeDeleted",
+            "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCrudPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#searchSupportsNameFuzzyPinyinAndInitials"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest#actualHistoryEditsRewatchAndStatisticsRefreshAcrossNavigation",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-history-statistics.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest#actualHistoryEditsRewatchAndStatisticsRefreshAcrossNavigation"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "个人评分",
+      "classes": [
+        "com.yingji.app.data.repository.RatingPosterWriteTest",
+        "com.yingji.app.presentation.movie.RatingAndPosterScreenTest",
+        "com.yingji.app.data.database.RatingMigrationTest"
+      ],
+      "ids": [],
+      "detail": "可选 0—10、0.5 步进，0/0.5/10，非法评分拒绝、清除未评分、取消与重新读取。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#ratingValidationRejectsInvalidValuesWithoutSaving",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-029-RatingAndPosterScreenTest#ratingValidationRejectsInvalidValuesWithoutS.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#ratingValidationRejectsInvalidValuesWithoutSaving"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#zeroHalfPointsAndTenAreSubmittedWithoutLosingSelectedCategory",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-030-RatingAndPosterScreenTest#zeroHalfPointsAndTenAreSubmittedWithoutLosin.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#zeroHalfPointsAndTenAreSubmittedWithoutLosingSelectedCategory"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#clearingRatingSavesNullRatherThanZero",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-031-RatingAndPosterScreenTest#clearingRatingSavesNullRatherThanZero.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#clearingRatingSavesNullRatherThanZero"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCancelled",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-032-RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCance.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCancelled"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#detailDisplaysRatingAndUnratedStateInBothThemes",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-033-RatingAndPosterScreenTest#detailDisplaysRatingAndUnratedStateInBothThe.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#detailDisplaysRatingAndUnratedStateInBothThemes"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#formRatingAndRemovalUseExistingFormInDarkTheme",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-034-RatingAndPosterScreenTest#formRatingAndRemovalUseExistingFormInDarkThe.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#formRatingAndRemovalUseExistingFormInDarkTheme"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-058-RatingPosterWriteTest.log",
+          "ok": true,
+          "success": 3,
+          "expected": 3,
+          "completedIds": [
+            "com.yingji.app.data.repository.RatingPosterWriteTest#createEditAndClearRatingReachTheDatabaseWithoutChangingIdentityOrClassification",
+            "com.yingji.app.data.repository.RatingPosterWriteTest#invalidRatingCannotPartiallySaveMovieHistoryOrRelations",
+            "com.yingji.app.data.repository.RatingPosterWriteTest#posterRemovalFailureKeepsOriginalFileAndRatingUntilRetryCommits"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-061-RatingMigrationTest.log",
+          "ok": true,
+          "success": 2,
+          "expected": 2,
+          "completedIds": [
+            "com.yingji.app.data.database.RatingMigrationTest#versionOneMigratesToThreeWithoutLosingAnyBaseData",
+            "com.yingji.app.data.database.RatingMigrationTest#versionTwoMigratesToThreeAndRatingSurvivesReopenAndStatusChanges"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "海报文件选择、裁剪、本地保存与移除",
+      "classes": [
+        "com.yingji.app.data.repository.PosterSaveFailureTest"
+      ],
+      "ids": [
+        "com.yingji.app.presentation.MovieCrudAcceptanceTest#localPickerCancellationAndActualFileSelectionCropAndSaveUseTheIsolatedImage",
+        "com.yingji.app.data.repository.RatingPosterWriteTest#posterRemovalFailureKeepsOriginalFileAndRatingUntilRetryCommits",
+        "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCancelled"
+      ],
+      "detail": "真实系统选择器取消、受控图片选择、裁剪、2:3 文件保存及灰阶像素核查；移除、失败保留与重试。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.MovieCrudAcceptanceTest#localPickerCancellationAndActualFileSelectionCropAndSaveUseTheIsolatedImage",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-028-MovieCrudAcceptanceTest#localPickerCancellationAndActualFileSelectionC.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.MovieCrudAcceptanceTest#localPickerCancellationAndActualFileSelectionCropAndSaveUseTheIsolatedImage"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCancelled",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-032-RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCance.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.movie.RatingAndPosterScreenTest#removingPosterIsSubmittedOnSaveAndCanBeCancelled"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-058-RatingPosterWriteTest.log",
+          "ok": true,
+          "success": 3,
+          "expected": 3,
+          "completedIds": [
+            "com.yingji.app.data.repository.RatingPosterWriteTest#createEditAndClearRatingReachTheDatabaseWithoutChangingIdentityOrClassification",
+            "com.yingji.app.data.repository.RatingPosterWriteTest#invalidRatingCannotPartiallySaveMovieHistoryOrRelations",
+            "com.yingji.app.data.repository.RatingPosterWriteTest#posterRemovalFailureKeepsOriginalFileAndRatingUntilRetryCommits"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-059-PosterSaveFailureTest.log",
+          "ok": true,
+          "success": 9,
+          "expected": 9,
+          "completedIds": [
+            "com.yingji.app.data.repository.PosterSaveFailureTest#blockedStatusChangeHasVisibleViewModelErrorsAndNeverReportsSaveSuccess",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#noSelectedPosterRemainsOptional",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#absolutePathsAreCopiedSoTwoMoviesNeverBorrowTheSameFile",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#databaseFailureRemovesOnlyNewCopyAndKeepsTheSource",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#rapidSaveAndMessageConsumptionCannotAllowADuplicateMovie",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#blockedPosterDirectoryReportsFailureAndDoesNotModifySource",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#missingReplacementPreservesOriginalMoviePosterAndRelations",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#deletingOneOfTwoLegacyReferencesDoesNotDeleteTheOtherMoviesPoster",
+            "com.yingji.app.data.repository.PosterSaveFailureTest#missingSourceReportsFailureInsteadOfSavingWithoutPosterAndRetryWorks"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "我的页总数、分类/标签数量与统计",
+      "classes": [
+        "com.yingji.app.presentation.settings.MineMovieCountTest",
+        "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest"
+      ],
+      "ids": [
+        "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+        "com.yingji.app.presentation.settings.SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvailable"
+      ],
+      "detail": "作品总数不随重刷重复计数；分类/标签数量与关联；实际我的→统计入口显示作品数、观看次数、重刷次数和时长。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvailable",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-010-SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvaila.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.SettingsScreenTest#themeStatisticsAndDialogCancelCallbacksRemainAvailable"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.MineMovieCountTest#totalUsesUniqueMoviesAndRefreshesAfterInsertRewatchAndDelete",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-017-MineMovieCountTest#totalUsesUniqueMoviesAndRefreshesAfterInsertRewatch.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.settings.MineMovieCountTest#totalUsesUniqueMoviesAndRefreshesAfterInsertRewatchAndDelete"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-064-AppDatabaseTest.log",
+          "ok": true,
+          "success": 18,
+          "expected": 18,
+          "completedIds": [
+            "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+            "com.yingji.app.data.database.AppDatabaseTest#invalidWatchEndTimeDoesNotOverwriteHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#recordWatchCreatesNewRowsAndOnlyUpdatesSelectedHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#categoriesAndTagsKeepManyToManyRelations",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseRejectsOrphanHistoryAndPassesIntegrityCheck",
+            "com.yingji.app.data.database.AppDatabaseTest#concurrentCategoryAndTagSubmissionsCreateOnlyOneRowEach",
+            "com.yingji.app.data.database.AppDatabaseTest#addingTagsTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#watchHistoryPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#addingCategoriesTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#movieTypesIncludeDefaultsAndDoNotDuplicateCustomValues",
+            "com.yingji.app.data.database.AppDatabaseTest#insertingMultipleWatchRecordsKeepsEveryHistoryEntry",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseInsertFailureReturnsFailureInsteadOfThrowingFromNameSave",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCreateAndEditKeepRelationsAtomicAndPreserveHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#posterIsCopiedToPrivateStorageAndCanBeDeleted",
+            "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCrudPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#searchSupportsNameFuzzyPinyinAndInitials"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest#actualHistoryEditsRewatchAndStatisticsRefreshAcrossNavigation",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-history-statistics.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.B4HistoryStatisticsAcceptanceTest#actualHistoryEditsRewatchAndStatisticsRefreshAcrossNavigation"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "重启持久化和默认设置恢复",
+      "classes": [
+        "com.yingji.app.data.repository.WatchSessionRestartTest",
+        "com.yingji.app.data.repository.ThemeRepositoryTest"
+      ],
+      "ids": [],
+      "detail": "真实不同进程 prepare/verify，作品/关系/记录/评分/海报字节及主题、默认展示、默认排序恢复。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-057-ThemeRepositoryTest.log",
+          "ok": true,
+          "success": 5,
+          "expected": 5,
+          "completedIds": [
+            "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieSortOptionFromANewRepositoryInstance",
+            "com.yingji.app.data.repository.ThemeRepositoryTest#sortSurvivesClosingAndReopeningWithoutChangingOtherSettings",
+            "com.yingji.app.data.repository.ThemeRepositoryTest#displayModeSurvivesClosingAndReopeningTheDataStore",
+            "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieDisplayModeFromANewRepositoryInstance",
+            "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresThemeMode"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-prepare.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-verify.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "数据库迁移与旧数据完整性",
+      "classes": [
+        "com.yingji.app.data.database.RatingMigrationTest",
+        "com.yingji.app.data.ai.ProfileMigrationTest",
+        "com.yingji.app.data.ai.CandidateMigrationTest",
+        "com.yingji.app.data.ai.ProfileProtectionTest"
+      ],
+      "ids": [
+        "com.yingji.app.data.database.DatabasePreservationTest#safeFactoryMigratesVersionOneAndPreservesIdsHistoryAndRelations",
+        "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+        "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion"
+      ],
+      "detail": "Room v5，旧 schema 1/2/3/4 升级保留业务数据与 AI 共享表，未来版本拒绝破坏性重建。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-061-RatingMigrationTest.log",
+          "ok": true,
+          "success": 2,
+          "expected": 2,
+          "completedIds": [
+            "com.yingji.app.data.database.RatingMigrationTest#versionOneMigratesToThreeWithoutLosingAnyBaseData",
+            "com.yingji.app.data.database.RatingMigrationTest#versionTwoMigratesToThreeAndRatingSurvivesReopenAndStatusChanges"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-062-DatabasePreservationTest.log",
+          "ok": true,
+          "success": 15,
+          "expected": 15,
+          "completedIds": [
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptFileIsNotDeletedOrRecreatedByTheActualRoomOpenPath",
+            "com.yingji.app.data.database.DatabasePreservationTest#restartKeepsProtectionWithoutOpeningOrBackingUpAgain",
+            "com.yingji.app.data.database.DatabasePreservationTest#diskFullAndInterruptedCopyNeverClearOriginalsOrClaimSuccess",
+            "com.yingji.app.data.database.DatabasePreservationTest#writeFailureDuringExportIsNotReportedAsSuccess",
+            "com.yingji.app.data.database.DatabasePreservationTest#validWorkingCopyPassesChecksWithoutOpeningTheEvidence",
+            "com.yingji.app.data.database.DatabasePreservationTest#failedMarkerWriteRemainsVisibleAndDoesNotPreventFilePreservation",
+            "com.yingji.app.data.database.DatabasePreservationTest#changingSourceAndTamperedEvidenceCannotBecomeVerifiedExports",
+            "com.yingji.app.data.database.DatabasePreservationTest#schemaMismatchIsClassifiedSeparatelyAndDoesNotRebuildTheFile",
+            "com.yingji.app.data.database.DatabasePreservationTest#deniedExportKeepsEvidenceShowsReselectActionAndCanRetry",
+            "com.yingji.app.data.database.DatabasePreservationTest#safeFactoryMigratesVersionOneAndPreservesIdsHistoryAndRelations",
+            "com.yingji.app.data.database.DatabasePreservationTest#coordinatorReportsExportSuccessFailureAndCancellationAccurately",
+            "com.yingji.app.data.database.DatabasePreservationTest#walShmAndMainArePreservedAndExportContainsTheManifest",
+            "com.yingji.app.data.database.DatabasePreservationTest#validWalSnapshotIncludesCommittedMoviesAndKeepsOriginalFileGroupUnchanged",
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptedMarkerFailsClosedAndDifferentFailureKindsAreNotConfused",
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptionCallbackNeverDelegatesDeletesOrClosesAndDisablesLossyRecovery"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-064-AppDatabaseTest.log",
+          "ok": true,
+          "success": 18,
+          "expected": 18,
+          "completedIds": [
+            "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+            "com.yingji.app.data.database.AppDatabaseTest#invalidWatchEndTimeDoesNotOverwriteHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#recordWatchCreatesNewRowsAndOnlyUpdatesSelectedHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#categoriesAndTagsKeepManyToManyRelations",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseRejectsOrphanHistoryAndPassesIntegrityCheck",
+            "com.yingji.app.data.database.AppDatabaseTest#concurrentCategoryAndTagSubmissionsCreateOnlyOneRowEach",
+            "com.yingji.app.data.database.AppDatabaseTest#addingTagsTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#watchHistoryPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#addingCategoriesTrimsRejectsBlankAndDoesNotDuplicate",
+            "com.yingji.app.data.database.AppDatabaseTest#movieTypesIncludeDefaultsAndDoNotDuplicateCustomValues",
+            "com.yingji.app.data.database.AppDatabaseTest#insertingMultipleWatchRecordsKeepsEveryHistoryEntry",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion",
+            "com.yingji.app.data.database.AppDatabaseTest#databaseInsertFailureReturnsFailureInsteadOfThrowingFromNameSave",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCreateAndEditKeepRelationsAtomicAndPreserveHistory",
+            "com.yingji.app.data.database.AppDatabaseTest#posterIsCopiedToPrivateStorageAndCanBeDeleted",
+            "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+            "com.yingji.app.data.database.AppDatabaseTest#movieCrudPersistsAcrossDatabaseReopen",
+            "com.yingji.app.data.database.AppDatabaseTest#searchSupportsNameFuzzyPinyinAndInitials"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-065-ProfileMigrationTest.log",
+          "ok": true,
+          "success": 3,
+          "expected": 3,
+          "completedIds": [
+            "com.yingji.app.data.ai.ProfileMigrationTest#versionThreePreservesRatingsPostersAndRelationsAndReopensWithAiData",
+            "com.yingji.app.data.ai.ProfileMigrationTest#versionOnePreservesAllBaseRowsAndReopensWithAiData",
+            "com.yingji.app.data.ai.ProfileMigrationTest#versionTwoPreservesAllBaseRowsAndReopensWithAiData"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.ai.CandidateMigrationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-066-CandidateMigrationTest.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.data.ai.CandidateMigrationTest#versionFourToFivePreservesEveryBaseAndProfileFieldAndProtectionAcceptsNewVersion"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileProtectionTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-067-ProfileProtectionTest.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.data.ai.ProfileProtectionTest#unknownFutureSchemaIsStillRejectedWithoutChangingOriginalDatabase"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "异常提示、数据库保护与导出",
+      "classes": [
+        "com.yingji.app.data.database.DatabaseHealthMonitorTest",
+        "com.yingji.app.data.database.DatabasePreservationTest",
+        "com.yingji.app.presentation.DatabaseProtectionExportTest",
+        "com.yingji.app.presentation.DatabaseProtectionScreenTest",
+        "com.yingji.app.presentation.DatabaseWriteFailureTest",
+        "com.yingji.app.presentation.DatabaseErrorFeedbackScreenTest",
+        "com.yingji.app.presentation.DetailRelationErrorTest"
+      ],
+      "ids": [],
+      "detail": "写入失败提示、详情关联失败重试、受控主库/WAL/SHM 保全、备份失败不清除原件、系统导出取消及实际归档读回核查。",
+      "status": "通过",
+      "evidence": [
+        {
+          "id": "com.yingji.app.presentation.DatabaseProtectionExportTest#actualSystemDocumentPickerCancellationReturnsToProtectedScreen",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-050-DatabaseProtectionExportTest#actualSystemDocumentPickerCancellationRet.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseProtectionExportTest#actualSystemDocumentPickerCancellationReturnsToProtectedScreen"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseProtectionExportTest#actualSystemDocumentPickerSavesAnArchiveWhoseContentsCanBeReadBack",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-051-DatabaseProtectionExportTest#actualSystemDocumentPickerSavesAnArchiveW.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseProtectionExportTest#actualSystemDocumentPickerSavesAnArchiveWhoseContentsCanBeReadBack"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DetailRelationErrorTest#failedCategoryChangeIsVisibleKeepsAssociationAndRetrySucceeds",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-045-DetailRelationErrorTest#failedCategoryChangeIsVisibleKeepsAssociationA.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DetailRelationErrorTest#failedCategoryChangeIsVisibleKeepsAssociationAndRetrySucceeds"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DetailRelationErrorTest#failedTagChangeIsVisibleKeepsAssociationAndRetrySucceeds",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-046-DetailRelationErrorTest#failedTagChangeIsVisibleKeepsAssociationAndRet.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DetailRelationErrorTest#failedTagChangeIsVisibleKeepsAssociationAndRetrySucceeds"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseWriteFailureTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-047-DatabaseWriteFailureTest.log",
+          "ok": true,
+          "success": 2,
+          "expected": 2,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseWriteFailureTest#historyWriteFailuresPublishOneRetryableMessage",
+            "com.yingji.app.presentation.DatabaseWriteFailureTest#deleteAndStatusFailuresPublishMessagesWithoutSuccessCallback"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseProtectionScreenTest#failedBackupDoesNotEnableExportAndClosingDialogDoesNotUnlockDatabase",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-048-DatabaseProtectionScreenTest#failedBackupDoesNotEnableExportAndClosing.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseProtectionScreenTest#failedBackupDoesNotEnableExportAndClosingDialogDoesNotUnlockDatabase"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseProtectionScreenTest#savedEvidenceCanBeExportedAndBusyStatePreventsRepeatClicks",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-049-DatabaseProtectionScreenTest#savedEvidenceCanBeExportedAndBusyStatePre.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseProtectionScreenTest#savedEvidenceCanBeExportedAndBusyStatePreventsRepeatClicks"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseErrorFeedbackScreenTest#movieDetailDisplaysWriteFailureSnackbar",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-052-DatabaseErrorFeedbackScreenTest#movieDetailDisplaysWriteFailureSnackba.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseErrorFeedbackScreenTest#movieDetailDisplaysWriteFailureSnackbar"
+          ]
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseErrorFeedbackScreenTest#historyDisplaysWriteFailureSnackbar",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-053-DatabaseErrorFeedbackScreenTest#historyDisplaysWriteFailureSnackbar.log",
+          "ok": true,
+          "success": 1,
+          "expected": 1,
+          "completedIds": [
+            "com.yingji.app.presentation.DatabaseErrorFeedbackScreenTest#historyDisplaysWriteFailureSnackbar"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-062-DatabasePreservationTest.log",
+          "ok": true,
+          "success": 15,
+          "expected": 15,
+          "completedIds": [
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptFileIsNotDeletedOrRecreatedByTheActualRoomOpenPath",
+            "com.yingji.app.data.database.DatabasePreservationTest#restartKeepsProtectionWithoutOpeningOrBackingUpAgain",
+            "com.yingji.app.data.database.DatabasePreservationTest#diskFullAndInterruptedCopyNeverClearOriginalsOrClaimSuccess",
+            "com.yingji.app.data.database.DatabasePreservationTest#writeFailureDuringExportIsNotReportedAsSuccess",
+            "com.yingji.app.data.database.DatabasePreservationTest#validWorkingCopyPassesChecksWithoutOpeningTheEvidence",
+            "com.yingji.app.data.database.DatabasePreservationTest#failedMarkerWriteRemainsVisibleAndDoesNotPreventFilePreservation",
+            "com.yingji.app.data.database.DatabasePreservationTest#changingSourceAndTamperedEvidenceCannotBecomeVerifiedExports",
+            "com.yingji.app.data.database.DatabasePreservationTest#schemaMismatchIsClassifiedSeparatelyAndDoesNotRebuildTheFile",
+            "com.yingji.app.data.database.DatabasePreservationTest#deniedExportKeepsEvidenceShowsReselectActionAndCanRetry",
+            "com.yingji.app.data.database.DatabasePreservationTest#safeFactoryMigratesVersionOneAndPreservesIdsHistoryAndRelations",
+            "com.yingji.app.data.database.DatabasePreservationTest#coordinatorReportsExportSuccessFailureAndCancellationAccurately",
+            "com.yingji.app.data.database.DatabasePreservationTest#walShmAndMainArePreservedAndExportContainsTheManifest",
+            "com.yingji.app.data.database.DatabasePreservationTest#validWalSnapshotIncludesCommittedMoviesAndKeepsOriginalFileGroupUnchanged",
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptedMarkerFailsClosedAndDifferentFailureKindsAreNotConfused",
+            "com.yingji.app.data.database.DatabasePreservationTest#corruptionCallbackNeverDelegatesDeletesOrClosesAndDisablesLossyRecovery"
+          ]
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest",
+          "log": "2026-10-26-b4-regression-layout-fix-b4-unified-final-test-063-DatabaseHealthMonitorTest.log",
+          "ok": true,
+          "success": 3,
+          "expected": 3,
+          "completedIds": [
+            "com.yingji.app.data.database.DatabaseHealthMonitorTest#integrityCheckFailureBlocksWrites",
+            "com.yingji.app.data.database.DatabaseHealthMonitorTest#ordinaryConstraintFailureDoesNotTriggerCorruptionProtection",
+            "com.yingji.app.data.database.DatabaseHealthMonitorTest#explicitCorruptionBlocksLaterWritesWithoutRetryingProtection"
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceChanges": {
+    "files": [
+      "app/src/androidTest/java/com/yingji/app/presentation/settings/MineMovieCountTest.kt"
+    ],
+    "added": 29,
+    "removed": 14,
+    "sha256": "e0275d76646201e57b53ddad4bfaa8413c75f13c8adab5f91f43d8082afc6d16",
+    "productionFiles": 0,
+    "databaseTestTrialRestored": true
+  },
+  "diagnosis": {
+    "failureEvidence": "2026-10-26-b4-regression-layout-fixed-cold-mine-34.log",
+    "description": "新增作品后的 assertCount 条件轮询进入 fetchSemanticsNodes -> getRoots -> Espresso.onIdle，同一异常链出现 Android 测量重入。最终将空闲同步移出轮询；条件只读取 SideEffect 发布的组合计数，之后仍检查实际文本和可见性。",
+    "changes": [
+      "组合期读取实际 movies.size，提交后发布给原子计数；轮询不查询 UI 或进入 Espresso",
+      "数据库阻塞操作各自完成后再执行同步 UI 操作",
+      "使用现有 mine_settings_list 定位滚动容器",
+      "移除界面 Room 观察者并等待空闲后才关闭测试数据库"
+    ],
+    "unchangedAssertions": [
+      "总数 0 → 1 → 1 → 0",
+      "重刷不重复计数",
+      "实际总数文字存在且可见",
+      "PNG 截图成功",
+      "5000 ms 条件超时保持"
+    ]
+  },
+  "runtime": {
+    "device": {
+      "serial": "3135805504003ED",
+      "model": "vivo S9 / V2072A",
+      "android": 13,
+      "sdk": 33,
+      "physical": true
+    },
+    "configuration": "UI 用例保持原配置；耗时非 UI 批次同样启用独立包空白 ComponentActivity 前台宿主启动支持，只在启动阶段允许一次辅助，100 秒批次超时保持不变。",
+    "allAssertionsPreserved": true,
+    "rawFinalQueue": "2026-10-26-b4-regression-layout-fix-b4-unified-final-queue.json",
+    "failedEarlierQueues": [
+      "2026-10-26-b4-regression-layout-fixed-cold-queue.json",
+      "2026-10-26-b4-regression-layout-fixed-idle-cold-queue.json",
+      "2026-10-26-b4-regression-layout-fix-smoke-queue.json",
+      "2026-10-26-b4-regression-layout-fix-b4-full-queue.json",
+      "2026-10-26-b4-regression-layout-fix-db-retest-queue.json",
+      "2026-10-26-b4-regression-layout-fix-b4-final-queue.json"
+    ],
+    "note": "保留所有试改和后台批次失败；最终结论只依据同一轮 144/144 完成事件，不拼接多轮结果。"
+  },
+  "resolvedIssues": [
+    {
+      "id": "B4-OBS-01",
+      "status": "本次复现路径闭环通过",
+      "evidence": [
+        "40 次修正后原用例独立进程冷启动全部通过",
+        "最终完整 B4 含同一用例通过"
+      ]
+    },
+    {
+      "id": "B4-DATA-RUNNER",
+      "status": "固定并验证验收运行条件",
+      "evidence": [
+        "原始数据库类前台 18/18，通过后撤回测试源码试改",
+        "统一运行方式数据层 91/91",
+        "最终同一轮全量 144/144"
+      ],
+      "limitation": "未把无前台宿主的长批次运行模式认定为通过，其停滞日志保留；未据此修改 Repository、DAO 或数据库保护逻辑。"
+    }
+  ],
+  "restart": {
+    "fixture": "b2-restart-fe6dc655-ce4e-4035-9b69-0dfaff3ccb6e.db",
+    "phases": [
+      {
+        "phase": "restart-prepare",
+        "pid": "26358",
+        "at": "2026-10-26T13:35:43.722Z",
+        "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-prepare.log"
+      },
+      {
+        "phase": "restart-verify",
+        "pid": "26430",
+        "at": "2026-10-26T13:35:46.268Z",
+        "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-verify.log"
+      }
+    ]
+  },
+  "screenshot": {
+    "path": "2026-10-26-b4-layout-fix-mine-light.png",
+    "byteIdenticalToBefore": true,
+    "bytes": 136704
+  },
+  "build": {
+    "debug": "通过",
+    "release": "通过",
+    "unitRerun": true,
+    "finalAndroidTest": "通过",
+    "logs": [
+      "2026-10-26-b4-regression-layout-fix-standard-build.log",
+      "2026-10-26-b4-regression-layout-fix-composition-observer-build.log",
+      "2026-10-26-b4-regression-layout-fix-restore-db-test-build.log"
+    ],
+    "manifest": "2026-10-26-b4-layout-fix-build-manifest.json"
+  },
+  "cleanup": {
+    "archives": [
+      {
+        "path": "/sdcard/Download/yingji-fixture-9d3df55c-db18-4b82-a379-c8dbed8e0d21.zip",
+        "sha256": "67462b4d8db87104238ae2f7a75971794f8eef3de90ffa8e5f5f2174de7471a0",
+        "entries": [
+          {
+            "name": "manifest.json",
+            "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+          },
+          {
+            "name": "fixture.db",
+            "data": "verified fixture evidence"
+          }
+        ],
+        "bytes": 707,
+        "removed": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      {
+        "path": "/sdcard/Download/yingji-fixture-6628136d-136d-4341-894d-471e85050d2e.zip",
+        "sha256": "eb3c7f88870c0630539bff2e1e1311ce81ad1885ad4de4e5cf6569cd3006edbe",
+        "entries": [
+          {
+            "name": "manifest.json",
+            "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+          },
+          {
+            "name": "fixture.db",
+            "data": "verified fixture evidence"
+          }
+        ],
+        "bytes": 707,
+        "removed": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      {
+        "path": "/sdcard/Download/yingji-fixture-8fc0836a-7053-4ef1-be2b-34a4279cead9.zip",
+        "sha256": "72efd431e46465defc74354d5a6fc8947a98777cac0e2ebafac348c0478cc92c",
+        "entries": [
+          {
+            "name": "manifest.json",
+            "data": "{\n  \"database\": \"fixture.db\",\n  \"complete\": true,\n  \"consistency\": \"UNCONFIRMED\",\n  \"message\": \"文件保全完成；事务时间点一致性未确认，不代表数据库可恢复\",\n  \"validation\": \"副本检查未通过或无法完成：数据库文件头异常；保留原始材料，不代表可恢复备份\",\n  \"expectedFiles\": [\n    \"fixture.db\"\n  ],\n  \"absentAtCapture\": [\n    \"fixture.db-wal\",\n    \"fixture.db-shm\",\n    \"fixture.db-journal\"\n  ],\n  \"notCopied\": [],\n  \"files\": [\n    {\n      \"name\": \"fixture.db\",\n      \"size\": 25,\n      \"sha256\": \"ff565318d0862fc8bb5bcf7e4737196f98ea81d1b4997d590b816bc36611e9d1\"\n    }\n  ]\n}"
+          },
+          {
+            "name": "fixture.db",
+            "data": "verified fixture evidence"
+          }
+        ],
+        "bytes": 707,
+        "removed": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    ],
+    "images": [],
+    "packages": [
+      {
+        "pkg": "com.yingji.app.b4regression.acceptance.test",
+        "verifiedSha256": "ca64b585ce9b2cfeea5d5a50082208c7d6c93de4fb59094af38513fcfe458e6f",
+        "result": {
+          "exitCode": 0,
+          "stdout": "Success\r\n",
+          "stderr": ""
+        }
+      },
+      {
+        "pkg": "com.yingji.app.b4regression.acceptance",
+        "verifiedSha256": "48480a12a51e5a6397c06acbf982817fa716da826f06b4488614c98052d59ea6",
+        "result": {
+          "exitCode": 0,
+          "stdout": "Success\r\n",
+          "stderr": ""
+        }
+      }
+    ],
+    "formalChecks": [
+      {
+        "when": "before uninstalls",
+        "exitCode": 0,
+        "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+        "stderr": ""
+      },
+      {
+        "when": "after com.yingji.app.b4regression.acceptance.test",
+        "exitCode": 0,
+        "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+        "stderr": ""
+      },
+      {
+        "when": "after com.yingji.app.b4regression.acceptance",
+        "exitCode": 0,
+        "stdout": "31d1d8e6325fd766be46bb6a480e81694f1216fd50207c059afbaf43ab9c3aab  /data/app/~~4VKUc3JGRlEvSOukVdxyGA==/com.yingji.app-B4ABJI1K1sPSAndVfcXRSQ==/base.apk\r\n",
+        "stderr": ""
+      }
+    ],
+    "packagesBefore": {
+      "exitCode": 0,
+      "stdout": "package:com.yingji.app.b4regression.acceptance uid:10281\r\npackage:com.yingji.app uid:10264\r\npackage:com.yingji.app.b4regression.acceptance.test uid:10282\r\n",
+      "stderr": ""
+    },
+    "mediaBefore": {
+      "exitCode": 0,
+      "stdout": "No result found.\r\n",
+      "stderr": ""
+    },
+    "packagesAfter": {
+      "exitCode": 0,
+      "stdout": "package:com.yingji.app\r\n",
+      "stderr": ""
+    },
+    "archivesAfter": {
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "mediaAfter": {
+      "exitCode": 0,
+      "stdout": "No result found.\r\n",
+      "stderr": ""
+    }
+  },
+  "unverified": [
+    "B5 基础作品库与 AI 远程海报边界专项，本阶段未进入",
+    "真实 DeepSeek 联网故障；本轮使用受控 AI 边界故障",
+    "用户正式数据库内容，未访问或修改，不从 APK 指纹推断其内容一致"
+  ],
+  "historicalNonblocking": "旧 com.yingji.app.tmdb.uiacceptance 消失原因仍未知，本阶段未操作或归因。",
+  "freezeRecommendation": "B4 可验收；建议先完成独立 B5 海报边界验收，再确认最终冻结。本阶段停止在 B4。",
+  "git": {
+    "commit": false,
+    "push": false,
+    "phasePatch": "2026-10-26-b4-layout-fix-phase.patch",
+    "preservedExistingChanges": true
+  }
+}

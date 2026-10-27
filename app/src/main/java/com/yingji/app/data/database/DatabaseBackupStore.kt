@@ -91,13 +91,22 @@ class DatabaseBackupStore(
                     if (cursor.moveToFirst()) throw android.database.sqlite.SQLiteDatabaseCorruptException("副本存在外键关联异常")
                 }
                 try {
-                    check(database.version in 1..2) { "副本版本不受支持" }
+                    check(database.version in 1..5) { "副本版本不受支持" }
                     val identity = database.rawQuery("SELECT identity_hash FROM room_master_table WHERE id=42", null)
                         .use { cursor -> if (cursor.moveToFirst()) cursor.getString(0) else null }
-                    val expected = if (database.version == 1) "9a1ffc9cdec304a54dcb435d8287bb72" else "9d6975ae6c0dfcefb475018b1bf35ac8"
+                    val expected = when (database.version) {
+                        1 -> "9a1ffc9cdec304a54dcb435d8287bb72"
+                        2 -> "9d6975ae6c0dfcefb475018b1bf35ac8"
+                        3 -> "ff44d1ada5a0d1c598b2073d80929c36"
+                        4 -> "be7e50212de50ee85964637e065ff5f5"
+                        5 -> "b5274b66c2812b1a19bd10ff90888349"
+                        else -> error("副本版本不受支持")
+                    }
                     check(identity == expected) { "副本 Room Schema 标识不匹配" }
-                    val counts = listOf("movies", "watch_history", "categories", "tags", "movie_categories", "movie_tags")
-                        .sumOf { table -> database.rawQuery("SELECT COUNT(*) FROM $table", null).use { cursor ->
+                    val tables = listOf("movies", "watch_history", "categories", "tags", "movie_categories", "movie_tags") +
+                        (if (database.version >= 4) listOf("ai_profile_state", "ai_explicit_preferences", "ai_profile_corrections", "ai_profile_feedback", "ai_inferred_preferences") else emptyList()) +
+                        (if (database.version >= 5) listOf("ai_candidate_imports") else emptyList())
+                    val counts = tables.sumOf { table -> database.rawQuery("SELECT COUNT(*) FROM $table", null).use { cursor ->
                             check(cursor.moveToFirst()); cursor.getLong(0)
                         } }
                     "副本检查通过（Schema ${database.version}，$counts 条表记录）；事务时间点一致性仍未确认"

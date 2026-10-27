@@ -3,4 +3,5 @@
     <include domain="database" path="." />
     <include domain="file" path="posters/" />
     <include domain="file" path="datastore/" />
+    <exclude domain="file" path="datastore/ai_byok.preferences_pb" />
 </full-backup-content>

@@ -19,6 +19,9 @@ interface WatchHistoryDao {
     @Query("SELECT * FROM watch_history WHERE id = :historyId LIMIT 1")
     suspend fun getById(historyId: Long): WatchHistory?
 
+    @Query("SELECT * FROM watch_history WHERE movieId = :movieId ORDER BY startTime DESC, id DESC")
+    suspend fun getForMovie(movieId: Long): List<WatchHistory>
+
     @Insert
     suspend fun insert(history: WatchHistory): Long
 

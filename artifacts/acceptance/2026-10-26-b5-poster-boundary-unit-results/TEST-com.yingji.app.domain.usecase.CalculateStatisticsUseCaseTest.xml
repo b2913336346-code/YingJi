@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.usecase.CalculateStatisticsUseCaseTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-26T13:53:15" hostname="BUWENXU" time="0.001">
+  <properties/>
+  <testcase name="countsOnlyCompletedHistoriesAndCalculatesRewatches" classname="com.yingji.app.domain.usecase.CalculateStatisticsUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

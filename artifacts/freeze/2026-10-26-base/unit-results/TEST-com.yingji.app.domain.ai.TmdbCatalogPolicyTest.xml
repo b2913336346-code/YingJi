@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-26T14:26:15" hostname="BUWENXU" time="0.017">
+  <properties/>
+  <testcase name="missingCredentialNeverInvokesLeaseBlock" classname="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" time="0.005"/>
+  <testcase name="failedDeletionStillRevokesHeldResultButPreservesOldCredential" classname="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" time="0.005"/>
+  <testcase name="endpointsAreFixedHttpsGetTargetsWithoutKeyOrPrivateQuery" classname="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" time="0.002"/>
+  <testcase name="replacementRevokesHeldTokenAndRejectsLateResult" classname="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" time="0.005"/>
+  <testcase name="sourcePermissionRequiresExplicitAiDisplayEvidenceAndExactExpiry" classname="com.yingji.app.domain.ai.TmdbCatalogPolicyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

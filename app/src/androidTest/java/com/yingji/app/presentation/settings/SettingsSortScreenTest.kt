@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -46,9 +48,22 @@ class SettingsSortScreenTest {
             SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange))
         container.performScrollToNode(hasText(MovieSortOption.NAME_ASC.displayName))
         composeRule.onNodeWithText(MovieSortOption.NAME_ASC.displayName).performClick().assertIsSelected()
+        scrollSortRowTo(MovieSortOption.WATCH_END_DESC)
         composeRule.onNodeWithText(MovieSortOption.WATCH_END_DESC.displayName).performClick()
         composeRule.onNodeWithText("默认排序保存失败，请重试").assertExists()
+        scrollSortRowTo(MovieSortOption.NAME_ASC)
         composeRule.onNodeWithText(MovieSortOption.NAME_ASC.displayName).assertIsSelected()
         composeRule.runOnIdle { assertEquals(listOf(MovieSortOption.NAME_ASC, MovieSortOption.WATCH_END_DESC), requests) }
+    }
+    private fun scrollSortRowTo(option: MovieSortOption) {
+        composeRule.onNodeWithTag("mine_settings_list").performScrollToNode(hasText("默认排序"))
+        val headingBottom = composeRule.onNodeWithText("默认排序").fetchSemanticsNode().boundsInRoot.bottom
+        val horizontal = hasScrollToIndexAction() and
+            SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange)
+        val rowId = composeRule.onAllNodes(horizontal).fetchSemanticsNodes()
+            .filter { it.boundsInRoot.top >= headingBottom }
+            .minBy { it.boundsInRoot.top }.id
+        composeRule.onNode(SemanticsMatcher("the sort row found below its heading") { it.id == rowId })
+            .performScrollToIndex(option.ordinal)
     }
 }

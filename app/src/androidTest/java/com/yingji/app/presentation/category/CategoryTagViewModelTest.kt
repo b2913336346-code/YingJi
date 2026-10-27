@@ -10,6 +10,7 @@ import com.yingji.app.data.database.AppDatabase
 import com.yingji.app.data.database.dao.TagDao
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.data.repository.CategoryRepository
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -44,10 +45,12 @@ class CategoryTagViewModelTest {
     fun consumingResultWhileSavingDoesNotAllowDuplicateWrites() = runBlocking {
         val tag = Tag(database.tagDao().insert(Tag(name = "原标签")), "原标签")
         var writes = 0
+        val releaseWrite = CompletableDeferred<Unit>()
         val dao = database.tagDao()
         val countingDao = object : TagDao by dao {
             override suspend fun update(tag: Tag): Int {
                 writes += 1
+                releaseWrite.await()
                 return dao.update(tag)
             }
         }
@@ -61,6 +64,7 @@ class CategoryTagViewModelTest {
             repeat(10) { viewModel.renameTag(tag, "重复提交") }
         }
 
+        releaseWrite.complete(Unit)
         val result = awaitSave(viewModel)
         assertTrue(result.saveSucceeded)
         assertEquals(1, writes)

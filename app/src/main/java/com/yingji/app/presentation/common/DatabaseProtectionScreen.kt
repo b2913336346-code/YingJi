@@ -33,7 +33,16 @@ import com.yingji.app.ui.common.YingJiTopBar
 fun DatabaseProtectionHost(coordinator: DatabaseProtectionCoordinator, state: DatabaseProtectionUiState) {
     val resolver = LocalContext.current.contentResolver
     val scope = rememberCoroutineScope()
-    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
+    val exportLauncher = rememberLauncherForActivityResult(object : ActivityResultContracts.CreateDocument("application/zip") {
+        override fun createIntent(context: android.content.Context, input: String): android.content.Intent =
+            super.createIntent(context, input).putExtra(
+                android.provider.DocumentsContract.EXTRA_INITIAL_URI,
+                android.provider.DocumentsContract.buildDocumentUri(
+                    "com.android.externalstorage.documents",
+                    "primary:" + android.os.Environment.DIRECTORY_DOWNLOADS,
+                ),
+            )
+    }) { uri ->
         if (uri == null) coordinator.cancelExport()
         else scope.launch { coordinator.export(resolver, uri) }
     }

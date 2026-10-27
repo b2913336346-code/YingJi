@@ -166,7 +166,7 @@ class SearchViewModelTest {
         assertEquals(listOf(1L, 3L, 2L), awaitSearch(vm) { it.movies.size == 3 }.movies.map { it.id })
         onMain { vm.selectTimeField(WatchTimeField.END_TIME) }
         awaitSearch(vm) { it.timeField == WatchTimeField.END_TIME && it.movies.size == 1 }
-        HistoryRepository(database.watchHistoryDao()).insert(WatchHistory(
+        HistoryRepository(database).insert(WatchHistory(
             movieId = 2, startTime = 3_000, endTime = 4_000, duration = 1_000, watchNumber = 2,
         ))
         assertEquals(listOf(2L, 1L), awaitSearch(vm) { it.movies.size == 2 }.movies.map { it.id })
@@ -179,7 +179,7 @@ class SearchViewModelTest {
     private fun createViewModel(dao: WatchHistoryDao = database.watchHistoryDao()): SearchViewModel {
         lateinit var vm: SearchViewModel
         onMain {
-            vm = SearchViewModel(MovieRepository(database), CategoryRepository(database.categoryDao(), database.tagDao()), HistoryRepository(dao), settings)
+            vm = SearchViewModel(MovieRepository(database), CategoryRepository(database.categoryDao(), database.tagDao()), HistoryRepository(database, dao), settings)
             store.put("search-${store.keys().size}", vm)
         }
         return vm

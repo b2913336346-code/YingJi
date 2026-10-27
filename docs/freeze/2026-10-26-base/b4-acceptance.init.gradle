@@ -1,0 +1,13 @@
+allprojects { p -> p.plugins.withId('com.android.application') {
+ def a=p.extensions.getByName('android')
+ a.buildTypes.create('b4RegressionAcceptance') {
+  initWith(a.buildTypes.getByName('debug')); applicationIdSuffix='.b4regression.acceptance'
+  matchingFallbacks=['debug']; signingConfig=a.signingConfigs.getByName('debug')
+ }
+ a.sourceSets.getByName('b4RegressionAcceptance').java.srcDir('src/debug/java')
+ a.sourceSets.getByName('b4RegressionAcceptance').res.srcDir('src/debug/res')
+ a.sourceSets.getByName('b4RegressionAcceptance').manifest.srcFile('build/b4-regression/AndroidManifest.xml')
+ a.sourceSets.getByName('androidTest').java.srcDir('src/b4AcceptanceTest/java')
+ a.testBuildType='b4RegressionAcceptance'
+ p.configurations.configureEach { c -> if(c.name=='b4RegressionAcceptanceImplementation') c.extendsFrom(p.configurations.getByName('debugImplementation')) }
+} }

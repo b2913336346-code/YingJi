@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
@@ -33,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,6 +43,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.text.style.TextOverflow
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.domain.model.MovieDisplayMode
@@ -62,6 +67,7 @@ fun MovieListScreen(
     defaultDisplayMode: MovieDisplayMode = MovieDisplayMode.LIST,
     sortOption: MovieSortOption? = null,
     onSortOptionChange: (MovieSortOption) -> Unit = {},
+    footerItems: List<@Composable () -> Unit> = emptyList(),
 ) {
     var displayMode by rememberSaveable(title, defaultDisplayMode) {
         mutableStateOf(defaultDisplayMode)
@@ -117,6 +123,8 @@ fun MovieListScreen(
                 onMovieClick = onMovieClick,
                 emptyMessage = emptyMessage,
                 modifier = Modifier.weight(1f),
+                footerItems = footerItems,
+                footerBottomPadding = if (onAddMovieClick != null && footerItems.isNotEmpty()) 88.dp else 16.dp,
             )
         }
     }
@@ -130,6 +138,8 @@ fun MovieCollectionContent(
     onMovieClick: (Long) -> Unit,
     emptyMessage: String,
     modifier: Modifier = Modifier,
+    footerItems: List<@Composable () -> Unit> = emptyList(),
+    footerBottomPadding: Dp = 16.dp,
 ) {
     Crossfade(
         targetState = movies.isEmpty() to displayMode,
@@ -138,15 +148,18 @@ fun MovieCollectionContent(
         label = "作品展示方式切换",
     ) { (isEmpty, currentMode) ->
         when {
-            isEmpty -> MinimalEmptyState(
+            isEmpty && footerItems.isEmpty() -> MinimalEmptyState(
                 message = emptyMessage,
                 modifier = Modifier.fillMaxSize(),
             )
-            currentMode == MovieDisplayMode.LIST -> LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+            isEmpty || currentMode == MovieDisplayMode.LIST -> LazyColumn(
+                modifier = Modifier.fillMaxSize().testTag("movie_collection"),
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = footerBottomPadding),
+                verticalArrangement = remember(footerItems.size) { BottomFooterArrangement(10.dp, footerItems.size) },
             ) {
+                if (isEmpty) item(key = "empty") {
+                    MinimalEmptyState(emptyMessage, Modifier.fillMaxWidth().height(160.dp))
+                }
                 items(items = movies, key = { it.id }) { movie ->
                     MovieListItem(
                         movie = movie,
@@ -154,13 +167,16 @@ fun MovieCollectionContent(
                         onClick = { onMovieClick(movie.id) },
                     )
                 }
+                footerItems.forEachIndexed { index, content ->
+                    item(key = "footer_" + index) { content() }
+                }
             }
             else -> LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier.fillMaxSize().testTag("movie_collection"),
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = footerBottomPadding),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = remember(footerItems.size) { BottomFooterArrangement(12.dp, footerItems.size) },
             ) {
                 gridItems(items = movies, key = { it.id }) { movie ->
                     MoviePosterItem(
@@ -169,7 +185,30 @@ fun MovieCollectionContent(
                         onClick = { onMovieClick(movie.id) },
                     )
                 }
+                footerItems.forEachIndexed { index, content ->
+                    item(key = "footer_" + index, span = { GridItemSpan(maxLineSpan) }) { content() }
+                }
             }
+        }
+    }
+}
+
+/** Keep collection rows at the top; use spare viewport space before full-width footer rows. */
+private class BottomFooterArrangement(
+    override val spacing: Dp,
+    private val footerCount: Int,
+) : Arrangement.Vertical {
+    override fun Density.arrange(totalSize: Int, sizes: IntArray, outPositions: IntArray) {
+        val gap = spacing.roundToPx()
+        val footerStart = sizes.size - footerCount
+        val spare = if (footerCount > 0) {
+            (totalSize - sizes.sum() - gap * (sizes.size - 1).coerceAtLeast(0)).coerceAtLeast(0)
+        } else 0
+        var position = 0
+        sizes.forEachIndexed { index, size ->
+            if (index == footerStart) position += spare
+            outPositions[index] = position
+            position += size + gap
         }
     }
 }

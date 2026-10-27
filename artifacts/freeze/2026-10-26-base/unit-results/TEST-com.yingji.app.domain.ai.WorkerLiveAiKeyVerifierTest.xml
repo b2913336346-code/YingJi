@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-26T14:26:15" hostname="BUWENXU" time="0.02">
+  <properties/>
+  <testcase name="syntheticMalformedAndNonAsciiKeysCannotStartARealVerification" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.004"/>
+  <testcase name="onlySuccessfulVerificationCommitsLiveMetadataWithoutEchoingCredential" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.004"/>
+  <testcase name="duplicateClicksAndDeletionCannotSaveALateValidation" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.003"/>
+  <testcase name="disabledMissingAndInvalidConfigNeverInvokesVerification" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.002"/>
+  <testcase name="upstreamErrorsAreDistinctAndNeverReplaceThePreviouslySavedKey" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.002"/>
+  <testcase name="successfulRemoteValidationWithFailedDiskCommitRetainsOldKey" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.003"/>
+  <testcase name="cancelledVerificationNeverCommitsAndDoesNotRetry" classname="com.yingji.app.domain.ai.WorkerLiveAiKeyVerifierTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

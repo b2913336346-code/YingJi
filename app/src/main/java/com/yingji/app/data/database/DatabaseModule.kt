@@ -44,7 +44,30 @@ object DatabaseModule {
         }
     }
 
-    private val migrations: Array<Migration> = arrayOf(MIGRATION_1_2)
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE movies ADD COLUMN rating REAL")
+        }
+    }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_profile_state (id INTEGER NOT NULL PRIMARY KEY, ratingsEnabled INTEGER NOT NULL, behaviorEnabled INTEGER NOT NULL, feedbackEnabled INTEGER NOT NULL, profileVersion INTEGER NOT NULL, sourceSettingsVersion INTEGER NOT NULL, libraryFingerprint TEXT NOT NULL, updatedAt INTEGER NOT NULL)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_explicit_preferences (featureId TEXT NOT NULL PRIMARY KEY, label TEXT NOT NULL, direction TEXT NOT NULL, updatedAt INTEGER NOT NULL)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_profile_corrections (featureId TEXT NOT NULL PRIMARY KEY, updatedAt INTEGER NOT NULL)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_profile_feedback (eventId TEXT NOT NULL PRIMARY KEY, featureId TEXT NOT NULL, label TEXT NOT NULL, direction TEXT NOT NULL, updatedAt INTEGER NOT NULL)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_inferred_preferences (featureId TEXT NOT NULL, source TEXT NOT NULL, label TEXT NOT NULL, evidenceCount INTEGER NOT NULL, positiveEvidence INTEGER NOT NULL, negativeEvidence INTEGER NOT NULL, completedWatches INTEGER NOT NULL, repeatWatches INTEGER NOT NULL, PRIMARY KEY(featureId, source))")
+        }
+    }
+
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS ai_candidate_imports (sourceId TEXT NOT NULL, externalId TEXT NOT NULL, movieId INTEGER NOT NULL, PRIMARY KEY(sourceId, externalId), FOREIGN KEY(movieId) REFERENCES movies(id) ON UPDATE NO ACTION ON DELETE CASCADE)")
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_ai_candidate_imports_movieId ON ai_candidate_imports(movieId)")
+        }
+    }
+
+    private val migrations: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
 
     @Volatile
     private var instance: AppDatabase? = null

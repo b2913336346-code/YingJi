@@ -1,23 +1,19 @@
 package com.yingji.app.presentation.settings
 
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasScrollToIndexAction
-import androidx.compose.ui.test.hasText
+import android.content.Context
+import android.graphics.Bitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToNode
-import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipeUp
+import androidx.test.core.app.ApplicationProvider
 import com.yingji.app.BuildConfig
 import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.domain.model.ThemeMode
 import com.yingji.app.ui.theme.YingJiTheme
+import java.io.File
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,33 +22,60 @@ class AboutAppScreenTest {
     private var statisticsClicks = 0
 
     @Test
-    fun aboutAndVersionAreAbsentAtEndOfLongManagementLists() {
+    fun versionDialogRemainsReachableAfterLongManagementLists() {
         showSettings(ThemeMode.LIGHT, withManyEntities = true)
-        scrollToEnd("标签40")
+        settingsList().performScrollToNode(hasText("标签40"))
         composeRule.onNodeWithText("标签40").assertIsDisplayed()
-        assertAboutRemoved()
+        openAndCheckVersion("about-light")
     }
 
     @Test
-    fun aboutAndVersionAreAbsentWithEmptyDataInDarkTheme() {
+    fun versionDialogWorksWithEmptyDataInDarkTheme() {
         showSettings(ThemeMode.DARK)
-        scrollToEnd("还没有自定义标签")
+        settingsList().performScrollToNode(hasText("还没有自定义标签"))
         composeRule.onNodeWithText("还没有自定义标签").assertIsDisplayed()
         composeRule.onNodeWithText("我的").assertIsDisplayed()
-        assertAboutRemoved()
+        openAndCheckVersion("about-dark")
     }
 
     @Test
-    fun statisticsAndDefaultSettingsRemainAvailableWithoutAbout() {
+    fun closingVersionDialogPreservesStatisticsAndDefaultSettings() {
         showSettings(ThemeMode.LIGHT)
         composeRule.onNode(hasClickAction() and hasText("查看统计")).performClick()
         composeRule.runOnIdle { assertEquals(1, statisticsClicks) }
-        scrollToEnd("还没有自定义标签")
-        assertAboutRemoved()
+        openAndCheckVersion()
         settingsList().performScrollToNode(hasText("默认展示方式"))
         composeRule.onNodeWithText("默认展示方式").assertIsDisplayed()
         settingsList().performScrollToNode(hasText("默认排序"))
         composeRule.onNodeWithText("默认排序").assertIsDisplayed()
+        openAndCheckVersion()
+    }
+
+    private fun openAndCheckVersion(screenshot: String? = null) {
+        settingsList().performScrollToNode(hasTestTag("about_app_open"))
+        composeRule.onNodeWithTag("about_app_open").assertIsDisplayed().performClick()
+        composeRule.onNodeWithTag("about_version_name")
+            .assertTextEquals("版本名称：${BuildConfig.VERSION_NAME}").assertIsDisplayed()
+        composeRule.onNodeWithTag("about_version_code")
+            .assertTextEquals("版本代码：${BuildConfig.VERSION_CODE}").assertIsDisplayed()
+        composeRule.onNodeWithTag("about_content_scroll").performScrollToNode(hasTestTag("about_tmdb_notice"))
+        composeRule.onNodeWithTag("about_tmdb_logo").assertIsDisplayed()
+        composeRule.onNodeWithTag("about_tmdb_notice").assertTextEquals("This product uses the TMDB API but is not endorsed or certified by TMDB.").assertIsDisplayed()
+        composeRule.onNodeWithTag("about_content_scroll").performScrollToNode(hasTestTag("about_tmdb_link"))
+        composeRule.onNodeWithTag("about_tmdb_link").assertIsDisplayed()
+        screenshot?.let { name ->
+            val bitmap = composeRule.onNode(isDialog()).captureToImage().asAndroidBitmap()
+            val context = ApplicationProvider.getApplicationContext<Context>()
+            val directory = File(context.cacheDir, "review-fix-screenshots").apply { mkdirs() }
+            File(directory, "$name.png").outputStream().use {
+                assertTrue(bitmap.compress(Bitmap.CompressFormat.PNG, 100, it))
+            }
+            bitmap.recycle()
+        }
+        composeRule.onNodeWithTag("about_app_close").performClick()
+        composeRule.onNodeWithTag("about_version_name").assertDoesNotExist()
+        composeRule.onNodeWithTag("about_version_code").assertDoesNotExist()
+        composeRule.onNodeWithTag("about_app_open").assertIsDisplayed()
     }
 
     private fun showSettings(theme: ThemeMode, withManyEntities: Boolean = false) {
@@ -68,21 +91,5 @@ class AboutAppScreenTest {
         }
     }
 
-    private fun settingsList() = composeRule.onNode(
-        hasScrollToIndexAction() and SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange),
-    )
-
-    private fun scrollToEnd(lastText: String) {
-        settingsList().performScrollToNode(hasText(lastText))
-        // Reach the actual end so a regressed About item below the last tag
-        // cannot evade the absence assertions merely by staying off screen.
-        settingsList().performTouchInput { swipeUp() }
-    }
-
-    private fun assertAboutRemoved() {
-        composeRule.onNodeWithText("关于应用").assertDoesNotExist()
-        composeRule.onNodeWithText("${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})").assertDoesNotExist()
-        composeRule.onNodeWithText("版本名称：${BuildConfig.VERSION_NAME}").assertDoesNotExist()
-        composeRule.onNodeWithText("版本代码：${BuildConfig.VERSION_CODE}").assertDoesNotExist()
-    }
+    private fun settingsList() = composeRule.onNodeWithTag("mine_settings_list")
 }

@@ -1,0 +1,32 @@
+{
+  "changes": {
+    "files": [
+      "app/src/androidTest/java/com/yingji/app/presentation/settings/MineMovieCountTest.kt"
+    ],
+    "added": 29,
+    "removed": 14
+  },
+  "sourceSha256": "e0275d76646201e57b53ddad4bfaa8413c75f13c8adab5f91f43d8082afc6d16",
+  "assertions": {
+    "before": [
+      "assertCount(0)",
+      "assertCount(1)",
+      "assertCount(1)",
+      "assertCount(0)"
+    ],
+    "after": [
+      "assertCount(0)",
+      "assertCount(1)",
+      "assertCount(1)",
+      "assertCount(0)"
+    ],
+    "captureAssertionPreserved": true,
+    "timeoutMillis": 5000
+  },
+  "rootEvidence": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fixed-cold-mine-34.log",
+  "fix": "Separate Espresso idle synchronization from a pure condition predicate. Capture movie count during composition and publish it via SideEffect; preserve actual text/display assertions. Dispose the UI collector before closing Room; isolate blocking database operations from synchronous UI actions.",
+  "officialSources": {
+    "version": "1.7.6",
+    "jarUrl": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-android/1.7.6/ui-test-android-1.7.6-sources.jar"
+  }
+}

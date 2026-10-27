@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.yingji.app.data.database.DatabaseHealthMonitor
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.data.repository.MovieRepository
+import com.yingji.app.data.repository.ActiveWatchException
+import com.yingji.app.data.repository.PosterSaveException
 import com.yingji.app.data.repository.PosterRepository
 import com.yingji.app.domain.model.MovieStatus
 import com.yingji.app.domain.usecase.AddMovieUseCase
@@ -21,12 +23,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 
 class MovieViewModel(
     private val movieRepository: MovieRepository,
     private val addMovieUseCase: AddMovieUseCase,
     private val updateStatusUseCase: UpdateStatusUseCase,
     private val posterRepository: PosterRepository,
+    private val addRecommendedWork: com.yingji.app.domain.ai.AddRecommendedWorkUseCase? = null,
+    private val importTmdbWork: (suspend (com.yingji.app.domain.ai.RecommendedWorkInput) -> Long)? = null,
 ) : ViewModel() {
     private val _formActionState = MutableStateFlow(MovieFormActionState())
     val formActionState: StateFlow<MovieFormActionState> = _formActionState.asStateFlow()
@@ -49,14 +55,26 @@ class MovieViewModel(
             initialValue = MovieUiState(),
         )
 
-    fun addMovie(data: MovieFormData, onComplete: () -> Unit) {
+    fun addMovie(data: MovieFormData, recommendedIdentity: com.yingji.app.domain.ai.CandidateIdentity? = null, onComplete: () -> Unit) {
         if (_formActionState.value.isSaving) return
         _formActionState.value = MovieFormActionState(isSaving = true)
         viewModelScope.launch {
             var posterPath: String? = null
             try {
                 posterPath = posterRepository.persist(data.posterPath)
-                addMovieUseCase(
+                if (recommendedIdentity != null) {
+                    val input = com.yingji.app.domain.ai.RecommendedWorkInput(recommendedIdentity, confirmed = true,
+                        name = data.name, categoryId = data.categoryId, categoryName = data.categoryName, tagIds = data.tagIds,
+                        status = data.status, currentEpisode = data.currentEpisode, totalEpisode = data.totalEpisode,
+                        posterPath = posterPath, rating = data.rating, allowMock = recommendedIdentity.sourceId != "tmdb")
+                    if (recommendedIdentity.sourceId == "tmdb") {
+                        val import = importTmdbWork ?: throw com.yingji.app.domain.ai.CandidateImportException("TMDB 入库暂不可用，请重试")
+                        import(input)
+                    } else {
+                        val import = addRecommendedWork ?: throw com.yingji.app.domain.ai.CandidateImportException("候选入库暂不可用，请重试")
+                        import(input)
+                    }
+                } else addMovieUseCase(
                     name = data.name,
                     categoryName = data.categoryName,
                     status = data.status,
@@ -65,16 +83,20 @@ class MovieViewModel(
                     posterPath = posterPath,
                     categoryId = data.categoryId,
                     tagIds = data.tagIds,
+                    rating = data.rating,
                 )
-                _formActionState.value = MovieFormActionState()
-                onComplete()
             } catch (exception: CancellationException) {
+                deleteUnusedPoster(posterPath)
+                _formActionState.value = MovieFormActionState()
                 throw exception
             } catch (exception: Exception) {
-                if (posterPath != data.posterPath) posterRepository.delete(posterPath)
+                deleteUnusedPoster(posterPath)
                 Log.e(TAG, "Failed to add movie with relations", exception)
-                _formActionState.value = MovieFormActionState(message = "保存失败，请重试")
+                _formActionState.value = MovieFormActionState(message = formFailureMessage(exception))
+                return@launch
             }
+            _formActionState.value = MovieFormActionState()
+            onComplete()
         }
     }
 
@@ -86,10 +108,8 @@ class MovieViewModel(
             try {
                 posterPath = if (data.posterPath == movie.posterPath) {
                     movie.posterPath
-                } else if (data.posterPath == null) {
-                    null
                 } else {
-                    posterRepository.persist(data.posterPath) ?: movie.posterPath
+                    posterRepository.persist(data.posterPath)
                 }
                 movieRepository.updateWithRelations(
                     movie = movie.copy(
@@ -99,27 +119,42 @@ class MovieViewModel(
                         currentEpisode = data.currentEpisode,
                         totalEpisode = data.totalEpisode,
                         posterPath = posterPath,
+                        rating = data.rating,
                     ),
                     categoryId = data.categoryId,
                     tagIds = data.tagIds,
                 )
-                if (movie.posterPath != posterPath) posterRepository.delete(movie.posterPath)
-                _formActionState.value = MovieFormActionState()
-                onComplete()
             } catch (exception: CancellationException) {
+                if (posterPath != movie.posterPath) deleteUnusedPoster(posterPath)
+                _formActionState.value = MovieFormActionState()
                 throw exception
             } catch (exception: Exception) {
-                if (posterPath != movie.posterPath && posterPath != data.posterPath) {
-                    posterRepository.delete(posterPath)
-                }
+                if (posterPath != movie.posterPath) deleteUnusedPoster(posterPath)
                 Log.e(TAG, "Failed to update movie with relations", exception)
-                _formActionState.value = MovieFormActionState(message = "保存失败，请重试")
+                _formActionState.value = MovieFormActionState(message = formFailureMessage(exception))
+                return@launch
+            }
+            if (movie.posterPath != posterPath) deleteUnusedPoster(movie.posterPath)
+            _formActionState.value = MovieFormActionState()
+            onComplete()
+        }
+    }
+
+    private suspend fun deleteUnusedPoster(path: String?) {
+        if (path == null) return
+        withContext(NonCancellable) {
+            // If reference checking fails, retain the file instead of risking a live poster.
+            runCatching {
+                if (!movieRepository.isPosterReferenced(path)) posterRepository.delete(path)
             }
         }
     }
 
+    private fun formFailureMessage(exception: Exception): String =
+        if (exception is PosterSaveException || exception is ActiveWatchException || exception is com.yingji.app.domain.ai.CandidateImportException) requireNotNull(exception.message) else "保存失败，请重试"
+
     fun consumeFormMessage() {
-        _formActionState.value = MovieFormActionState()
+        if (!_formActionState.value.isSaving) _formActionState.value = MovieFormActionState()
     }
 
     fun deleteMovie(movie: Movie, onComplete: () -> Unit) {
@@ -128,7 +163,7 @@ class MovieViewModel(
             onSuccess = onComplete,
         ) {
             movieRepository.delete(movie)
-            posterRepository.delete(movie.posterPath)
+            deleteUnusedPoster(movie.posterPath)
         }
     }
 
@@ -139,7 +174,7 @@ class MovieViewModel(
     }
 
     fun consumeActionMessage() {
-        _actionState.value = MovieActionState()
+        _actionState.value = _actionState.value.copy(message = null)
     }
 
     private fun runMovieAction(
@@ -155,7 +190,7 @@ class MovieViewModel(
                     action = action,
                     onFailure = { exception ->
                         Log.e(TAG, failureMessage, exception)
-                        _actionState.value = MovieActionState(message = failureMessage)
+                        _actionState.value = MovieActionState(message = if (exception is ActiveWatchException) exception.message else failureMessage)
                     },
                 )
                 if (succeeded) {
@@ -175,6 +210,8 @@ class MovieViewModel(
         fun factory(
             movieRepository: MovieRepository,
             posterRepository: PosterRepository,
+            addRecommendedWork: com.yingji.app.domain.ai.AddRecommendedWorkUseCase? = null,
+            importTmdbWork: (suspend (com.yingji.app.domain.ai.RecommendedWorkInput) -> Long)? = null,
         ): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
@@ -184,6 +221,8 @@ class MovieViewModel(
                         addMovieUseCase = AddMovieUseCase(movieRepository),
                         updateStatusUseCase = UpdateStatusUseCase(movieRepository),
                         posterRepository = posterRepository,
+                        addRecommendedWork = addRecommendedWork,
+                        importTmdbWork = importTmdbWork,
                     ) as T
             }
     }

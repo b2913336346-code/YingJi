@@ -1,0 +1,1114 @@
+{
+  "round": "layout-fix-data-foreground",
+  "status": "PASS",
+  "expectedExecutions": 91,
+  "startedAt": "2026-10-26T13:29:58.366Z",
+  "current": null,
+  "results": [
+    {
+      "id": "com.yingji.app.presentation.settings.SettingsSortViewModelTest",
+      "expected": 1,
+      "ui": true,
+      "name": "data-test-003-SettingsSortViewModelTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-003-SettingsSortViewModelTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsSortViewModelTest#failedSortWriteReportsErrorAndRetryPersistsWithoutFalseSuccess",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsSortViewModelTest#failedSortWriteReportsErrorAndRetryPersistsWithoutFalseSuccess",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest",
+      "expected": 1,
+      "ui": true,
+      "name": "data-test-014-SettingsDisplayModeViewModelTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-014-SettingsDisplayModeViewModelTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest#failedWriteReportsErrorWithoutChangingDefaultAndRetrySucceeds",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.settings.SettingsDisplayModeViewModelTest#failedWriteReportsErrorWithoutChangingDefaultAndRetrySucceeds",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.presentation.search.SearchViewModelTest",
+      "expected": 6,
+      "ui": true,
+      "name": "data-test-021-SearchViewModelTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-021-SearchViewModelTest.log",
+      "timedOut": false,
+      "recoveries": 1,
+      "hostReady": true,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#combinedFiltersReachRoomDataAndClearingTimeRestoresUndatedMovies",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#combinedFiltersReachRoomDataAndClearingTimeRestoresUndatedMovies",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#readFailureReportsErrorAndDoesNotRetryInALoop",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#readFailureReportsErrorAndDoesNotRetryInALoop",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#historyWriteUpdatesSharedSortAndTimeFilteredSearchWithoutReopening",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#historyWriteUpdatesSharedSortAndTimeFilteredSearchWithoutReopening",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#catalogAndSearchShareSortButClassificationAndTagIdsRemainIndependent",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#catalogAndSearchShareSortButClassificationAndTagIdsRemainIndependent",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#rapidDateChangesRemainConsistentAndActiveFieldExcludesMissingTimes",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#rapidDateChangesRemainConsistentAndActiveFieldExcludesMissingTimes",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#defaultSortRestoresInNewViewModelAndSessionOverrideDoesNotRewriteIt",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.search.SearchViewModelTest#defaultSortRestoresInNewViewModelAndSessionOverrideDoesNotRewriteIt",
+          "code": 0
+        }
+      ],
+      "success": 6,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.presentation.movie.CropActivityContractTest",
+      "expected": 1,
+      "ui": true,
+      "name": "data-test-044-CropActivityContractTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-044-CropActivityContractTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.movie.CropActivityContractTest#privateCropActivityRemainsAnEnabledPortraitTargetForTheInternalContract",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.movie.CropActivityContractTest#privateCropActivityRemainsAnEnabledPortraitTargetForTheInternalContract",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.presentation.DatabaseWriteFailureTest",
+      "expected": 2,
+      "ui": true,
+      "name": "data-test-047-DatabaseWriteFailureTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-047-DatabaseWriteFailureTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.DatabaseWriteFailureTest#historyWriteFailuresPublishOneRetryableMessage",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseWriteFailureTest#historyWriteFailuresPublishOneRetryableMessage",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseWriteFailureTest#deleteAndStatusFailuresPublishMessagesWithoutSuccessCallback",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.DatabaseWriteFailureTest#deleteAndStatusFailuresPublishMessagesWithoutSuccessCallback",
+          "code": 0
+        }
+      ],
+      "success": 2,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest",
+      "expected": 3,
+      "ui": true,
+      "name": "data-test-054-CategoryTagViewModelTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-054-CategoryTagViewModelTest.log",
+      "timedOut": false,
+      "recoveries": 1,
+      "hostReady": true,
+      "events": [
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#cancelledWriteReleasesSavingStateWithoutReportingFailure",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#cancelledWriteReleasesSavingStateWithoutReportingFailure",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#failedWriteReleasesSavingStateAndAllowsRetry",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#failedWriteReleasesSavingStateAndAllowsRetry",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#consumingResultWhileSavingDoesNotAllowDuplicateWrites",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.presentation.category.CategoryTagViewModelTest#consumingResultWhileSavingDoesNotAllowDuplicateWrites",
+          "code": 0
+        }
+      ],
+      "success": 3,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest",
+      "expected": 10,
+      "ui": true,
+      "name": "data-test-056-WatchSessionConsistencyTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-056-WatchSessionConsistencyTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#timeUpdatesUseCurrentDatabaseRowAndEndingTwiceDoesNotOverwriteTheFirstEnd",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#timeUpdatesUseCurrentDatabaseRowAndEndingTwiceDoesNotOverwriteTheFirstEnd",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#startAndEndSynchronizeStatusAndPreserveEarlierWatches",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#startAndEndSynchronizeStatusAndPreserveEarlierWatches",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#historyFailureRollsBackStatusAndDirectFinishedCreationRecordsZeroKnownDuration",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#historyFailureRollsBackStatusAndDirectFinishedCreationRecordsZeroKnownDuration",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#reopeningAnOlderHistoryRejectsASecondActiveRecordWithoutChangingEitherRow",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#reopeningAnOlderHistoryRejectsASecondActiveRecordWithoutChangingEitherRow",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#formSaveUsesSameSessionRulesAndRollsBackRelationsAndHistoryTogether",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#formSaveUsesSameSessionRulesAndRollsBackRelationsAndHistoryTogether",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#concurrentUseCasesAndRepositoriesCannotCreateTwoActiveRecords",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#concurrentUseCasesAndRepositoriesCannotCreateTwoActiveRecords",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryEnd",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryEnd",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#sessionStatusAndTimestampsSurviveDatabaseReopen",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#sessionStatusAndTimestampsSurviveDatabaseReopen",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusTransitionsCreateAndCloseOneSessionAndBlockReturningToWantUntilFinished",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusTransitionsCreateAndCloseOneSessionAndBlockReturningToWantUntilFinished",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryInsertAndCanBeRetried",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionConsistencyTest#statusWriteFailureRollsBackHistoryInsertAndCanBeRetried",
+          "code": 0
+        }
+      ],
+      "success": 10,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.ThemeRepositoryTest",
+      "expected": 5,
+      "ui": true,
+      "name": "data-test-057-ThemeRepositoryTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-057-ThemeRepositoryTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieSortOptionFromANewRepositoryInstance",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieSortOptionFromANewRepositoryInstance",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#sortSurvivesClosingAndReopeningWithoutChangingOtherSettings",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#sortSurvivesClosingAndReopeningWithoutChangingOtherSettings",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#displayModeSurvivesClosingAndReopeningTheDataStore",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#displayModeSurvivesClosingAndReopeningTheDataStore",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieDisplayModeFromANewRepositoryInstance",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresMovieDisplayModeFromANewRepositoryInstance",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresThemeMode",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.ThemeRepositoryTest#savesAndRestoresThemeMode",
+          "code": 0
+        }
+      ],
+      "success": 5,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.RatingPosterWriteTest",
+      "expected": 3,
+      "ui": true,
+      "name": "data-test-058-RatingPosterWriteTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-058-RatingPosterWriteTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#createEditAndClearRatingReachTheDatabaseWithoutChangingIdentityOrClassification",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#createEditAndClearRatingReachTheDatabaseWithoutChangingIdentityOrClassification",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#invalidRatingCannotPartiallySaveMovieHistoryOrRelations",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#invalidRatingCannotPartiallySaveMovieHistoryOrRelations",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#posterRemovalFailureKeepsOriginalFileAndRatingUntilRetryCommits",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.RatingPosterWriteTest#posterRemovalFailureKeepsOriginalFileAndRatingUntilRetryCommits",
+          "code": 0
+        }
+      ],
+      "success": 3,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.PosterSaveFailureTest",
+      "expected": 9,
+      "ui": true,
+      "name": "data-test-059-PosterSaveFailureTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-059-PosterSaveFailureTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#blockedStatusChangeHasVisibleViewModelErrorsAndNeverReportsSaveSuccess",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#blockedStatusChangeHasVisibleViewModelErrorsAndNeverReportsSaveSuccess",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#noSelectedPosterRemainsOptional",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#noSelectedPosterRemainsOptional",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#absolutePathsAreCopiedSoTwoMoviesNeverBorrowTheSameFile",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#absolutePathsAreCopiedSoTwoMoviesNeverBorrowTheSameFile",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#databaseFailureRemovesOnlyNewCopyAndKeepsTheSource",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#databaseFailureRemovesOnlyNewCopyAndKeepsTheSource",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#rapidSaveAndMessageConsumptionCannotAllowADuplicateMovie",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#rapidSaveAndMessageConsumptionCannotAllowADuplicateMovie",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#blockedPosterDirectoryReportsFailureAndDoesNotModifySource",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#blockedPosterDirectoryReportsFailureAndDoesNotModifySource",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#missingReplacementPreservesOriginalMoviePosterAndRelations",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#missingReplacementPreservesOriginalMoviePosterAndRelations",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#deletingOneOfTwoLegacyReferencesDoesNotDeleteTheOtherMoviesPoster",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#deletingOneOfTwoLegacyReferencesDoesNotDeleteTheOtherMoviesPoster",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#missingSourceReportsFailureInsteadOfSavingWithoutPosterAndRetryWorks",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.PosterSaveFailureTest#missingSourceReportsFailureInsteadOfSavingWithoutPosterAndRetryWorks",
+          "code": 0
+        }
+      ],
+      "success": 9,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest",
+      "expected": 5,
+      "ui": true,
+      "name": "data-test-060-CategoryRepositoryRenameTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-060-CategoryRepositoryRenameTest.log",
+      "timedOut": false,
+      "recoveries": 1,
+      "hostReady": true,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameTrimsNameAndKeepsIdsAndMovieRelations",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameTrimsNameAndKeepsIdsAndMovieRelations",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#uniqueIndexConflictsAreReportedEvenIfPrecheckMissesThem",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#uniqueIndexConflictsAreReportedEvenIfPrecheckMissesThem",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameRejectsBlankDuplicateAndSystemCategory",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renameRejectsBlankDuplicateAndSystemCategory",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renamedNamesAndRelationsRemainAfterDatabaseReopen",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#renamedNamesAndRelationsRemainAfterDatabaseReopen",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#unchangedNamesSucceedAndMissingRowsDoNotReportSuccess",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.CategoryRepositoryRenameTest#unchangedNamesSucceedAndMissingRowsDoNotReportSuccess",
+          "code": 0
+        }
+      ],
+      "success": 5,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.database.RatingMigrationTest",
+      "expected": 2,
+      "ui": true,
+      "name": "data-test-061-RatingMigrationTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-061-RatingMigrationTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest#versionOneMigratesToThreeWithoutLosingAnyBaseData",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest#versionOneMigratesToThreeWithoutLosingAnyBaseData",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest#versionTwoMigratesToThreeAndRatingSurvivesReopenAndStatusChanges",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.RatingMigrationTest#versionTwoMigratesToThreeAndRatingSurvivesReopenAndStatusChanges",
+          "code": 0
+        }
+      ],
+      "success": 2,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.database.DatabasePreservationTest",
+      "expected": 15,
+      "ui": true,
+      "name": "data-test-062-DatabasePreservationTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-062-DatabasePreservationTest.log",
+      "timedOut": false,
+      "recoveries": 1,
+      "hostReady": true,
+      "events": [
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptFileIsNotDeletedOrRecreatedByTheActualRoomOpenPath",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptFileIsNotDeletedOrRecreatedByTheActualRoomOpenPath",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#restartKeepsProtectionWithoutOpeningOrBackingUpAgain",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#restartKeepsProtectionWithoutOpeningOrBackingUpAgain",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#diskFullAndInterruptedCopyNeverClearOriginalsOrClaimSuccess",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#diskFullAndInterruptedCopyNeverClearOriginalsOrClaimSuccess",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#writeFailureDuringExportIsNotReportedAsSuccess",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#writeFailureDuringExportIsNotReportedAsSuccess",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#validWorkingCopyPassesChecksWithoutOpeningTheEvidence",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#validWorkingCopyPassesChecksWithoutOpeningTheEvidence",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#failedMarkerWriteRemainsVisibleAndDoesNotPreventFilePreservation",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#failedMarkerWriteRemainsVisibleAndDoesNotPreventFilePreservation",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#changingSourceAndTamperedEvidenceCannotBecomeVerifiedExports",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#changingSourceAndTamperedEvidenceCannotBecomeVerifiedExports",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#schemaMismatchIsClassifiedSeparatelyAndDoesNotRebuildTheFile",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#schemaMismatchIsClassifiedSeparatelyAndDoesNotRebuildTheFile",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#deniedExportKeepsEvidenceShowsReselectActionAndCanRetry",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#deniedExportKeepsEvidenceShowsReselectActionAndCanRetry",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#safeFactoryMigratesVersionOneAndPreservesIdsHistoryAndRelations",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#safeFactoryMigratesVersionOneAndPreservesIdsHistoryAndRelations",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#coordinatorReportsExportSuccessFailureAndCancellationAccurately",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#coordinatorReportsExportSuccessFailureAndCancellationAccurately",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#walShmAndMainArePreservedAndExportContainsTheManifest",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#walShmAndMainArePreservedAndExportContainsTheManifest",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#validWalSnapshotIncludesCommittedMoviesAndKeepsOriginalFileGroupUnchanged",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#validWalSnapshotIncludesCommittedMoviesAndKeepsOriginalFileGroupUnchanged",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptedMarkerFailsClosedAndDifferentFailureKindsAreNotConfused",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptedMarkerFailsClosedAndDifferentFailureKindsAreNotConfused",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptionCallbackNeverDelegatesDeletesOrClosesAndDisablesLossyRecovery",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabasePreservationTest#corruptionCallbackNeverDelegatesDeletesOrClosesAndDisablesLossyRecovery",
+          "code": 0
+        }
+      ],
+      "success": 15,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest",
+      "expected": 3,
+      "ui": true,
+      "name": "data-test-063-DatabaseHealthMonitorTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-063-DatabaseHealthMonitorTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#integrityCheckFailureBlocksWrites",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#integrityCheckFailureBlocksWrites",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#ordinaryConstraintFailureDoesNotTriggerCorruptionProtection",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#ordinaryConstraintFailureDoesNotTriggerCorruptionProtection",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#explicitCorruptionBlocksLaterWritesWithoutRetryingProtection",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.DatabaseHealthMonitorTest#explicitCorruptionBlocksLaterWritesWithoutRetryingProtection",
+          "code": 0
+        }
+      ],
+      "success": 3,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.database.AppDatabaseTest",
+      "expected": 18,
+      "ui": true,
+      "name": "data-test-064-AppDatabaseTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-064-AppDatabaseTest.log",
+      "timedOut": false,
+      "recoveries": 1,
+      "hostReady": true,
+      "events": [
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#categoryAndTagCountsAndCollectionsTrackUniqueMoviesOnly",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#invalidWatchEndTimeDoesNotOverwriteHistory",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#invalidWatchEndTimeDoesNotOverwriteHistory",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#recordWatchCreatesNewRowsAndOnlyUpdatesSelectedHistory",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#recordWatchCreatesNewRowsAndOnlyUpdatesSelectedHistory",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#categoriesAndTagsKeepManyToManyRelations",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#categoriesAndTagsKeepManyToManyRelations",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseRejectsOrphanHistoryAndPassesIntegrityCheck",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseRejectsOrphanHistoryAndPassesIntegrityCheck",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#concurrentCategoryAndTagSubmissionsCreateOnlyOneRowEach",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#concurrentCategoryAndTagSubmissionsCreateOnlyOneRowEach",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#addingTagsTrimsRejectsBlankAndDoesNotDuplicate",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#addingTagsTrimsRejectsBlankAndDoesNotDuplicate",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#watchHistoryPersistsAcrossDatabaseReopen",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#watchHistoryPersistsAcrossDatabaseReopen",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#addingCategoriesTrimsRejectsBlankAndDoesNotDuplicate",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#addingCategoriesTrimsRejectsBlankAndDoesNotDuplicate",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieTypesIncludeDefaultsAndDoNotDuplicateCustomValues",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieTypesIncludeDefaultsAndDoNotDuplicateCustomValues",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#insertingMultipleWatchRecordsKeepsEveryHistoryEntry",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#insertingMultipleWatchRecordsKeepsEveryHistoryEntry",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseSchemaUsesCurrentVersion",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseInsertFailureReturnsFailureInsteadOfThrowingFromNameSave",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#databaseInsertFailureReturnsFailureInsteadOfThrowingFromNameSave",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieCreateAndEditKeepRelationsAtomicAndPreserveHistory",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieCreateAndEditKeepRelationsAtomicAndPreserveHistory",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#posterIsCopiedToPrivateStorageAndCanBeDeleted",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#posterIsCopiedToPrivateStorageAndCanBeDeleted",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#migrationFromVersionOnePreservesExistingMovieTypes",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieCrudPersistsAcrossDatabaseReopen",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#movieCrudPersistsAcrossDatabaseReopen",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#searchSupportsNameFuzzyPinyinAndInitials",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.database.AppDatabaseTest#searchSupportsNameFuzzyPinyinAndInitials",
+          "code": 0
+        }
+      ],
+      "success": 18,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.ai.ProfileMigrationTest",
+      "expected": 3,
+      "ui": true,
+      "name": "data-test-065-ProfileMigrationTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-065-ProfileMigrationTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionThreePreservesRatingsPostersAndRelationsAndReopensWithAiData",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionThreePreservesRatingsPostersAndRelationsAndReopensWithAiData",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionOnePreservesAllBaseRowsAndReopensWithAiData",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionOnePreservesAllBaseRowsAndReopensWithAiData",
+          "code": 0
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionTwoPreservesAllBaseRowsAndReopensWithAiData",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileMigrationTest#versionTwoPreservesAllBaseRowsAndReopensWithAiData",
+          "code": 0
+        }
+      ],
+      "success": 3,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.ai.CandidateMigrationTest",
+      "expected": 1,
+      "ui": true,
+      "name": "data-test-066-CandidateMigrationTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-066-CandidateMigrationTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.ai.CandidateMigrationTest#versionFourToFivePreservesEveryBaseAndProfileFieldAndProtectionAcceptsNewVersion",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.ai.CandidateMigrationTest#versionFourToFivePreservesEveryBaseAndProfileFieldAndProtectionAcceptsNewVersion",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.ai.ProfileProtectionTest",
+      "expected": 1,
+      "ui": true,
+      "name": "data-test-067-ProfileProtectionTest",
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-test-067-ProfileProtectionTest.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.ai.ProfileProtectionTest#unknownFutureSchemaIsStillRejectedWithoutChangingOriginalDatabase",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.ai.ProfileProtectionTest#unknownFutureSchemaIsStillRejectedWithoutChangingOriginalDatabase",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+      "name": "data-restart-prepare",
+      "expected": 1,
+      "ui": true,
+      "extras": [
+        "-e",
+        "b2Phase",
+        "prepare",
+        "-e",
+        "b2FixtureName",
+        "b2-restart-78e8ae78-4442-4e99-b224-fe3abd43318b.db"
+      ],
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-restart-prepare.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+      "name": "data-restart-verify",
+      "expected": 1,
+      "ui": true,
+      "extras": [
+        "-e",
+        "b2Phase",
+        "verify",
+        "-e",
+        "b2FixtureName",
+        "b2-restart-78e8ae78-4442-4e99-b224-fe3abd43318b.db"
+      ],
+      "activity": "androidx.activity.ComponentActivity",
+      "foregroundOnly": true,
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-data-foreground-data-restart-verify.log",
+      "timedOut": false,
+      "recoveries": 0,
+      "hostReady": false,
+      "events": [
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "code": 1
+        },
+        {
+          "id": "com.yingji.app.data.repository.WatchSessionRestartTest#sessionsAndPostersPersist",
+          "code": 0
+        }
+      ],
+      "success": 1,
+      "failures": 0,
+      "exitCode": 0,
+      "ok": true
+    }
+  ],
+  "completedAt": "2026-10-26T13:30:32.298Z"
+}

@@ -99,7 +99,7 @@ class DatabaseWriteFailureTest {
     fun historyWriteFailuresPublishOneRetryableMessage() = runBlocking {
         val historyMovieId = insertMovie("已有观看记录")
         val newHistoryMovieId = insertMovie("待添加观看记录")
-        val repository = HistoryRepository(database.watchHistoryDao())
+        val repository = HistoryRepository(database)
         val viewModel = HistoryViewModel(repository)
         val history = WatchHistory(
             movieId = historyMovieId,

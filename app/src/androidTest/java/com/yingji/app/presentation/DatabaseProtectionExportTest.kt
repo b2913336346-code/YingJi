@@ -86,8 +86,9 @@ class DatabaseProtectionExportTest {
         dialogText("导出保全材料").performClick()
         val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
         composeRule.waitUntil(5_000) { automation.rootInActiveWindow?.packageName?.toString()?.contains("documentsui") == true }
+        // The app supplies an initial internal-storage directory, independent of picker history.
+        composeRule.waitUntil(5000) { automation.rootInActiveWindow?.findAccessibilityNodeInfosByText("Download")?.isNotEmpty() == true }
         val root = requireNotNull(automation.rootInActiveWindow)
-        assertTrue("Expected MuMu's Downloads location", root.findAccessibilityNodeInfosByText("下载").isNotEmpty())
         val name = "yingji-fixture-${java.util.UUID.randomUUID()}.zip"
         val field = root.findAccessibilityNodeInfosByViewId("android:id/title")
             .single { it.className == "android.widget.EditText" }
@@ -97,15 +98,7 @@ class DatabaseProtectionExportTest {
         assertTrue(field.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_SET_TEXT, arguments))
         val save = requireNotNull(automation.rootInActiveWindow).findAccessibilityNodeInfosByViewId("android:id/button1").single()
         assertTrue(save.isVisibleToUser && save.isEnabled)
-        val bounds = android.graphics.Rect().also(save::getBoundsInScreen)
-        val downTime = android.os.SystemClock.uptimeMillis()
-        listOf(android.view.MotionEvent.ACTION_DOWN, android.view.MotionEvent.ACTION_UP).forEach { action ->
-            val event = android.view.MotionEvent.obtain(downTime, android.os.SystemClock.uptimeMillis(), action,
-                bounds.exactCenterX(), bounds.exactCenterY(), 0)
-            event.source = android.view.InputDevice.SOURCE_TOUCHSCREEN
-            assertTrue(automation.injectInputEvent(event, true))
-            event.recycle()
-        }
+        assertTrue(save.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK))
         try {
             composeRule.waitUntil(10_000) { coordinator.state.value.message != null }
         } catch (error: AssertionError) {

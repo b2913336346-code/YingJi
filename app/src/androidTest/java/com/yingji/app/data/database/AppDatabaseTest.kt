@@ -170,7 +170,7 @@ class AppDatabaseTest {
                 createTime = 1L,
             ),
         )
-        val repository = HistoryRepository(database.watchHistoryDao())
+        val repository = HistoryRepository(database)
         val recordWatch = RecordWatchUseCase(repository)
 
         val firstId = requireNotNull(recordWatch.start(movieId, startTime = 1_000L))
@@ -229,7 +229,7 @@ class AppDatabaseTest {
                     createTime = 1L,
                 ),
             )
-            val firstRepository = HistoryRepository(firstDatabase.watchHistoryDao())
+            val firstRepository = HistoryRepository(firstDatabase)
             val firstUseCase = RecordWatchUseCase(firstRepository)
             val historyId = requireNotNull(firstUseCase.start(movieId, startTime = 5_000L))
             firstUseCase.end(
@@ -433,15 +433,10 @@ class AppDatabaseTest {
             categoryId = movieCategoryId,
             tagIds = setOf(hotBloodId, battleId, hotBloodId),
         )
-        database.watchHistoryDao().insert(
-            WatchHistory(
-                movieId = movieId,
-                startTime = 100L,
-                endTime = 200L,
-                duration = 100L,
-                watchNumber = 1,
-            ),
-        )
+        // Creation in WATCHING now records the first session atomically; complete that
+        // real session instead of seeding a second history row in this relation test.
+        val initialSession = database.watchHistoryDao().observeByMovieId(movieId).first().single()
+        HistoryRepository(database).endWatching(initialSession.id, initialSession.startTime + 100L)
 
         assertEquals(listOf(movieCategoryId), database.categoryDao().getCategoryIdsForMovie(movieId))
         assertEquals(
@@ -613,7 +608,7 @@ class AppDatabaseTest {
 
     @Test
     fun databaseSchemaUsesCurrentVersion() {
-        assertEquals(2, database.openHelper.readableDatabase.version)
+        assertEquals(5, database.openHelper.readableDatabase.version)
     }
 
     @Test
@@ -645,7 +640,7 @@ class AppDatabaseTest {
                 createTime = 1L,
             ),
         )
-        val repository = HistoryRepository(database.watchHistoryDao())
+        val repository = HistoryRepository(database)
         val recordWatch = RecordWatchUseCase(repository)
         val historyId = requireNotNull(recordWatch.start(movieId, startTime = 5_000L))
         val history = requireNotNull(repository.getById(historyId))

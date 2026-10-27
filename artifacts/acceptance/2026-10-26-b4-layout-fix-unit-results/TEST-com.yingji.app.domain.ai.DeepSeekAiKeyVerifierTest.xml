@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-26T12:38:41" hostname="BUWENXU" time="0.068">
+  <properties/>
+  <testcase name="liveInputRejectsSyntheticNonAsciiAndControlCharactersBeforeDispatch" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.015"/>
+  <testcase name="disabledDirectVerifierDoesNotDispatchOrSave" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.003"/>
+  <testcase name="allSafeErrorsLeavePreviousCredentialAndVerificationMetadataUnchanged" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.006"/>
+  <testcase name="duplicateValidationHasOneCallAndDeleteRevokesPendingSave" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.006"/>
+  <testcase name="onlySyntheticInputsAreAcceptedInMockAndNeverBecomeLiveMetadata" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.004"/>
+  <testcase name="diskFailureAfterValidationPreservesOldRecord" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.004"/>
+  <testcase name="deleteInvokesOnlyRegisteredRequestRevocationAndNewRequestsAreBlocked" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.01"/>
+  <testcase name="cancellationPropagatesWithoutCommitOrAutomaticRetry" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.006"/>
+  <testcase name="verificationReadsTrimmedRuntimeInputAndAtomicallyPersistsMetadata" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.004"/>
+  <testcase name="deletionBetweenVerificationEntryAndRequestGuardPreventsDispatch" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.004"/>
+  <testcase name="unexpectedProviderFailureIsNotMisreportedAsDiskFailureOrLeaked" classname="com.yingji.app.domain.ai.DeepSeekAiKeyVerifierTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

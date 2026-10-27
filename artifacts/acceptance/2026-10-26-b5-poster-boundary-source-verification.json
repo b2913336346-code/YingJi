@@ -1,0 +1,155 @@
+{
+  "files": [
+    {
+      "file": "app/src/main/java/com/yingji/app/domain/usecase/SaveRemotePosterUseCase.kt",
+      "sha256": "6683c307d10bb235e09f723eca65cdf815856eb37685e66ad5e22250b015c0c7",
+      "afterSha256": "6683c307d10bb235e09f723eca65cdf815856eb37685e66ad5e22250b015c0c7"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/data/repository/PosterRepository.kt",
+      "sha256": "a9420ce2c5baddd93a829791c09cb975c37bc6997f9a516226f2b9b6279bc659",
+      "afterSha256": "a9420ce2c5baddd93a829791c09cb975c37bc6997f9a516226f2b9b6279bc659"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/data/ai/TmdbPosterPreviewLoader.kt",
+      "sha256": "11bedff3781a591d09841687bca4bf374faeb499be60fe0a474fcc5d97e1cfc3",
+      "afterSha256": "11bedff3781a591d09841687bca4bf374faeb499be60fe0a474fcc5d97e1cfc3"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/data/ai/TmdbImportUseCase.kt",
+      "sha256": "4e543f136798c3a7417fa2cf93640285210527766aca2b678fcad394bb993060",
+      "afterSha256": "4e543f136798c3a7417fa2cf93640285210527766aca2b678fcad394bb993060"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/presentation/movie/RemotePosterViewModel.kt",
+      "sha256": "4c4562a45f76f82f88ac20de71d73bcc6110cc3882ecb464bd29e8b9d449c1e0",
+      "afterSha256": "4c4562a45f76f82f88ac20de71d73bcc6110cc3882ecb464bd29e8b9d449c1e0"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/presentation/movie/RemotePosterControls.kt",
+      "sha256": "fd32b30812505f56bcd8b4a5cf8d8881d244478bd06071803a4233ffb621341e",
+      "afterSha256": "fd32b30812505f56bcd8b4a5cf8d8881d244478bd06071803a4233ffb621341e"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/repository/RemotePosterSaveTest.kt",
+      "sha256": "1179dd6b07853477e11fafb5e7274e02bdd6f825a5decf539272c85079a38fd8",
+      "afterSha256": "1179dd6b07853477e11fafb5e7274e02bdd6f825a5decf539272c85079a38fd8"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/repository/RemotePosterFileStoreTest.kt",
+      "sha256": "e77d3cb28b31705d10e590d171ca10a604e1c2822b5394bd94da01680a8620cf",
+      "afterSha256": "e77d3cb28b31705d10e590d171ca10a604e1c2822b5394bd94da01680a8620cf"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/repository/RemotePosterRestartTest.kt",
+      "sha256": "dbf938e06d1e465c0d76953bdcec662b0b7fe76d6c2b67b4518142186ac9656a",
+      "afterSha256": "dbf938e06d1e465c0d76953bdcec662b0b7fe76d6c2b67b4518142186ac9656a"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/ai/TmdbPosterPreviewLoaderTest.kt",
+      "sha256": "cc703abfc2122f37a42856c6d733e76db7bb74d0fa848421640226467ff1824b",
+      "afterSha256": "cc703abfc2122f37a42856c6d733e76db7bb74d0fa848421640226467ff1824b"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/ai/TmdbPosterLookupTest.kt",
+      "sha256": "75ec5b4a8426ffe08eff05d41487945751b8b3defe175c18259632712c24615e",
+      "afterSha256": "75ec5b4a8426ffe08eff05d41487945751b8b3defe175c18259632712c24615e"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/movie/RemotePosterDetailScreenTest.kt",
+      "sha256": "4e6e8a6fa58195a809295eae2b4a47220fbabc3cc902f840ede7c40dcb326467",
+      "afterSha256": "4e6e8a6fa58195a809295eae2b4a47220fbabc3cc902f840ede7c40dcb326467"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/movie/RemotePosterNavigationTest.kt",
+      "sha256": "37976db27eeb116b5a5f7cff5e6f9664e225dfa6ca27d74c9a2b38c2cf337431",
+      "afterSha256": "37976db27eeb116b5a5f7cff5e6f9664e225dfa6ca27d74c9a2b38c2cf337431"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/movie/RemotePosterViewModelTest.kt",
+      "sha256": "4334b59202951989cc48441c12820c8c61ac6cd8ab230d2a57d5a0866b327825",
+      "afterSha256": "4334b59202951989cc48441c12820c8c61ac6cd8ab230d2a57d5a0866b327825"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/ai/TmdbPosterPreviewScreenTest.kt",
+      "sha256": "8784d2f0eb63f5ba23f25fab6a6cc098a89cd391d33cc3fba87a45701efc12c8",
+      "afterSha256": "8784d2f0eb63f5ba23f25fab6a6cc098a89cd391d33cc3fba87a45701efc12c8"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/ai/TmdbPosterGuidanceScreenTest.kt",
+      "sha256": "0124f1efdacce743ff4fe937919fc07d2922fc2bc31c7db3c73395fea3cccfc2",
+      "afterSha256": "0124f1efdacce743ff4fe937919fc07d2922fc2bc31c7db3c73395fea3cccfc2"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/ai/TmdbImportScreenTest.kt",
+      "sha256": "57f55917c34b77e56ee288a7a7a6d568a1691cf00e04154ba8170c3eaaa4c470",
+      "afterSha256": "57f55917c34b77e56ee288a7a7a6d568a1691cf00e04154ba8170c3eaaa4c470"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/presentation/ai/TmdbImportNavigationTest.kt",
+      "sha256": "696a6522289186a04a2abc56a94d837a49868b4bdc7ad009bc1f635c9538276c",
+      "afterSha256": "696a6522289186a04a2abc56a94d837a49868b4bdc7ad009bc1f635c9538276c"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/ai/TmdbCandidateImportTest.kt",
+      "sha256": "e8f5bdb33b1612279ede5f7b1e1243b12dd445155f1662160113fcf0d384cfe8",
+      "afterSha256": "e8f5bdb33b1612279ede5f7b1e1243b12dd445155f1662160113fcf0d384cfe8"
+    },
+    {
+      "file": "app/src/androidTest/java/com/yingji/app/data/ai/TmdbConfirmedImportTest.kt",
+      "sha256": "2da658cafe72528f7b421d15e840d8fa3bff08491b57a363322cf24b0b684bd5",
+      "afterSha256": "2da658cafe72528f7b421d15e840d8fa3bff08491b57a363322cf24b0b684bd5"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/navigation/NavGraph.kt",
+      "sha256": "023a99f4779b9e63d8c68dd28091734b11a8b6a8483a3655d9d745606073f617",
+      "afterSha256": "023a99f4779b9e63d8c68dd28091734b11a8b6a8483a3655d9d745606073f617"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/domain/ai/AddRecommendedWorkUseCase.kt",
+      "sha256": "5521488d06195acb38ab63dcf1d41a3938405e0f4ad6654da00488ea41ab2404",
+      "afterSha256": "5521488d06195acb38ab63dcf1d41a3938405e0f4ad6654da00488ea41ab2404"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/ui/common/LocalPoster.kt",
+      "sha256": "5a29ee4f1a640acabe04ffdc099888b48c925823b35442fea00c9cf218768569",
+      "afterSha256": "5a29ee4f1a640acabe04ffdc099888b48c925823b35442fea00c9cf218768569"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/presentation/ai/TmdbPosterPreview.kt",
+      "sha256": "59c701aa6480fb40c3e05d7f3845be4abc12e210f28c18ae7c7c1725d6e4771a",
+      "afterSha256": "59c701aa6480fb40c3e05d7f3845be4abc12e210f28c18ae7c7c1725d6e4771a"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/data/repository/MovieRepository.kt",
+      "sha256": "09df0cee715a1433f78464b963bd7acc41d6be8e5e3064d96eab110e6348a8ff",
+      "afterSha256": "09df0cee715a1433f78464b963bd7acc41d6be8e5e3064d96eab110e6348a8ff"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/presentation/movie/MovieDetailScreen.kt",
+      "sha256": "4c25d2a023e74f56733ac24bb4f9eb1673e7dd59ecf6c7a838a09461db174a9c",
+      "afterSha256": "4c25d2a023e74f56733ac24bb4f9eb1673e7dd59ecf6c7a838a09461db174a9c"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt",
+      "sha256": "28b9d8bc6039c13231e4d11bf063329e1a81ff5d2e60a27725f540c1408aa59b",
+      "afterSha256": "28b9d8bc6039c13231e4d11bf063329e1a81ff5d2e60a27725f540c1408aa59b"
+    },
+    {
+      "file": "app/src/main/java/com/yingji/app/YingJiApplication.kt",
+      "sha256": "e4d1ecf0902f6ae5197d49d2e06dd01e7fad973d03fda145a3a67561b3123106",
+      "afterSha256": "e4d1ecf0902f6ae5197d49d2e06dd01e7fad973d03fda145a3a67561b3123106"
+    },
+    {
+      "file": "app/build.gradle.kts",
+      "sha256": "1841a2526a0b449d971a652365317836be1d1d38d061a4be412498a88a1f6034",
+      "afterSha256": "1841a2526a0b449d971a652365317836be1d1d38d061a4be412498a88a1f6034"
+    },
+    {
+      "file": "app/schemas/com.yingji.app.data.database.AppDatabase/5.json",
+      "sha256": "b3f7d27b9771fd0659b1c068437bc03c633f96d47420ae6a93fcfdcad9ea17bd",
+      "afterSha256": "b3f7d27b9771fd0659b1c068437bc03c633f96d47420ae6a93fcfdcad9ea17bd"
+    }
+  ],
+  "changed": []
+}

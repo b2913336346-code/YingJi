@@ -1,0 +1,270 @@
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:checkDebugAarMetadata
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:parseDebugLocalResources
+> Task :app:extractDeepLinksDebug
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:desugarDebugFileDependencies
+> Task :app:mergeDebugJniLibFolders
+> Task :app:javaPreCompileDebug
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:buildKotlinToolingMetadata
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses
+> Task :app:mergeDebugNativeLibs
+> Task :app:generateReleaseBuildConfig
+> Task :app:mergeLibDexDebug
+> Task :app:generateReleaseResValues
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:checkReleaseAarMetadata
+> Task :app:generateReleaseResources
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so.
+
+> Task :app:mergeDebugResources
+> Task :app:packageReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:parseReleaseLocalResources
+> Task :app:processReleaseMainManifest
+> Task :app:processReleaseManifest
+> Task :app:javaPreCompileRelease
+> Task :app:extractProguardFiles
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:mergeReleaseStartupProfile
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:compressReleaseAssets
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeReleaseNativeLibs
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:mergeExtDexDebug
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:preB5PosterAcceptanceBuild UP-TO-DATE
+> Task :app:mergeB5PosterAcceptanceNativeDebugMetadata NO-SOURCE
+> Task :app:generateB5PosterAcceptanceBuildConfig
+> Task :app:processDebugManifestForPackage
+> Task :app:checkB5PosterAcceptanceAarMetadata
+> Task :app:generateB5PosterAcceptanceResValues
+> Task :app:processReleaseManifestForPackage
+> Task :app:mapB5PosterAcceptanceSourceSetPaths
+> Task :app:generateB5PosterAcceptanceResources
+
+> Task :app:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so.
+
+> Task :app:extractReleaseNativeSymbolTables
+> Task :app:processDebugResources
+> Task :app:packageB5PosterAcceptanceResources
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:createB5PosterAcceptanceCompatibleScreenManifests
+> Task :app:extractDeepLinksB5PosterAcceptance
+> Task :app:parseB5PosterAcceptanceLocalResources
+> Task :app:processB5PosterAcceptanceMainManifest
+> Task :app:processB5PosterAcceptanceManifest
+> Task :app:mergeB5PosterAcceptanceShaders
+> Task :app:compileB5PosterAcceptanceShaders NO-SOURCE
+> Task :app:generateB5PosterAcceptanceAssets UP-TO-DATE
+> Task :app:mergeB5PosterAcceptanceAssets
+> Task :app:compressB5PosterAcceptanceAssets
+> Task :app:desugarB5PosterAcceptanceFileDependencies
+> Task :app:javaPreCompileB5PosterAcceptance
+> Task :app:mergeB5PosterAcceptanceJniLibFolders
+> Task :app:validateSigningB5PosterAcceptance
+> Task :app:writeB5PosterAcceptanceAppMetadata
+> Task :app:checkB5PosterAcceptanceDuplicateClasses
+> Task :app:mergeB5PosterAcceptanceNativeLibs
+> Task :app:mergeB5PosterAcceptanceResources
+> Task :app:mergeReleaseResources
+> Task :app:writeB5PosterAcceptanceSigningConfigVersions
+> Task :app:processB5PosterAcceptanceManifestForPackage
+> Task :app:mergeLibDexB5PosterAcceptance
+> Task :app:preB5PosterAcceptanceAndroidTestBuild SKIPPED
+
+> Task :app:stripB5PosterAcceptanceDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so.
+
+> Task :app:processB5PosterAcceptanceAndroidTestManifest
+> Task :app:generateB5PosterAcceptanceAndroidTestBuildConfig
+> Task :app:generateB5PosterAcceptanceAndroidTestResValues
+> Task :app:checkB5PosterAcceptanceAndroidTestAarMetadata
+> Task :app:mapB5PosterAcceptanceAndroidTestSourceSetPaths
+> Task :app:generateB5PosterAcceptanceAndroidTestResources
+> Task :app:processReleaseResources
+> Task :app:processB5PosterAcceptanceResources
+
+> Task :app:kaptGenerateStubsDebugKotlin
+w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
+
+> Task :app:convertLinkedResourcesToProtoRelease
+> Task :app:mergeB5PosterAcceptanceAndroidTestShaders
+> Task :app:compileB5PosterAcceptanceAndroidTestShaders NO-SOURCE
+> Task :app:generateB5PosterAcceptanceAndroidTestAssets UP-TO-DATE
+> Task :app:javaPreCompileB5PosterAcceptanceAndroidTest
+> Task :app:mergeB5PosterAcceptanceAndroidTestResources
+> Task :app:mergeB5PosterAcceptanceAndroidTestAssets
+> Task :app:processB5PosterAcceptanceAndroidTestResources
+> Task :app:mergeExtDexB5PosterAcceptance
+> Task :app:desugarB5PosterAcceptanceAndroidTestFileDependencies
+> Task :app:mergeB5PosterAcceptanceAndroidTestJniLibFolders
+> Task :app:mergeB5PosterAcceptanceAndroidTestNativeLibs NO-SOURCE
+> Task :app:stripB5PosterAcceptanceAndroidTestDebugSymbols NO-SOURCE
+> Task :app:validateSigningB5PosterAcceptanceAndroidTest
+> Task :app:writeB5PosterAcceptanceAndroidTestSigningConfigVersions
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:compressB5PosterAcceptanceAndroidTestAssets
+> Task :app:checkB5PosterAcceptanceAndroidTestDuplicateClasses
+> Task :app:mergeLibDexB5PosterAcceptanceAndroidTest
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:mergeExtDexB5PosterAcceptanceAndroidTest
+
+> Task :app:kaptGenerateStubsReleaseKotlin
+w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
+
+> Task :app:kaptGenerateStubsB5PosterAcceptanceKotlin
+w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
+
+> Task :app:kaptDebugKotlin
+> Task :app:kaptReleaseKotlin
+> Task :app:kaptB5PosterAcceptanceKotlin
+
+> Task :app:compileDebugKotlin
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:62:8 'class CropImageContract : ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:63:8 'data class CropImageContractOptions : Any' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:120:58 'constructor(): CropImageContract' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:125:13 'constructor(uri: Uri?, cropImageOptions: CropImageOptions): CropImageContractOptions' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+
+> Task :app:compileDebugJavaWithJavac
+
+> Task :app:compileReleaseKotlin
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:62:8 'class CropImageContract : ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:63:8 'data class CropImageContractOptions : Any' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:120:58 'constructor(): CropImageContract' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:125:13 'constructor(uri: Uri?, cropImageOptions: CropImageOptions): CropImageContractOptions' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+
+> Task :app:compileB5PosterAcceptanceKotlin
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:62:8 'class CropImageContract : ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:63:8 'data class CropImageContractOptions : Any' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:120:58 'constructor(): CropImageContract' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/main/java/com/yingji/app/presentation/movie/AddMovieScreen.kt:125:13 'constructor(uri: Uri?, cropImageOptions: CropImageOptions): CropImageContractOptions' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+
+> Task :app:dexBuilderDebug
+> Task :app:mergeDebugGlobalSynthetics
+> Task :app:processDebugJavaRes
+> Task :app:mergeProjectDexDebug
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:mergeReleaseGeneratedProguardFiles
+> Task :app:processReleaseJavaRes
+> Task :app:expandReleaseArtProfileWildcards
+> Task :app:compileB5PosterAcceptanceJavaWithJavac
+> Task :app:mergeDebugJavaResource
+> Task :app:mergeReleaseJavaResource
+> Task :app:dexBuilderB5PosterAcceptance
+> Task :app:mergeB5PosterAcceptanceGlobalSynthetics
+> Task :app:processB5PosterAcceptanceJavaRes
+> Task :app:mergeProjectDexB5PosterAcceptance
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleB5PosterAcceptanceClassesToCompileJar
+
+> Task :app:kaptGenerateStubsDebugUnitTestKotlin
+w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
+
+> Task :app:mergeB5PosterAcceptanceJavaResource
+> Task :app:packageB5PosterAcceptance
+> Task :app:createB5PosterAcceptanceApkListingFileRedirect
+> Task :app:assembleB5PosterAcceptance
+
+> Task :app:kaptDebugUnitTestKotlin
+警告: 以下选项未被任何处理程序识别: '[room.schemaLocation, kapt.kotlin.generated]'
+
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :app:testDebugUnitTest
+> Task :app:lintVitalAnalyzeRelease
+
+> Task :app:kaptGenerateStubsB5PosterAcceptanceAndroidTestKotlin
+w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
+
+> Task :app:kaptB5PosterAcceptanceAndroidTestKotlin
+警告: 以下选项未被任何处理程序识别: '[room.schemaLocation, kapt.kotlin.generated]'
+
+> Task :app:minifyReleaseWithR8
+> Task :app:compileReleaseArtProfile
+> Task :app:shrinkReleaseRes
+> Task :app:convertShrunkResourcesToBinaryRelease
+> Task :app:optimizeReleaseResources
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+
+> Task :app:compileB5PosterAcceptanceAndroidTestKotlin
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:8:8 'class CropImageActivity : AppCompatActivity, CropImageView.OnSetImageUriCompleteListener, CropImageView.OnCropImageCompleteListener' is deprecated. Create your own Activity and use the CropImageView directly.
+  This way you can customize everything and have utter control of everything.
+  Feel free to use this Activity Code to create your own Activity.
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:9:8 'class CropImageContract : ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:10:8 'data class CropImageContractOptions : Any' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:21:47 'class CropImageActivity : AppCompatActivity, CropImageView.OnSetImageUriCompleteListener, CropImageView.OnCropImageCompleteListener' is deprecated. Create your own Activity and use the CropImageView directly.
+  This way you can customize everything and have utter control of everything.
+  Feel free to use this Activity Code to create your own Activity.
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:22:22 'constructor(): CropImageContract' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+w: file:///E:/AIPM/Project/YingJi/app/src/androidTest/java/com/yingji/app/presentation/movie/CropActivityContractTest.kt:22:64 'constructor(uri: Uri?, cropImageOptions: CropImageOptions): CropImageContractOptions' is deprecated. This ActivityResultContract is deprecated.
+  Please either roll your own ActivityResultContract with the desired behavior or copy paste this.
+
+> Task :app:compileB5PosterAcceptanceAndroidTestJavaWithJavac
+> Task :app:dexBuilderB5PosterAcceptanceAndroidTest
+> Task :app:mergeB5PosterAcceptanceAndroidTestGlobalSynthetics
+> Task :app:processB5PosterAcceptanceAndroidTestJavaRes
+> Task :app:mergeProjectDexB5PosterAcceptanceAndroidTest
+> Task :app:mergeB5PosterAcceptanceAndroidTestJavaResource
+> Task :app:packageB5PosterAcceptanceAndroidTest
+> Task :app:createB5PosterAcceptanceAndroidTestApkListingFileRedirect
+> Task :app:assembleB5PosterAcceptanceAndroidTest
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease
+> Task :app:assembleRelease
+
+BUILD SUCCESSFUL in 2m 3s
+169 actionable tasks: 169 executed

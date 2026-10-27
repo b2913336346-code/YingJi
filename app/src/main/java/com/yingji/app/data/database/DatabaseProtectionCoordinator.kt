@@ -29,6 +29,7 @@ class DatabaseProtectionCoordinator(
     private val marker: File,
     private val backups: DatabaseBackupStore,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
+    private val openExport: (ContentResolver, Uri) -> java.io.OutputStream? = { resolver, uri -> resolver.openOutputStream(uri, "w") },
 ) {
     private val mutableState = MutableStateFlow(DatabaseProtectionUiState())
     val state = mutableState.asStateFlow()
@@ -86,12 +87,14 @@ class DatabaseProtectionCoordinator(
             mutableState.update { it.copy(busy = true, message = null) }
             withContext(Dispatchers.IO) {
                 val record = checkNotNull(mutableState.value.backup) { "没有保全记录" }
-                val output = checkNotNull(resolver.openOutputStream(uri, "w")) { "无法打开导出位置" }
+                val output = checkNotNull(openExport(resolver, uri)) { "无法打开导出位置" }
                 output.use { backups.export(record, it) }
             }
             mutableState.update { it.copy(message = "保全材料已写入所选位置；未进行目标文件回读校验") }
         } catch (error: CancellationException) {
             throw error
+        } catch (error: SecurityException) {
+            mutableState.update { it.copy(message = "导出失败：所选位置未授予写入权限，请重新选择内部存储中的文件夹；原文件及保全材料未清除") }
         } catch (error: Exception) {
             mutableState.update { it.copy(message = "导出失败：${error.message}；原文件及保全材料未清除") }
         } finally {

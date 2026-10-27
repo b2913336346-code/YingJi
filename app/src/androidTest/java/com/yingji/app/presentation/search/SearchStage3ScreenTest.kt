@@ -3,6 +3,9 @@ package com.yingji.app.presentation.search
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.hasScrollToIndexAction
@@ -71,6 +74,11 @@ class SearchStage3ScreenTest {
         select("标签甲")
         select(MovieStatus.FINISHED.value)
         select(WatchTimeField.END_TIME.displayName)
+        // The fifth horizontal row is sorting; locate its scroll semantics independently of lazy chips.
+        composeRule.onAllNodes(hasScrollToIndexAction() and
+            SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange) and
+            hasAnyAncestor(hasTestTag("search_filters")))[4]
+            .performScrollToIndex(MovieSortOption.WATCH_END_DESC.ordinal)
         select(MovieSortOption.WATCH_END_DESC.displayName)
         composeRule.onNodeWithText("其他作品").assertDoesNotExist()
         val list = composeRule.onNode(hasScrollToIndexAction() and SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange))

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-26T14:26:15" hostname="BUWENXU" time="0.009">
+  <properties/>
+  <testcase name="mockRequiresExplicitFixtureOptInAndCannotUseRealIdentity" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.004"/>
+  <testcase name="emptyCatalogDoesNotInventCandidates" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.001"/>
+  <testcase name="unknownRevokedExpiredOrUnlicensedSourceFailsClosed" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.001"/>
+  <testcase name="cachedDataIsNeverReusedByReadOnlyPreview" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.001"/>
+  <testcase name="duplicateOversizedAndFutureRowsAreRejected" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.001"/>
+  <testcase name="verifiedRowsKeepExternalIdentityAndRetrievalTime" classname="com.yingji.app.domain.ai.TmdbCandidatePreviewTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

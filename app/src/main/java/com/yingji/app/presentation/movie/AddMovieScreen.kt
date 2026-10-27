@@ -40,9 +40,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
+import com.yingji.app.ui.common.YingJiSnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -52,6 +53,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -64,6 +66,8 @@ import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Movie
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.domain.model.MovieStatus
+import com.yingji.app.domain.model.isValidMovieRating
+import com.yingji.app.domain.model.formatMovieRating
 import com.yingji.app.domain.usecase.resolveCurrentEpisodeForStatusTransition
 import com.yingji.app.ui.common.LocalPoster
 
@@ -80,13 +84,14 @@ fun MovieFormScreen(
     tags: List<Tag>,
     initialCategoryId: Long? = null,
     initialTagIds: Set<Long> = emptySet(),
+    initialName: String = "",
     isSaving: Boolean = false,
     saveMessage: String? = null,
     onSaveMessageConsumed: () -> Unit = {},
     onBack: () -> Unit,
     onSave: (MovieFormData) -> Unit,
 ) {
-    var name by rememberSaveable(movie?.id) { mutableStateOf(movie?.name.orEmpty()) }
+    var name by rememberSaveable(movie?.id, initialName) { mutableStateOf(movie?.name ?: initialName) }
     var status by rememberSaveable(movie?.id) {
         mutableStateOf(movie?.status ?: MovieStatus.WANT_TO_WATCH.value)
     }
@@ -97,6 +102,8 @@ fun MovieFormScreen(
         mutableStateOf(movie?.totalEpisode?.toString().orEmpty())
     }
     var posterPath by rememberSaveable(movie?.id) { mutableStateOf(movie?.posterPath) }
+    var ratingText by rememberSaveable(movie?.id) { mutableStateOf(movie?.rating?.let(::formatMovieRating).orEmpty()) }
+    var showRatingError by rememberSaveable(movie?.id) { mutableStateOf(false) }
     var selectedCategoryId by rememberSaveable(movie?.id) { mutableStateOf(initialCategoryId) }
     var selectedTagIds by rememberSaveable(movie?.id) { mutableStateOf(initialTagIds.toList()) }
     var showNameError by rememberSaveable { mutableStateOf(false) }
@@ -160,7 +167,7 @@ fun MovieFormScreen(
                 ),
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { YingJiSnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -205,6 +212,14 @@ fun MovieFormScreen(
                     onClick = { fileLauncher.launch(arrayOf("image/*")) },
                     modifier = Modifier.weight(1f),
                 )
+            }
+
+            if (posterPath != null) {
+                TextButton(
+                    onClick = { posterPath = null },
+                    enabled = !isSaving,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                ) { Text("移除海报") }
             }
 
             FormCard(title = "作品名称") {
@@ -315,6 +330,25 @@ fun MovieFormScreen(
                 }
             }
 
+            FormCard(title = "个人评分（可选）") {
+                OutlinedTextField(
+                    value = ratingText,
+                    onValueChange = { ratingText = it; showRatingError = false },
+                    modifier = Modifier.fillMaxWidth().testTag("movie_rating_input"),
+                    label = { Text("评分") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true,
+                    shape = FormFieldShape,
+                    enabled = !isSaving,
+                    isError = showRatingError,
+                    supportingText = {
+                        Text(if (showRatingError) "请输入 0–10 分，按 0.5 分递增" else "0–10 分，0.5 分步进；留空表示未评分")
+                    },
+                )
+                TextButton(onClick = { ratingText = ""; showRatingError = false },
+                    enabled = ratingText.isNotBlank() && !isSaving) { Text("清除评分") }
+            }
+
             FormCard(title = "当前集数") {
                 OutlinedTextField(
                     value = currentEpisode,
@@ -344,7 +378,9 @@ fun MovieFormScreen(
                         it.id == selectedCategoryId
                     }
                     showCategoryError = selectedCategory == null
-                    if (!showNameError && !showCategoryError) {
+                    val rating = ratingText.trim().toDoubleOrNull()
+                    showRatingError = ratingText.isNotBlank() && (rating == null || !isValidMovieRating(rating))
+                    if (!showNameError && !showCategoryError && !showRatingError) {
                         onSave(
                             MovieFormData(
                                 name = name,
@@ -355,6 +391,7 @@ fun MovieFormScreen(
                                 posterPath = posterPath,
                                 categoryId = requireNotNull(selectedCategoryId),
                                 tagIds = selectedTagIds.toSet(),
+                                rating = rating,
                             ),
                         )
                     }

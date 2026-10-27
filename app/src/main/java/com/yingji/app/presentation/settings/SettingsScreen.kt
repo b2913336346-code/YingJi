@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
+import com.yingji.app.ui.common.YingJiSnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -38,9 +39,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.yingji.app.presentation.ai.TmdbAttribution
+import com.yingji.app.BuildConfig
 import com.yingji.app.data.entity.Category
 import com.yingji.app.data.entity.Tag
 import com.yingji.app.domain.model.ThemeMode
@@ -96,7 +100,10 @@ fun SettingsScreen(
     onTagClick: (Long) -> Unit = {},
     actionState: CategoryTagActionState = CategoryTagActionState(),
     onActionResultConsumed: () -> Unit = {},
+    movieCount: Int? = null,
+    onAiModelConfigurationClick: (() -> Unit)? = null,
 ) {
+    var showAbout by remember { mutableStateOf(false) }
     var addType by remember { mutableStateOf<AddType?>(null) }
     var editTarget by remember { mutableStateOf<EditTarget?>(null) }
     var deleteTarget by remember { mutableStateOf<DeleteTarget?>(null) }
@@ -132,12 +139,12 @@ fun SettingsScreen(
 
     Scaffold(
         topBar = { YingJiTopBar(title = "我的") },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = { YingJiSnackbarHost(hostState = snackbarHostState) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding).testTag("mine_settings_list"),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
@@ -167,13 +174,18 @@ fun SettingsScreen(
                 }
             }
             item {
-                OutlinedButton(
-                    onClick = onStatisticsClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                ) {
-                    Text(text = "查看统计")
+                Column {
+                    Text(
+                        text = movieCount?.let { "作品总数：" + it } ?: "作品总数：加载中",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    )
+                    OutlinedButton(
+                        onClick = onStatisticsClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                    ) { Text(text = "查看统计") }
                 }
             }
             item {
@@ -281,7 +293,36 @@ fun SettingsScreen(
                     onDelete = { deleteTarget = DeleteTarget.TagTarget(tag) },
                 )
             }
+            if (onAiModelConfigurationClick != null) item {
+                OutlinedButton(onClick = onAiModelConfigurationClick,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).testTag("ai_model_configuration")) { Text("AI 模型配置") }
+            }
+            item {
+                OutlinedButton(
+                    onClick = { showAbout = true },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).testTag("about_app_open"),
+                ) { Text("关于应用") }
+            }
         }
+    }
+
+    if (showAbout) {
+        AlertDialog(
+            onDismissRequest = { showAbout = false },
+            title = { Text("关于应用") },
+            text = {
+                LazyColumn(Modifier.fillMaxWidth().heightIn(max = 400.dp).testTag("about_content_scroll"),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    item { Text("影迹") }
+                    item { Text("版本名称：${BuildConfig.VERSION_NAME}", Modifier.testTag("about_version_name")) }
+                    item { Text("版本代码：${BuildConfig.VERSION_CODE}", Modifier.testTag("about_version_code")) }
+                    item { TmdbAttribution(prefix = "about_tmdb") }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAbout = false }, modifier = Modifier.testTag("about_app_close")) { Text("关闭") }
+            },
+        )
     }
 
     addType?.let { type ->

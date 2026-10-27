@@ -54,7 +54,7 @@ class HistoryViewModel(
     }
 
     fun consumeActionMessage() {
-        _actionState.value = HistoryActionState()
+        _actionState.value = _actionState.value.copy(message = null)
     }
 
     private fun runHistoryAction(action: suspend () -> Unit) {

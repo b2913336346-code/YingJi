@@ -17,6 +17,7 @@ data class MovieFormData(
     val posterPath: String?,
     val categoryId: Long,
     val tagIds: Set<Long>,
+    val rating: Double? = null,
 )
 
 data class MovieFormActionState(

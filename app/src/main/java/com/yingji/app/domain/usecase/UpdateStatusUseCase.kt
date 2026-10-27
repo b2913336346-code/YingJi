@@ -8,18 +8,7 @@ class UpdateStatusUseCase(
     private val movieRepository: MovieRepository,
 ) {
     suspend operator fun invoke(movie: Movie, status: MovieStatus) {
-        val currentStatus = MovieStatus.entries.firstOrNull { it.value == movie.status }
-        movieRepository.update(
-            movie.copy(
-                status = status.value,
-                currentEpisode = resolveCurrentEpisodeForStatusTransition(
-                    currentStatus = currentStatus,
-                    newStatus = status,
-                    currentEpisode = movie.currentEpisode,
-                    totalEpisode = movie.totalEpisode,
-                ),
-            ),
-        )
+        movieRepository.updateStatus(movie.id, status)
     }
 }
 

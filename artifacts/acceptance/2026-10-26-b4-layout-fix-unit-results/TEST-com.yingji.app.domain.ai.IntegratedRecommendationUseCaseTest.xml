@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2026-10-26T12:38:41" hostname="BUWENXU" time="0.14">
+  <properties/>
+  <testcase name="transportTimeoutRetriesOnceWithSameIdAndExplicitRetryReplaysTheUncertainTask" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.027"/>
+  <testcase name="serverTimeoutIsNotAutomaticallyRetriedAndPendingReplayDoesNotCreateNewTask" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.02"/>
+  <testcase name="missingOrUnverifiedCandidatesNeverTriggerAnUnnecessaryPaidTask" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.002"/>
+  <testcase name="lateResponseAfterProfileOrConsentChangeIsRejectedAndNotCached" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.008"/>
+  <testcase name="unicodeLimitAndSafeVersionBoundsAreEnforced" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.001"/>
+  <testcase name="independentConsentIsRequiredAndOnlyEnabledUnsuppressedTopicDirectionsAreSent" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.026"/>
+  <testcase name="permittedCacheHitDoesNotReadQuotaOrCallModelAndRevocationBlocksIt" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.004"/>
+  <testcase name="cacheDoesNotBypassNewConditionsOrAProfileVersion" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.005"/>
+  <testcase name="offlineFreeTextDoesNotBecomeUnrelatedLocalRecommendations" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.004"/>
+  <testcase name="credentialReplacementDoesNotReuseOldPendingIdOrCredentialCache" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.009"/>
+  <testcase name="quotaStorageFailureFailsClosedAndLocalCandidatesRemainAvailable" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.002"/>
+  <testcase name="versionChangeBeforeRetryPreventsTheSecondHttpAttempt" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.004"/>
+  <testcase name="allowedCacheSurvivesSourceFailureButNeverItsExpiry" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.003"/>
+  <testcase name="workerHintsCannotOverrideExplicitExclusionsOrRelaxHardBounds" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.008"/>
+  <testcase name="keyRevisionChangeWhileRequestIsHeldRejectsLateResult" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.005"/>
+  <testcase name="exhaustedQuotaDoesNotResetWithClientTimeOrNewClientInstance" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.005"/>
+  <testcase name="exactCacheAgeBoundaryExpiresAndUsesFreshLocalFactsOnFailure" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.002"/>
+  <testcase name="localRecommendationWithoutTransferConsentDoesNotReadQuotaOrCallWorker" classname="com.yingji.app.domain.ai.IntegratedRecommendationUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

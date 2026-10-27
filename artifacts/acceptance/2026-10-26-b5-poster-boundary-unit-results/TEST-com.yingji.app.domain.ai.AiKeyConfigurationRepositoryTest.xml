@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2026-10-26T13:53:15" hostname="BUWENXU" time="0.117">
+  <properties/>
+  <testcase name="reopeningRepositoryRestoresMetadataAndDeletionTombstone" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.041"/>
+  <testcase name="failedCommitNeverClaimsNewKeyWasSaved" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.003"/>
+  <testcase name="successfulValidationTrimsAndCommitsMetadataButNeverGrantsLivePermission" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.009"/>
+  <testcase name="invalidReplacementPreservesPreviousKeyTimeAndRevision" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.003"/>
+  <testcase name="rapidDuplicateValidationIsRejectedWithoutASecondVerifierCall" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.009"/>
+  <testcase name="metadataFenceCannotWriteLateHistoryAfterKeyDeletion" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.002"/>
+  <testcase name="secretAndRecordAreRedactedInDiagnostics" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.0"/>
+  <testcase name="mockRejectsNonSyntheticAndInvalidCredentialsWithoutPersistence" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.005"/>
+  <testcase name="cancellationBeforeValidationCompletesNeverWrites" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.015"/>
+  <testcase name="blankAndControlInputsCannotVerifyOrWrite" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.003"/>
+  <testcase name="disabledVerifierNeverSavesOrEnablesLiveCalls" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.002"/>
+  <testcase name="failedDeletionRetainsConfiguredStateAndReportsFailure" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.002"/>
+  <testcase name="newKeyDoesNotReplaceOldKeyUntilVerificationFinishes" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.003"/>
+  <testcase name="recoveryFailureDoesNotEraseRecordAndExplicitNewVerificationCanReconfigure" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.001"/>
+  <testcase name="deletionRevokesValidationInFlightAndOldResultCannotRestoreKey" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.003"/>
+  <testcase name="missingOrWrongKindKeyCannotStartARequest" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.004"/>
+  <testcase name="deletionOrReplacementFencesAnInFlightRequestAndClosesItsSecret" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.004"/>
+  <testcase name="failedRequestClosesSecretAndPendingConfigurationBlocksNewCalls" classname="com.yingji.app.domain.ai.AiKeyConfigurationRepositoryTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

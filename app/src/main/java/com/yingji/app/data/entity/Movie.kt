@@ -14,4 +14,5 @@ data class Movie(
     val currentEpisode: Int = 0,
     val totalEpisode: Int? = null,
     val createTime: Long,
+    val rating: Double? = null,
 )

@@ -4,10 +4,12 @@
         <include domain="database" path="." />
         <include domain="file" path="posters/" />
         <include domain="file" path="datastore/" />
+        <exclude domain="file" path="datastore/ai_byok.preferences_pb" />
     </cloud-backup>
     <device-transfer>
         <include domain="database" path="." />
         <include domain="file" path="posters/" />
         <include domain="file" path="datastore/" />
+        <exclude domain="file" path="datastore/ai_byok.preferences_pb" />
     </device-transfer>
 </data-extraction-rules>

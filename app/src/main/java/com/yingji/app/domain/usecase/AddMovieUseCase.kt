@@ -16,6 +16,9 @@ class AddMovieUseCase(
         posterPath: String?,
         categoryId: Long,
         tagIds: Set<Long>,
+        rating: Double? = null,
+        beforeInsert: suspend () -> Unit = {},
+        afterInsert: suspend (Long) -> Unit = {},
     ): Long = movieRepository.insertWithRelations(
         movie = Movie(
             name = name.trim(),
@@ -25,8 +28,11 @@ class AddMovieUseCase(
             totalEpisode = totalEpisode,
             posterPath = posterPath,
             createTime = System.currentTimeMillis(),
+            rating = rating,
         ),
         categoryId = categoryId,
         tagIds = tagIds,
+        beforeInsert = beforeInsert,
+        afterInsert = afterInsert,
     )
 }

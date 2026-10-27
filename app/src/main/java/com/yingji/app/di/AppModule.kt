@@ -11,6 +11,9 @@ import com.yingji.app.data.repository.PosterRepository
 import com.yingji.app.data.repository.ThemeRepository
 
 object AppModule {
+    fun provideProfileRepository(database: AppDatabase, movies: MovieRepository) =
+        com.yingji.app.data.ai.ProfileRepository(database, com.yingji.app.data.ai.ObserveLibraryRepository(movies))
+
     fun provideDatabase(context: Context): AppDatabase =
         DatabaseModule.provideDatabase(context)
 
@@ -21,7 +24,7 @@ object AppModule {
         MovieTypeRepository(database.movieTypeDao())
 
     fun provideHistoryRepository(database: AppDatabase): HistoryRepository =
-        HistoryRepository(database.watchHistoryDao())
+        HistoryRepository(database)
 
     fun provideCategoryRepository(database: AppDatabase): CategoryRepository =
         CategoryRepository(
@@ -31,6 +34,10 @@ object AppModule {
 
     fun providePosterRepository(context: Context): PosterRepository =
         PosterRepository(context.applicationContext)
+
+    fun provideSaveRemotePosterUseCase(movies: MovieRepository, posters: PosterRepository) =
+        com.yingji.app.domain.usecase.SaveRemotePosterUseCase(movies, posters,
+            com.yingji.app.data.ai.MemoryOnlyTmdbPosterLoader())
 
     fun provideThemeRepository(context: Context): ThemeRepository =
         ThemeRepository(context.applicationContext)

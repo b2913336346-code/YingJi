@@ -1,0 +1,17 @@
+{
+  "fixture": "b2-restart-fe6dc655-ce4e-4035-9b69-0dfaff3ccb6e.db",
+  "phases": [
+    {
+      "phase": "restart-prepare",
+      "pid": "26358",
+      "at": "2026-10-26T13:35:43.722Z",
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-prepare.log"
+    },
+    {
+      "phase": "restart-verify",
+      "pid": "26430",
+      "at": "2026-10-26T13:35:46.268Z",
+      "log": "E:/AIPM/Project/YingJi/artifacts/acceptance/2026-10-26-b4-regression-layout-fix-b4-unified-final-restart-verify.log"
+    }
+  ]
+}

@@ -61,7 +61,7 @@ class DatabasePreservationTest {
         val controller = controller()
         controller.initialize()
         val database = Room.databaseBuilder(context, AppDatabase::class.java, source.path)
-            .openHelperFactory(PreservingOpenHelperFactory()).addMigrations(DatabaseModule.MIGRATION_1_2).build()
+            .openHelperFactory(PreservingOpenHelperFactory()).addMigrations(DatabaseModule.MIGRATION_1_2, DatabaseModule.MIGRATION_2_3, DatabaseModule.MIGRATION_3_4,DatabaseModule.MIGRATION_4_5).build()
         try {
             assertTrue(runCatching { database.openHelper.writableDatabase }.isFailure)
             assertTrue(source.exists())
@@ -263,6 +263,36 @@ class DatabasePreservationTest {
     }
 
     @Test
+    fun deniedExportKeepsEvidenceShowsReselectActionAndCanRetry() = runBlocking {
+        source.writeText("original evidence")
+        val backups = DatabaseBackupStore(source, File(folder.root, "permission-backup"))
+        var deny = true
+        val controller = DatabaseProtectionCoordinator(marker, backups, scope, openExport = { resolver, uri ->
+            if (deny) throw SecurityException("injected missing URI write grant")
+            resolver.openOutputStream(uri, "w")
+        })
+        controller.initialize()
+        DatabaseHealthMonitor.stop(DatabaseIssue.CORRUPTION)
+        val record = requireNotNull(controller.state.value.backup)
+        val evidence = record.files.associate { it.name to File(record.directory, it.name).readBytes() }
+        val target = File(folder.root, "retry-export.zip")
+        controller.export(context.contentResolver, android.net.Uri.fromFile(target))
+        assertTrue(controller.state.value.message.orEmpty().contains("重新选择内部存储中的文件夹"))
+        assertFalse(controller.state.value.busy)
+        assertFalse(target.exists())
+        assertEquals("original evidence", source.readText())
+        evidence.forEach { (name, bytes) -> assertArrayEquals(bytes, File(record.directory, name).readBytes()) }
+        deny = false
+        controller.export(context.contentResolver, android.net.Uri.fromFile(target))
+        assertTrue(controller.state.value.message.orEmpty().startsWith("保全材料已写入"))
+        assertFalse(controller.state.value.busy)
+        java.util.zip.ZipFile(target).use { zip ->
+            assertEquals("original evidence", zip.getInputStream(zip.getEntry("fixture.db")).bufferedReader().use { it.readText() })
+        }
+        assertEquals("original evidence", source.readText())
+    }
+
+    @Test
     fun failedMarkerWriteRemainsVisibleAndDoesNotPreventFilePreservation() = runBlocking {
         source.writeText("original data")
         val controller = controller()
@@ -321,13 +351,13 @@ class DatabasePreservationTest {
         val controller = controller()
         controller.initialize()
         val db = Room.databaseBuilder(context, AppDatabase::class.java, source.path)
-            .openHelperFactory(PreservingOpenHelperFactory()).addMigrations(DatabaseModule.MIGRATION_1_2).build()
+            .openHelperFactory(PreservingOpenHelperFactory()).addMigrations(DatabaseModule.MIGRATION_1_2, DatabaseModule.MIGRATION_2_3, DatabaseModule.MIGRATION_3_4,DatabaseModule.MIGRATION_4_5).build()
         try {
             assertEquals("旧作品", withTimeout(5_000) { db.movieDao().observeById(41).first() }?.name)
             assertEquals(listOf(7L), db.categoryDao().getCategoryIdsForMovie(41))
             assertEquals(listOf(7L), db.tagDao().getTagIdsForMovie(41))
             assertEquals(41L, db.watchHistoryDao().getById(9)?.movieId)
-            assertEquals(2, db.openHelper.readableDatabase.version)
+            assertEquals(5, db.openHelper.readableDatabase.version)
             assertTrue(DatabaseHealthMonitor.state.value is DatabaseHealthState.Available)
             assertNull(controller.state.value.backup)
         } finally { db.close() }
