@@ -119,4 +119,19 @@ class TmdbPosterPreviewLoaderTest {
         assertTrue(response.disconnected)
         assertEquals(0, response.reads)
     }
+    @Test fun successAndFailureOnlyResumeAfterTheConnectionIsDisconnected() = runBlocking<Unit> {
+        for (success in listOf(true, false)) {
+            val response = Reply(png()).apply { if (!success) mime = "text/html" }
+            // An unconfined continuation observes completion on the producer thread,
+            // so resuming before finally disconnects cannot be hidden by dispatch timing.
+            withContext(Dispatchers.Unconfined) {
+                val result = runCatching { MemoryOnlyTmdbPosterLoader { response }.load(TmdbPoster("/completionOrder.png")) }
+                try {
+                    assertTrue("Connection must be disconnected before delivering its result", response.disconnected)
+                    assertEquals(success, result.isSuccess)
+                } finally { result.getOrNull()?.recycle() }
+            }
+        }
+    }
+
 }

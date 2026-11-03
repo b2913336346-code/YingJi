@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
@@ -50,8 +51,15 @@ class AiHomeFooterLayoutTest {
         } }
         ui.waitUntil(5000) { !vm.state.value.initializing }
     }
-    private fun scroll(tag: String) = ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag))
+    private fun scroll(tag: String) {
+        ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag))
+        ui.onNodeWithTag(tag).performScrollTo()
+    }
     private fun assertBottom() {
+        // Scroll the fixture footer fully into view before measuring clipped semantics bounds.
+        val viewport = ui.onNodeWithTag("movie_collection")
+        val distance = viewport.fetchSemanticsNode().boundsInRoot.height
+        viewport.performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, distance) }
         ui.waitForIdle()
         val collection = ui.onNodeWithTag("movie_collection").fetchSemanticsNode().boundsInRoot
         val card = ui.onNodeWithTag("ai_home_card").fetchSemanticsNode().boundsInRoot

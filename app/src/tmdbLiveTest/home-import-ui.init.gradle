@@ -1,0 +1,21 @@
+// Explicit manual UI acceptance only. Builds an isolated application ID; defaults are unchanged.
+allprojects { p ->
+    p.plugins.withId('com.android.application') {
+        def a = p.extensions.getByName('android')
+        a.buildTypes.create('tmdbUiAcceptance') {
+            initWith(a.buildTypes.getByName('debug'))
+            applicationIdSuffix = '.tmdb.uiacceptance'
+            versionNameSuffix = '-uiacceptance'
+            matchingFallbacks = ['debug']
+            signingConfig = a.signingConfigs.getByName('debug')
+        }
+        a.sourceSets.getByName('tmdbUiAcceptance').java.srcDir('src/debug/java')
+        a.sourceSets.getByName('tmdbUiAcceptance').res.srcDir('src/debug/res')
+        a.sourceSets.getByName('tmdbUiAcceptance').manifest.srcFile('src/debug/AndroidManifest.xml')
+        a.testBuildType = 'tmdbUiAcceptance'
+        a.sourceSets.getByName('androidTest').java.srcDir('src/tmdbLiveTest/java')
+        p.configurations.configureEach { c ->
+            if (c.name == 'tmdbUiAcceptanceImplementation') c.extendsFrom(p.configurations.getByName('debugImplementation'))
+        }
+    }
+}

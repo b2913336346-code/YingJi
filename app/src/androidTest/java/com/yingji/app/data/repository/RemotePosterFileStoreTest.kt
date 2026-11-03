@@ -75,6 +75,50 @@ class RemotePosterFileStoreTest {
         try { assertTrue(runCatching { PosterRepository(context).persistRemote(oversized) }.isFailure) } finally { oversized.recycle() }
         assertTrue(directory.listFiles().orEmpty().isEmpty())
     }
+    @Test fun noSpaceBeforeWritingCleansTheTemporaryFileAndPreservesExistingBytes() = runBlocking {
+        assertNoSpaceRollback(0)
+    }
+
+    @Test fun noSpaceAfterPartialWritingCleansTheTemporaryFileAndPreservesExistingBytes() = runBlocking {
+        assertNoSpaceRollback(32)
+    }
+
+    private suspend fun assertNoSpaceRollback(bytesBeforeFailure: Int) {
+        val folder = File(directory, "posters").apply { check(mkdirs()) }
+        val original = byteArrayOf(11, 22, 33, 44)
+        val old = File(folder, "existing.png").apply { writeBytes(original) }
+        var wrote = -1L
+        var published = false
+        val store = PosterRepository(context, writeRemote = { _, staged ->
+            staged.outputStream().use { output ->
+                output.write(ByteArray(bytesBeforeFailure) { 85 })
+                output.flush()
+                wrote = staged.length()
+                throw IOException("Injected write failure", android.system.ErrnoException("write", android.system.OsConstants.ENOSPC))
+            }
+        }, publishRemote = { _, _ -> published = true; fail("Incomplete file must not be published") })
+        val bitmap = image()
+        val failure = try { runCatching { store.persistRemote(bitmap) }.exceptionOrNull() } finally { bitmap.recycle() }
+        assertTrue(failure is IOException)
+        assertEquals(android.system.OsConstants.ENOSPC, (failure?.cause as android.system.ErrnoException).errno)
+        assertEquals(bytesBeforeFailure.toLong(), wrote)
+        assertFalse(published)
+        assertArrayEquals(original, old.readBytes())
+        assertEquals(setOf(old.name), folder.list()!!.toSet())
+    }
+
+    @Test fun aTruncatedWriteThatReturnsNormallyIsRejectedBeforePublication() = runBlocking {
+        var published = false
+        val store = PosterRepository(context, writeRemote = { _, staged ->
+            staged.writeBytes(byteArrayOf(-119, 80, 78, 71, 13, 10, 26, 10))
+        }, publishRemote = { _, _ -> published = true; fail("Truncated PNG must not be published") })
+        val bitmap = image()
+        try { assertTrue(runCatching { store.persistRemote(bitmap) }.exceptionOrNull() is IOException) }
+        finally { bitmap.recycle() }
+        assertFalse(published)
+        assertTrue(File(directory, "posters").listFiles()!!.isEmpty())
+    }
+
     @Test fun managedCleanupCannotDeleteAnOutsideFile() = runBlocking {
         val outside = File(directory, "outside.png").apply { writeText("keep") }
         PosterRepository(context).deleteManagedFile(outside.path)

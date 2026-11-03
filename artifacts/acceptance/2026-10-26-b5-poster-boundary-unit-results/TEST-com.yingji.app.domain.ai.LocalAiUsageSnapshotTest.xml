@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.yingji.app.domain.ai.LocalAiUsageSnapshotTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-26T13:53:15" hostname="BUWENXU" time="0.001">
-  <properties/>
-  <testcase name="unknownAttemptsReserveAllowanceWithoutClaimingSuccess" classname="com.yingji.app.domain.ai.LocalAiUsageSnapshotTest" time="0.001"/>
-  <testcase name="thirtySuccessesBlockButErrorsDoNotConsumeSuccessfulTaskAllowance" classname="com.yingji.app.domain.ai.LocalAiUsageSnapshotTest" time="0.0"/>
-  <testcase name="invalidAndOverflowingCountersAreRejected" classname="com.yingji.app.domain.ai.LocalAiUsageSnapshotTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,0 +1,3 @@
+# Keep launch scripts usable across platforms without renormalizing source files.
+/gradlew text eol=lf
+*.bat text eol=crlf

@@ -37,6 +37,7 @@ internal class NavigationPosterFixture(private val ui: ComposeContentTestRule, p
     val availabilityChecks = AtomicInteger()
     val metadataReads = AtomicInteger()
     val imageReads = AtomicInteger()
+    val previewReads = AtomicInteger()
     private val keys = TmdbCredentialRepository(PosterTestKeys()) { 100 }
     private var categoryId = 0L
     private var tagId = 0L
@@ -76,7 +77,7 @@ internal class NavigationPosterFixture(private val ui: ComposeContentTestRule, p
             val lookup = remember { TmdbPosterLookup(transport, keys,
                 { TmdbSourcePermission(CandidateLicenseState.ACTIVE, "Synthetic navigation permission", true, true, true) }) { 100 } }
             val save = remember { SaveRemotePosterUseCase(movies, files, TmdbPosterPreviewLoader { imageReads.incrementAndGet(); image() }) }
-            CompositionLocalProvider(LocalTmdbPosterPreviewLoader provides TmdbPosterPreviewLoader { image() }) {
+            CompositionLocalProvider(LocalTmdbPosterPreviewLoader provides TmdbPosterPreviewLoader { previewReads.incrementAndGet(); image() }) {
                 YingJiTheme {
                     YingJiNavGraph(remotePosterFactory = { id -> RemotePosterViewModel.factory(
                         { val found = movies.hasRemotePosterSource(id); availabilityChecks.incrementAndGet(); found }, { lookup(movies.remotePosterTarget(id).externalId) }, { save(id, it, true) }) })
@@ -94,8 +95,12 @@ internal class NavigationPosterFixture(private val ui: ComposeContentTestRule, p
         ui.onNodeWithText("作品详情").assertIsDisplayed()
     }
     fun openDialog() {
+        val beforeMetadata = metadataReads.get(); val beforeImages = imageReads.get(); val beforePreview = previewReads.get()
         ui.onNodeWithTag("detail_remote_poster_open").performScrollTo().performClick()
-        ui.waitUntil(10000) { ui.onAllNodesWithTag("detail_remote_poster_preview_loaded").fetchSemanticsNodes().isNotEmpty() }
+        ui.onNodeWithTag("detail_remote_poster_dialog").assertIsDisplayed()
+        ui.onNodeWithTag("detail_remote_poster_confirm").assertIsEnabled()
+        ui.onAllNodesWithTag("detail_remote_poster_preview_loaded").assertCountEquals(0)
+        assertEquals(beforeMetadata, metadataReads.get()); assertEquals(beforeImages, imageReads.get()); assertEquals(beforePreview, previewReads.get())
     }
     fun confirm() {
         ui.onNodeWithTag("detail_remote_poster_confirm").performClick()
@@ -158,7 +163,7 @@ class RemotePosterNavigationTest {
         restoration.setContent(fixture.content()); fixture.openWork(); fixture.openDialog(); fixture.assertNotSaved()
         restoration.emulateSavedInstanceStateRestore()
         ui.onNodeWithText("作品详情").assertIsDisplayed(); ui.onNodeWithTag("detail_remote_poster_dialog").assertDoesNotExist()
-        fixture.assertNotSaved(); assertEquals(1, fixture.metadataReads.get())
+        fixture.assertNotSaved(); assertEquals(0, fixture.metadataReads.get()); assertEquals(0, fixture.previewReads.get())
         ui.onNodeWithTag("detail_remote_poster_open").performScrollTo().assertIsDisplayed()
     }
     @Test fun ordinaryWorkKeepsActualDetailLayoutWithoutATmdbEntry() = runBlocking<Unit> {

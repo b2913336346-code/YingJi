@@ -1,0 +1,7 @@
+// Actual R8/shrunk/non-debuggable clone for external UI acceptance. No test keep rules or test Activity.
+allprojects { p -> p.plugins.withId('com.android.application') {
+ p.extensions.getByName('androidComponents').finalizeDsl { a ->
+  a.buildTypes.create('releaseAcceptance') { initWith(a.buildTypes.getByName('release')); applicationIdSuffix='.tmdb.uiacceptance'; matchingFallbacks=['release']; signingConfig=a.signingConfigs.getByName('debug'); debuggable=false; minifyEnabled=true; shrinkResources=true }
+  a.sourceSets.getByName('releaseAcceptance').java.srcDir('src/release/java')
+ }
+} }

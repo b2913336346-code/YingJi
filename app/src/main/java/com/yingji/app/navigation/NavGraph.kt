@@ -1,5 +1,7 @@
 package com.yingji.app.navigation
 
+import kotlinx.coroutines.launch
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
@@ -90,6 +92,18 @@ fun YingJiNavGraph(aiHomeRepository: com.yingji.app.domain.ai.AiHomeRepository? 
         DatabaseProtectionHost(protection, protectionState)
         return
     }
+    val backup = application.portableBackup
+    val backupRecovery by backup.recovery.collectAsStateWithLifecycle()
+    val backupScope = androidx.compose.runtime.rememberCoroutineScope()
+    LaunchedEffect(backup) { backup.initialize() }
+    if (!backupRecovery.ready) {
+        com.yingji.app.presentation.backup.BackupRecoveryHost(backupRecovery) { backupScope.launch { backup.initialize() } }
+        return
+    }
+    var backupOpen by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(backupRecovery.pendingSettings) { if (backupRecovery.pendingSettings) backupOpen = true }
+    if (backupOpen) com.yingji.app.presentation.backup.BackupHost(backup) { backupOpen = false }
+
     val aiHomeViewModel: AiHomeViewModel = aiHomeViewModelOverride ?: viewModel(factory = AiHomeViewModel.factory(aiHomeRepository ?: application.aiHomeRepository,
         if (aiHomeRepository == null) application.aiKeyConfigurationRepository else null,
         if (aiHomeRepository == null) application.localProfileManagementRepository else null,
@@ -338,6 +352,7 @@ fun YingJiNavGraph(aiHomeRepository: com.yingji.app.domain.ai.AiHomeRepository? 
                     onStatisticsClick = { navController.navigate(Screen.Statistics.route) },
                     movieCount = movieUiState.movies.size.takeIf { movieUiState.isLoaded },
                     onAiModelConfigurationClick = { navController.navigate(Screen.AiModelConfiguration.route) { launchSingleTop = true } },
+                    onBackupClick = { backupOpen = true },
                     onAddCategory = categoryTagViewModel::addCustomCategory,
                     onRenameCategory = categoryTagViewModel::renameCategory,
                     onDeleteCategory = categoryTagViewModel::deleteCustomCategory,

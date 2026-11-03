@@ -109,7 +109,9 @@ class RemotePosterDetailScreenTest {
     }
     private fun open() {
         ui.onNodeWithTag("detail_remote_poster_open").performScrollTo().performClick()
-        ui.waitUntil(10000) { vm.uiState.value.poster != null || vm.uiState.value.message != null }
+        ui.waitUntil(10000) { vm.uiState.value.confirmationPending }
+        ui.onNodeWithTag("detail_remote_poster_confirm").assertIsEnabled()
+        ui.onAllNodesWithTag("detail_remote_poster_preview_loaded").assertCountEquals(0)
     }
     private fun confirm() = ui.onNodeWithTag("detail_remote_poster_confirm").performClick()
     private fun message(text: String) {
@@ -138,14 +140,19 @@ class RemotePosterDetailScreenTest {
         show(); ui.onNodeWithTag("detail_remote_poster_open").assertDoesNotExist()
         assertEquals(0, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get()); unchanged()
     }
-    @Test fun openingOnlyPreviewsInMemoryAndCancelPreservesTheOldImageAndRecord() {
-        show(); waitLocal(Color.DKGRAY); capture("before-light")
-        assertEquals(0, metadataReads.get()); assertEquals(0, imageReads.get()); unchanged()
-        open(); ui.waitUntil { previewReads.get() == 1 }
-        ui.onNodeWithTag("detail_remote_poster_preview_loaded").assertIsDisplayed(); capture("confirm-light")
-        assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); unchanged()
-        ui.onNodeWithTag("detail_remote_poster_cancel").performClick()
-        ui.onNodeWithTag("detail_remote_poster_dialog").assertDoesNotExist(); waitLocal(Color.DKGRAY); unchanged()
+    @Test fun openingAndCancelInBothThemesStartNoRequestsAndPreserveTheOldImageAndRecord() {
+        show()
+        for (mode in listOf(ThemeMode.LIGHT, ThemeMode.DARK)) {
+            ui.runOnIdle { theme.value = mode }; waitLocal(Color.DKGRAY); capture("before-" + mode.name.lowercase())
+            assertEquals(0, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get()); unchanged()
+            open(); ui.onNodeWithText("确认后联网读取", substring = true).assertIsDisplayed()
+            ui.onAllNodesWithTag("detail_remote_poster_preview_loaded").assertCountEquals(0)
+            capture("confirm-" + mode.name.lowercase())
+            assertEquals(0, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get()); unchanged()
+            ui.onNodeWithTag("detail_remote_poster_cancel").performClick()
+            ui.onNodeWithTag("detail_remote_poster_dialog").assertDoesNotExist(); waitLocal(Color.DKGRAY); unchanged()
+            assertEquals(0, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get())
+        }
     }
     @Test fun successfulConfirmationImmediatelyShowsTheLocalImageAndKeepsDetailAndRelations() = runBlocking<Unit> {
         show(); open(); confirm(); message("海报已保存"); waitLocal(Color.GRAY); capture("after-light")
@@ -153,15 +160,19 @@ class RemotePosterDetailScreenTest {
         assertEquals(original.copy(posterPath = stored.posterPath), stored); assertFalse(File(original.posterPath!!).exists())
         assertTrue(File(stored.posterPath!!).isFile); assertEquals(listOf(7L), db.categoryDao().getCategoryIdsForMovie(stored.id))
         assertEquals(listOf(7L), db.tagDao().getTagIdsForMovie(stored.id)); assertEquals(1, db.watchHistoryDao().getForMovie(stored.id).count { it.endTime == null })
-        assertEquals(1, metadataReads.get()); assertEquals(1, imageReads.get()); assertEquals(0, backs)
+        assertEquals(1, metadataReads.get()); assertEquals(1, imageReads.get()); assertEquals(0, previewReads.get()); assertEquals(0, backs)
         ui.runOnIdle { theme.value = ThemeMode.DARK }; waitLocal(Color.GRAY); capture("after-dark")
         ui.onNodeWithText("作品详情").assertIsDisplayed()
     }
     @Test fun detailLookupFailureReportsAnErrorAndRetryRequiresConfirmation() {
         lookupGate = { throw TmdbProblem(TmdbProblemCode.OFFLINE) }; show(); open()
-        message("海报读取失败，请检查网络后重试"); unchanged(); assertEquals(0, imageReads.get())
-        lookupGate = {}; open(); assertEquals(0, imageReads.get()); unchanged()
+        assertEquals(0, metadataReads.get()); confirm()
+        message("海报读取失败，请检查网络后重试"); unchanged(); assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get())
+        lookupGate = {}; open(); assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); unchanged()
         ui.onNodeWithTag("detail_remote_poster_cancel").performClick()
+        assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get()); unchanged()
+        open(); confirm(); message("海报已保存"); waitLocal(Color.GRAY)
+        assertEquals(2, metadataReads.get()); assertEquals(1, imageReads.get())
     }
     @Test fun imageDownloadFailureKeepsTheOldImageAndCanBeRetried() {
         imageGate = { throw IOException("synthetic image failure") }; show(); open(); confirm()
@@ -188,7 +199,7 @@ class RemotePosterDetailScreenTest {
     @Test fun leavingDuringLookupCancelsTheRequestAndReentryDoesNotRestoreTheDialog() = runBlocking<Unit> {
         val started = CompletableDeferred<Unit>(); val cancelled = CompletableDeferred<Unit>()
         lookupGate = { started.complete(Unit); try { awaitCancellation() } finally { cancelled.complete(Unit) } }
-        show(); ui.onNodeWithTag("detail_remote_poster_open").performScrollTo().performClick()
+        show(); open(); assertEquals(0, metadataReads.get()); confirm()
         withTimeout(5000) { started.await() }
         ui.onNodeWithTag("detail_remote_poster_confirm").assertIsNotEnabled()
         ui.runOnIdle { shown.value = false }; ui.waitForIdle(); withTimeout(5000) { cancelled.await() }
@@ -196,4 +207,19 @@ class RemotePosterDetailScreenTest {
         ui.onNodeWithTag("detail_remote_poster_dialog").assertDoesNotExist(); waitLocal(Color.DKGRAY)
         assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); unchanged()
     }
+    @Test fun cancellingConfirmedLookupStopsBeforeImageDownloadAndRetryNeedsFreshConfirmation() = runBlocking<Unit> {
+        val started = CompletableDeferred<Unit>(); val cancelled = CompletableDeferred<Unit>()
+        lookupGate = { started.complete(Unit); try { awaitCancellation() } finally { cancelled.complete(Unit) } }
+        show(); open(); confirm(); withTimeout(5000) { started.await() }
+        ui.onNodeWithTag("detail_remote_poster_confirm").assertIsNotEnabled()
+        ui.onNodeWithTag("detail_remote_poster_cancel").assertIsEnabled().performClick()
+        withTimeout(5000) { cancelled.await() }
+        ui.onNodeWithTag("detail_remote_poster_dialog").assertDoesNotExist()
+        assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); assertEquals(0, previewReads.get()); unchanged()
+        lookupGate = {}; open()
+        assertEquals(1, metadataReads.get()); assertEquals(0, imageReads.get()); unchanged()
+        confirm(); message("海报已保存"); waitLocal(Color.GRAY)
+        assertEquals(2, metadataReads.get()); assertEquals(1, imageReads.get())
+    }
+
 }

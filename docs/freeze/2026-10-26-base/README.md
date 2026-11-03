@@ -1,5 +1,7 @@
 # 基础影迹冻结记录
 
+> 仓库整理说明：本文件保留历史验收结论。`artifacts/` 原始证据已改为仅本地保留，不随仓库上传；下文证据路径需在保存原文件的本机查阅，详见[文档索引](../../README.md)。
+
 **状态：基础应用验收基线已冻结。** 基线标识：yingji-base-2026-10-26；验收日期：2026-10-26；本次归档日期：2026-10-27。版本保持 3.0.0（versionCode 3），Room 保持 v5。
 
 冻结提交由包含本文件的 Git 提交确定，见 git log --oneline -- docs/freeze/2026-10-26-base/README.md。提交哈希不写入其自身内容，以避免循环依赖；推送是否成功以远端核验回执为准。
@@ -26,7 +28,7 @@
 
 ## 5. 编译结果
 
-本步骤重新执行 Debug、Release 构建和 JVM 测试：99 个任务重新执行，构建成功。见 [冻结构建日志](../../../artifacts/freeze/2026-10-26-base/build.log)、[本机构建产物指纹](../../../artifacts/freeze/2026-10-26-base/build-manifest.json)。Release 产物为 unsigned APK，仅记录指纹，不作为发布包；APK、签名材料、local.properties 和用户数据库不提交。
+本步骤重新执行 Debug、Release 构建和 JVM 测试：99 个任务重新执行，构建成功。见 冻结构建日志（本地 `artifacts/freeze/2026-10-26-base/build.log`）、本机构建产物指纹（本地 `artifacts/freeze/2026-10-26-base/build-manifest.json`）。Release 产物为 unsigned APK，仅记录指纹，不作为发布包；APK、签名材料、local.properties 和用户数据库不提交。
 
 基础复核命令（JDK 17、Android SDK 35）：
 
@@ -47,9 +49,9 @@ Copy-Item docs/freeze/2026-10-26-base/b5-AndroidManifest.xml app/build/b5-poster
 
 ## 6. 测试结果
 
-- 本冻结步骤 JVM：167/167，0 失败、0 错误、0 跳过；[结果汇总](../../../artifacts/freeze/2026-10-26-base/unit-results.json)。
-- B4：最终同一轮 144/144，总数原用例冷启动 40/40，11 项验收通过；[完整报告](../../../artifacts/acceptance/2026-10-26-b4-layout-fix-acceptance.md)。
-- B5：最终同一轮 79/79，11 项海报边界通过；[完整报告](../../../artifacts/acceptance/2026-10-26-b5-poster-boundary-acceptance.md)。
+- 本冻结步骤 JVM：167/167，0 失败、0 错误、0 跳过；结果汇总（本地 `artifacts/freeze/2026-10-26-base/unit-results.json`）。
+- B4：最终同一轮 144/144，总数原用例冷启动 40/40，11 项验收通过；完整报告（本地 `artifacts/acceptance/2026-10-26-b4-layout-fix-acceptance.md`）。
+- B5：最终同一轮 79/79，11 项海报边界通过；完整报告（本地 `artifacts/acceptance/2026-10-26-b5-poster-boundary-acceptance.md`）。
 - B4/B5 使用 vivo S9 / V2072A 真机。原始失败尝试保留；通过结论限于报告记载的独立包和前台宿主运行条件，未拼接不同轮次结果。
 
 [验收证据清单](acceptance-evidence.json) 收录 354 个文件的指纹与 Git blob；包括原始队列、日志、XML、截图和失败记录。暂存提交前检查本阶段输入指纹一致，并扫描高置信凭据模式，无命中；此扫描不声称能发现所有形式的敏感信息。

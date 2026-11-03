@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.yingji.app.presentation.ai.TmdbPosterPreview
 
 @Composable
 internal fun RemotePosterControls(state: RemotePosterState, onOpen: () -> Unit, onConfirm: () -> Unit, onDismiss: () -> Unit) {
@@ -27,13 +26,12 @@ internal fun RemotePosterControls(state: RemotePosterState, onOpen: () -> Unit, 
             title = { Text("使用此海报") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    state.poster?.let { TmdbPosterPreview(it, "detail_remote_poster_preview") }
                     Text(if (state.loading) "正在读取对应作品的海报…" else if (state.saving) "正在保存海报…" else
-                        "确认后保存到本机；已有海报会在保存成功后替换。", style = MaterialTheme.typography.bodyMedium)
+                        "确认后联网读取并保存到本机；已有海报会在保存成功后替换。取消不会发起网络请求或修改数据。", style = MaterialTheme.typography.bodyMedium)
                 }
             },
             confirmButton = {
-                TextButton(onClick = onConfirm, enabled = state.poster != null && !state.saving && !state.loading,
+                TextButton(onClick = onConfirm, enabled = state.confirmationPending && !state.saving && !state.loading,
                     modifier = Modifier.testTag("detail_remote_poster_confirm")) { Text("确认使用") }
             },
             dismissButton = {

@@ -11,6 +11,8 @@ import com.yingji.app.domain.model.ThemeMode
 import com.yingji.app.domain.model.MovieDisplayMode
 import com.yingji.app.domain.model.MovieSortOption
 import java.io.IOException
+import com.yingji.app.data.backup.BackupPreferences
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -65,6 +67,17 @@ class ThemeRepository(
         dataStore.edit { preferences ->
             preferences[MOVIE_SORT_OPTION_KEY] = option.name
         }
+    }
+
+    suspend fun backupPreferences(): BackupPreferences {
+        val p = dataStore.data.first()
+        return BackupPreferences(ThemeMode.entries.firstOrNull { it.name == p[THEME_MODE_KEY] }?.name ?: ThemeMode.SYSTEM.name,
+            parseMovieDisplayMode(p[MOVIE_DISPLAY_MODE_KEY]).name, parseMovieSortOption(p[MOVIE_SORT_OPTION_KEY]).name)
+    }
+
+    suspend fun applyBackupPreferences(value: BackupPreferences) {
+        value.validate()
+        dataStore.edit { p -> p[THEME_MODE_KEY] = value.theme; p[MOVIE_DISPLAY_MODE_KEY] = value.display; p[MOVIE_SORT_OPTION_KEY] = value.sort }
     }
 
     private companion object {

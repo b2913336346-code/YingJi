@@ -102,6 +102,7 @@ fun SettingsScreen(
     onActionResultConsumed: () -> Unit = {},
     movieCount: Int? = null,
     onAiModelConfigurationClick: (() -> Unit)? = null,
+    onBackupClick: (() -> Unit)? = null,
 ) {
     var showAbout by remember { mutableStateOf(false) }
     var addType by remember { mutableStateOf<AddType?>(null) }
@@ -296,6 +297,10 @@ fun SettingsScreen(
             if (onAiModelConfigurationClick != null) item {
                 OutlinedButton(onClick = onAiModelConfigurationClick,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).testTag("ai_model_configuration")) { Text("AI 模型配置") }
+            }
+            if (onBackupClick != null) item {
+                OutlinedButton(onClick = onBackupClick,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).testTag("backup_open")) { Text("备份与恢复") }
             }
             item {
                 OutlinedButton(

@@ -22,9 +22,10 @@ class PosterSaveException(cause: Throwable) : IOException("海报保存失败，
 
 class PosterRepository internal constructor(
     private val context: Context,
+    private val writeRemote: (Bitmap, File) -> Unit = ::writeRemotePng,
     private val publishRemote: (File, File) -> Unit,
 ) {
-    constructor(context: Context) : this(context, { temporary, target ->
+    constructor(context: Context) : this(context, publishRemote = { temporary, target ->
         Files.move(temporary.toPath(), target.toPath(), StandardCopyOption.ATOMIC_MOVE)
         syncDirectory(requireNotNull(target.parentFile))
     })
@@ -76,10 +77,7 @@ class PosterRepository internal constructor(
                 if (!directory.isDirectory && !directory.mkdirs()) throw IOException("无法创建海报目录")
                 val staged = File.createTempFile(".remote-", ".part", directory)
                 temporary = staged
-                staged.outputStream().use { output ->
-                    if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)) throw IOException("海报写入失败")
-                    output.fd.sync()
-                }
+                writeRemote(bitmap, staged)
                 if (staged.length() !in 1..2097152) throw IOException("海报文件大小无效")
                 val verified = BitmapFactory.decodeFile(staged.absolutePath) ?: throw IOException("海报校验失败")
                 try { check(verified.width == bitmap.width && verified.height == bitmap.height) { "海报校验失败" } }
@@ -124,6 +122,13 @@ class PosterRepository internal constructor(
 
     companion object {
         const val POSTER_DIRECTORY = "posters"
+
+        private fun writeRemotePng(bitmap: Bitmap, staged: File) {
+            staged.outputStream().use { output ->
+                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)) throw IOException("海报写入失败")
+                output.fd.sync()
+            }
+        }
 
         private fun syncDirectory(directory: File) {
             val descriptor = Os.open(directory.absolutePath, OsConstants.O_RDONLY, 0)

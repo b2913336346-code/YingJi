@@ -21,9 +21,10 @@ data class RemotePosterState(
     val loading: Boolean = false,
     val saving: Boolean = false,
     val poster: TmdbPoster? = null,
+    val confirmationPending: Boolean = false,
     val message: String? = null,
 ) {
-    val dialogVisible: Boolean get() = loading || poster != null || saving
+    val dialogVisible: Boolean get() = confirmationPending || loading || poster != null || saving
 }
 
 class RemotePosterViewModel(
@@ -54,26 +55,26 @@ class RemotePosterViewModel(
     fun open() {
         val current = state.value
         if (!current.available || current.checking || current.dialogVisible) return
-        val epoch = generation
-        state.value = current.copy(loading = true, message = null)
-        operation = viewModelScope.launch {
-            try {
-                val poster = lookup()
-                if (epoch == generation) state.value = state.value.copy(loading = false, poster = poster)
-            } catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) {
-                if (epoch == generation) state.value = state.value.copy(loading = false, poster = null, message = lookupFailure(error))
-            }
-        }
+        // Opening the confirmation is local-only. Lookup and image I/O require confirm().
+        state.value = current.copy(confirmationPending = true, message = null)
     }
 
     fun confirm() {
         val current = state.value
-        val poster = current.poster ?: return
-        if (current.saving || current.loading) return
+        if (!current.confirmationPending || current.saving || current.loading) return
         val epoch = generation
-        state.value = current.copy(saving = true, message = null)
+        state.value = current.copy(confirmationPending = false, loading = true, message = null)
         operation = viewModelScope.launch {
+            val poster = try {
+                lookup()
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (error: Exception) {
+                if (epoch == generation) state.value = state.value.copy(loading = false, poster = null, message = lookupFailure(error))
+                return@launch
+            }
+            // A cancelled lookup may finish late; it must never proceed to saving.
+            if (epoch != generation) return@launch
+            state.value = state.value.copy(loading = false, saving = true, poster = poster)
             try {
                 save(poster)
                 if (epoch == generation) state.value = state.value.copy(saving = false, poster = null, message = "海报已保存")
@@ -94,7 +95,7 @@ class RemotePosterViewModel(
         generation++
         operation?.cancel()
         operation = null
-        state.value = state.value.copy(loading = false, saving = false, poster = null, message = null)
+        state.value = state.value.copy(confirmationPending = false, loading = false, saving = false, poster = null, message = null)
     }
 
     fun consumeMessage() { state.value = state.value.copy(message = null) }

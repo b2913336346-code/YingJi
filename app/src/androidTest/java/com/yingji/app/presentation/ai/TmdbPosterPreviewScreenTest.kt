@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.yingji.app.data.ai.TmdbPosterPreviewLoader
 import com.yingji.app.domain.ai.*
@@ -77,9 +78,38 @@ class TmdbPosterPreviewScreenTest {
         }
         ui.onNodeWithText("虚构海报测试作品").assertIsDisplayed()
         ui.onNodeWithTag("tmdb_preview_movie:7_poster").assertDoesNotExist()
+        ui.onNodeWithTag("tmdb_preview_movie:7_poster_missing").assertIsDisplayed()
         ui.runOnIdle { row.value = candidate(source = "tmdb-protocol-mock") }
+        ui.onNodeWithTag("tmdb_preview_movie:7_poster_missing").assertDoesNotExist()
         ui.onNodeWithTag("tmdb_preview_movie:7_poster").assertDoesNotExist()
         ui.runOnIdle { assertEquals(0, calls.get()) }
+    }
+    @Test fun missingPosterPlaceholderKeepsTheAddActionInLightAndDarkThemesWithoutImageRequestsOrFiles() {
+        val calls = AtomicInteger()
+        val theme = mutableStateOf(ThemeMode.LIGHT)
+        var added = 0
+        val posters = File(ui.activity.filesDir, "posters")
+        val before = posters.list().orEmpty().toSet()
+        ui.setContent {
+            CompositionLocalProvider(LocalTmdbPosterPreviewLoader provides TmdbPosterPreviewLoader { calls.incrementAndGet(); bitmap() }) {
+                YingJiTheme(theme.value) { TmdbCandidateCard(candidate(poster = null), onAdd = { added++ }) }
+            }
+        }
+        for ((mode, name) in listOf(ThemeMode.LIGHT to "missing-poster-light", ThemeMode.DARK to "missing-poster-dark")) {
+            ui.runOnIdle { theme.value = mode }
+            ui.onNodeWithTag("tmdb_preview_movie:7_poster_missing").assertIsDisplayed()
+                .assertWidthIsEqualTo(96.dp).assertHeightIsEqualTo(144.dp)
+            ui.onNodeWithText("暂无海报").assertIsDisplayed()
+            ui.onNodeWithText("虚构海报测试作品").assertIsDisplayed()
+            ui.onNodeWithTag("tmdb_preview_movie:7_poster").assertDoesNotExist()
+            ui.onNodeWithTag("tmdb_add_movie:7").assertIsEnabled().performClick()
+            screenshot(name)
+        }
+        ui.runOnIdle {
+            assertEquals(2, added)
+            assertEquals(0, calls.get())
+            assertEquals(before, posters.list().orEmpty().toSet())
+        }
     }
     @Test fun leavingTheCandidateListCancelsTheInFlightImageAndRemovesItsState() {
         val shown = mutableStateOf(true)

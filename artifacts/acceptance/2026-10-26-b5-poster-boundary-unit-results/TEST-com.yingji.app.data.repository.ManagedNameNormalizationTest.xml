@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.yingji.app.data.repository.ManagedNameNormalizationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-26T13:53:15" hostname="BUWENXU" time="0.008">
-  <properties/>
-  <testcase name="trimsSurroundingWhitespace" classname="com.yingji.app.data.repository.ManagedNameNormalizationTest" time="0.008"/>
-  <testcase name="rejectsBlankNames" classname="com.yingji.app.data.repository.ManagedNameNormalizationTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

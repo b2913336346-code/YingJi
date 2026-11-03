@@ -24,7 +24,7 @@ class TmdbRankingNavigationTest {
     private val app = ApplicationProvider.getApplicationContext<YingJiApplication>()
     @Before fun open() { runBlocking { f.prepare() }; ui.runOnUiThread { home = f.home(); models.put("home", home) } }
     @After fun close() { ui.runOnUiThread { models.clear() } }
-    private fun scroll(tag: String) { ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag)) }
+    private fun scroll(tag: String) { ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag)); ui.onNodeWithTag(tag).performScrollTo() }
     private fun rank() {
         ui.waitUntil(10000) { ui.onAllNodesWithTag("movie_collection").fetchSemanticsNodes().isNotEmpty() }
         scroll("ai_source_tmdb"); ui.onNodeWithTag("ai_source_tmdb").performClick()
@@ -60,7 +60,7 @@ class TmdbRankingNavigationTest {
 /** Actual Application -> NavGraph -> factories expose the new button, without pressing either provider read button. */
 class TmdbRankingProductionEntryTest {
     @get:Rule val ui = createAndroidComposeRule<MainActivity>()
-    private fun scroll(tag: String) { ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag)) }
+    private fun scroll(tag: String) { ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag)); ui.onNodeWithTag(tag).performScrollTo() }
     @Test fun actualFactoriesExposeTheIdleRankingEntryAndKeepDefaultMockAndNavigation() {
         ui.waitUntil(10000) { ui.onAllNodesWithTag("movie_collection").fetchSemanticsNodes().isNotEmpty() }
         scroll("ai_source_mock"); ui.onNodeWithTag("ai_source_mock").assertIsSelected()

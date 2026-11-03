@@ -1,0 +1,11 @@
+// Manual credential preparation in a disposable Debug clone; no original app update.
+allprojects { p -> p.plugins.withId('com.android.application') {
+ def a=p.extensions.getByName('android')
+ a.buildTypes.create('tmdbUiAcceptance') { initWith(a.buildTypes.getByName('debug')); applicationIdSuffix='.tmdb.uiacceptance'; matchingFallbacks=['debug']; signingConfig=a.signingConfigs.getByName('debug') }
+ a.sourceSets.getByName('tmdbUiAcceptance').java.srcDir('src/debug/java')
+ a.sourceSets.getByName('tmdbUiAcceptance').res.srcDir('src/debug/res')
+ a.sourceSets.getByName('tmdbUiAcceptance').manifest.srcFile('src/debug/AndroidManifest.xml')
+ a.testBuildType='tmdbUiAcceptance'
+ a.sourceSets.getByName('androidTest').java.srcDir('src/releaseAcceptanceTest/java')
+ p.configurations.configureEach { c -> if(c.name=='tmdbUiAcceptanceImplementation') c.extendsFrom(p.configurations.getByName('debugImplementation')) }
+} }

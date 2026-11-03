@@ -43,20 +43,20 @@ class RemotePosterViewModelTest {
         assertEquals("海报来源读取失败，请重新打开详情", vm.uiState.value.message)
         assertFalse(vm.uiState.value.available); assertEquals(0, loads.get()); assertEquals(0, saves.get())
     }
-    @Test fun openingAndCancellingNeverSavesAndRapidOpenStartsOneLookup() = runBlocking {
-        val started = CompletableDeferred<Unit>(); val cancelled = CompletableDeferred<Unit>()
-        lookup = { started.complete(Unit); try { awaitCancellation() } finally { cancelled.complete(Unit) } }
+    @Test fun openingAndCancellingNeverStartsAnyRequestAndRapidOpenStaysLocal() = runBlocking {
         ready(); assertEquals(0, loads.get())
         main { vm.confirm(); vm.open(); vm.open() }
-        withTimeout(5000) { started.await() }; assertTrue(vm.uiState.value.loading)
-        main { vm.dismiss() }; withTimeout(5000) { cancelled.await() }
-        assertFalse(vm.uiState.value.dialogVisible); assertEquals(1, loads.get()); assertEquals(0, saves.get())
+        assertTrue(vm.uiState.value.confirmationPending); assertTrue(vm.uiState.value.dialogVisible)
+        assertFalse(vm.uiState.value.loading); assertNull(vm.uiState.value.poster)
+        assertEquals(0, loads.get()); assertEquals(0, saves.get())
+        main { vm.dismiss(); vm.confirm(); vm.open(); vm.dismiss(); vm.confirm() }
+        assertFalse(vm.uiState.value.dialogVisible); assertEquals(0, loads.get()); assertEquals(0, saves.get())
     }
     @Test fun onlyConfirmationSavesAndRapidConfirmationCannotDuplicateTheWrite() = runBlocking {
         val started = CompletableDeferred<Unit>(); val finish = CompletableDeferred<Unit>()
         save = { assertEquals(poster, it); started.complete(Unit); finish.await(); RemotePosterSaveResult("/private/saved.png", false) }
-        ready(); main { vm.open() }; await { it.poster != null }
-        assertEquals(0, saves.get())
+        ready(); main { vm.open() }; await { it.confirmationPending }
+        assertEquals(0, loads.get()); assertEquals(0, saves.get())
         main { vm.confirm(); vm.confirm(); vm.dismiss() }
         withTimeout(5000) { started.await() }; assertTrue(vm.uiState.value.saving); assertEquals(1, saves.get())
         finish.complete(Unit); await { it.message == "海报已保存" }
@@ -65,35 +65,61 @@ class RemotePosterViewModelTest {
     }
     @Test fun missingImageAndCredentialErrorsHaveClearFeedbackAndCanBeRetried() = runBlocking {
         lookup = { throw NoTmdbPosterException() }; ready(); main { vm.open() }
+        assertEquals(0, loads.get()); main { vm.confirm() }
         await { it.message != null }; assertEquals("该作品暂无可用海报", vm.uiState.value.message)
         lookup = { throw TmdbProblem(TmdbProblemCode.KEY_REQUIRED) }; main { vm.open() }
+        assertEquals(1, loads.get()); main { vm.confirm() }
         await { it.message?.contains("令牌") == true }; assertFalse(vm.uiState.value.dialogVisible)
-        lookup = { poster }; main { vm.open() }; await { it.poster != null }
-        assertEquals(3, loads.get()); assertEquals(0, saves.get())
+        lookup = { poster }; main { vm.open() }; await { it.confirmationPending }
+        assertEquals(2, loads.get()); assertEquals(0, saves.get())
+        main { vm.confirm() }; await { it.message == "海报已保存" }
+        assertEquals(3, loads.get()); assertEquals(1, saves.get())
     }
     @Test fun failedSaveHasNoSuccessMessageAndRequiresAnotherSelectionAndConfirmation() = runBlocking {
-        save = { throw IOException("synthetic failed write") }; ready(); main { vm.open() }; await { it.poster != null }
+        save = { throw IOException("synthetic failed write") }; ready(); main { vm.open() }; await { it.confirmationPending }
         main { vm.confirm() }; await { it.message != null }
         assertEquals("海报保存未完成，请重试或重新打开详情确认", vm.uiState.value.message)
         assertFalse(vm.uiState.value.saving); assertFalse(vm.uiState.value.dialogVisible)
         main { vm.confirm() }; assertEquals(1, saves.get())
         save = { RemotePosterSaveResult("/private/retry.png", true) }
-        main { vm.open() }; await { it.poster != null }; main { vm.confirm() }
+        main { vm.open() }; await { it.confirmationPending }; main { vm.confirm() }
         await { it.message == "海报已保存" }; assertEquals(2, saves.get())
     }
     @Test fun leavingAndReenteringDoesNotRestoreOrAutomaticallySaveAnOnlineSelection() = runBlocking {
-        ready(); main { vm.open() }; await { it.poster != null }
+        ready(); main { vm.open() }; await { it.confirmationPending }
         main { vm.leave(); vm.enter() }; await { !it.checking }
         assertNull(vm.uiState.value.poster); assertFalse(vm.uiState.value.dialogVisible)
-        assertEquals(1, loads.get()); assertEquals(0, saves.get())
+        assertEquals(0, loads.get()); assertEquals(0, saves.get())
     }
     @Test fun aLateNonCancellableSaveCannotPublishFeedbackIntoAReenteredPage() = runBlocking {
         val started = CompletableDeferred<Unit>(); val finish = CompletableDeferred<Unit>(); val ended = CompletableDeferred<Unit>()
         save = { withContext(NonCancellable) { started.complete(Unit); finish.await(); ended.complete(Unit); RemotePosterSaveResult("/private/committed.png", false) } }
-        ready(); main { vm.open() }; await { it.poster != null }; main { vm.confirm() }
+        ready(); main { vm.open() }; await { it.confirmationPending }; main { vm.confirm() }
         withTimeout(5000) { started.await() }; main { vm.leave(); vm.enter() }; await { !it.checking }
         finish.complete(Unit); withTimeout(5000) { ended.await() }; main { }
         assertNull(vm.uiState.value.message); assertFalse(vm.uiState.value.dialogVisible)
         assertEquals(1, loads.get()); assertEquals(1, saves.get())
     }
+    @Test fun confirmedLookupCanBeCancelledAndRapidConfirmationStartsOnlyOneLookup() = runBlocking {
+        val started = CompletableDeferred<Unit>(); val cancelled = CompletableDeferred<Unit>()
+        lookup = { started.complete(Unit); try { awaitCancellation() } finally { cancelled.complete(Unit) } }
+        ready(); main { vm.open() }; assertEquals(0, loads.get())
+        main { vm.confirm(); vm.confirm() }
+        withTimeout(5000) { started.await() }; assertTrue(vm.uiState.value.loading)
+        main { vm.dismiss() }; withTimeout(5000) { cancelled.await() }
+        assertFalse(vm.uiState.value.dialogVisible); assertEquals(1, loads.get()); assertEquals(0, saves.get())
+        main { vm.confirm() }; assertEquals(1, loads.get()); assertEquals(0, saves.get())
+    }
+    @Test fun aLateNonCancellableLookupCannotSaveOrRestoreAReenteredPage() = runBlocking {
+        val started = CompletableDeferred<Unit>(); val finish = CompletableDeferred<Unit>(); val ended = CompletableDeferred<Unit>()
+        lookup = { withContext(NonCancellable) { started.complete(Unit); finish.await(); ended.complete(Unit); poster } }
+        ready(); main { vm.open(); vm.confirm() }
+        try {
+            withTimeout(5000) { started.await() }; main { vm.leave(); vm.enter() }; await { !it.checking }
+        } finally { finish.complete(Unit) }
+        withTimeout(5000) { ended.await() }; main { }
+        assertNull(vm.uiState.value.message); assertNull(vm.uiState.value.poster); assertFalse(vm.uiState.value.dialogVisible)
+        assertEquals(1, loads.get()); assertEquals(0, saves.get())
+    }
+
 }

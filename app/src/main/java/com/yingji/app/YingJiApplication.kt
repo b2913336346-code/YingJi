@@ -131,4 +131,9 @@ class YingJiApplication : Application() {
     val themeRepository: ThemeRepository by lazy {
         AppModule.provideThemeRepository(this)
     }
+
+    val portableBackup by lazy {
+        com.yingji.app.data.backup.PortableBackupCoordinator(this, database, themeRepository,
+            rebuildProfile = { profileRepository.getProfile(); Unit })
+    }
 }

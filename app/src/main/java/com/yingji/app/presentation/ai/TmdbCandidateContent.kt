@@ -1,9 +1,11 @@
 package com.yingji.app.presentation.ai
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -31,8 +33,17 @@ internal fun TmdbPreviewStatusText(preview: TmdbPreviewState, tag: String = "tmd
 internal fun TmdbCandidateCard(row: CatalogCandidate, prefix: String = "tmdb_preview_", onAdd: (() -> Unit)? = null) {
     OutlinedCard(Modifier.fillMaxWidth().testTag(prefix + row.identity.externalId)) {
         Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            if (row.identity.sourceId == "tmdb") row.poster?.let { poster ->
-                TmdbPosterPreview(poster, prefix + row.identity.externalId + "_poster")
+            if (row.identity.sourceId == "tmdb") {
+                val poster = row.poster
+                if (poster != null) {
+                    TmdbPosterPreview(poster, prefix + row.identity.externalId + "_poster")
+                } else {
+                    Box(Modifier.size(96.dp, 144.dp).background(MaterialTheme.colorScheme.surfaceContainerLow)
+                        .testTag(prefix + row.identity.externalId + "_poster_missing"), contentAlignment = Alignment.Center) {
+                        Text("暂无海报", style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
             }
             Text(row.title.orEmpty(), style = MaterialTheme.typography.titleSmall)
             Text("TMDB · " + row.identity.externalId + " · " + (row.year?.toString() ?: "年份未知"), style = MaterialTheme.typography.bodySmall)

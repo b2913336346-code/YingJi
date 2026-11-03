@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.test.platform.app.InstrumentationRegistry
 import com.yingji.app.MainActivity
 import org.junit.Assert.*
@@ -25,9 +26,13 @@ class AiHomeRotationTest {
                 ui.waitUntil(10000) { ui.activity.resources.configuration.orientation == expected }
                 ui.waitUntil(10000) { ui.onAllNodesWithTag("ai_manage_open").fetchSemanticsNodes().isNotEmpty() }
                 ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag("ai_manage_open"))
-                ui.onNodeWithTag("ai_manage_open").assertIsDisplayed()
+                ui.onNodeWithTag("ai_manage_open").performScrollTo().assertIsDisplayed()
                 ui.onNodeWithContentDescription("新增作品").assertIsDisplayed()
                 if (expected == Configuration.ORIENTATION_PORTRAIT) {
+                    val viewport = ui.onNodeWithTag("movie_collection")
+                    val distance = viewport.fetchSemanticsNode().boundsInRoot.height
+                    viewport.performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, distance) }
+                    ui.waitForIdle()
                     val collection = ui.onNodeWithTag("movie_collection").fetchSemanticsNode().boundsInRoot
                     val card = ui.onNodeWithTag("ai_home_card").fetchSemanticsNode().boundsInRoot
                     assertEquals(collection.bottom - with(ui.density) { 88.dp.toPx() }, card.bottom, 2f)

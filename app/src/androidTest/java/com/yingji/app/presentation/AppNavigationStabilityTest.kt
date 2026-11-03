@@ -3,6 +3,9 @@ package com.yingji.app.presentation
 import android.util.Log
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
@@ -27,7 +30,8 @@ class AppNavigationStabilityTest {
         var actions = 0
         repeat(10) {
             for (title in listOf("想看", "观看中", "已看完", "我的", "首页")) {
-                composeRule.onNode(hasClickAction() and hasText(title)).performClick()
+                composeRule.onNode(hasClickAction() and hasText(title) and
+                    SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Tab)).performClick()
                 assertTitle(title)
                 actions += 1
             }

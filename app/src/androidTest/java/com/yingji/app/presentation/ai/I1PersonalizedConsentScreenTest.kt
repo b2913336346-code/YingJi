@@ -120,7 +120,10 @@ class I1PersonalizedConsentScreenTest {
         runBlocking { jobs.joinAll() }
         db.close(); DatabaseHealthMonitor.resetForTesting()
     }
-    private fun scroll(tag: String) { ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag)) }
+    private fun scroll(tag: String) {
+        ui.onNodeWithTag("movie_collection").performScrollToNode(hasTestTag(tag))
+        ui.onNodeWithTag(tag).performScrollTo()
+    }
     private fun read() {
         scroll("ai_source_tmdb"); ui.onNodeWithTag("ai_source_tmdb").performClick()
         scroll("tmdb_home_read"); ui.onNodeWithTag("tmdb_home_read").performClick()

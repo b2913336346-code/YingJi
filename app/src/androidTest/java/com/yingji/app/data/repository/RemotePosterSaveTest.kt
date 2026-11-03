@@ -133,6 +133,58 @@ class RemotePosterSaveTest {
         filesRoot = null
         unchanged(original); assertEquals(before, posterNames())
     }
+    @Test fun noSpaceBeforeWritingPreservesDatabaseAndOldPosterAcrossReopenThenManualRetrySucceeds() = runBlocking {
+        assertNoSpaceSaveRollbackAndRetry(0)
+    }
+
+    @Test fun noSpaceAfterPartialWritingPreservesDatabaseAndOldPosterAcrossReopenThenManualRetrySucceeds() = runBlocking {
+        assertNoSpaceSaveRollbackAndRetry(32)
+    }
+
+    private suspend fun assertNoSpaceSaveRollbackAndRetry(bytesBeforeFailure: Int) {
+        val original = movie()
+        val bytes = File(original.posterPath!!).readBytes()
+        val before = posterNames()
+        val history = db.watchHistoryDao().getForMovie(original.id)
+        var writeCalls = 0
+        var partialLength = -1L
+        val store = PosterRepository(context, writeRemote = { _, staged ->
+            writeCalls++
+            staged.outputStream().use { output ->
+                output.write(ByteArray(bytesBeforeFailure) { 85 })
+                output.flush()
+                partialLength = staged.length()
+                throw IOException("Injected write failure", android.system.ErrnoException("write", android.system.OsConstants.ENOSPC))
+            }
+        }, publishRemote = { _, _ -> fail("No-space write must not publish a new file") })
+        val failure = runCatching { service(store)(original.id, poster, true) }.exceptionOrNull()
+        assertTrue(failure is RemotePosterSaveException)
+        assertEquals(android.system.OsConstants.ENOSPC, (failure?.cause?.cause as android.system.ErrnoException).errno)
+        assertEquals(1, writeCalls)
+        assertEquals(bytesBeforeFailure.toLong(), partialLength)
+        assertEquals(1, reads.get()) // No automatic retry after storage failure.
+        unchanged(original)
+        assertArrayEquals(bytes, File(original.posterPath).readBytes())
+        assertEquals(before, posterNames()) // Includes both .part and final filenames.
+        db.close(); openDatabase()
+        unchanged(original)
+        assertEquals(history, db.watchHistoryDao().getForMovie(original.id))
+        assertEquals(original.id, db.candidateImportDao().movieId("tmdb", "movie:" + original.id))
+        assertArrayEquals(bytes, File(original.posterPath).readBytes())
+        assertEquals(before, posterNames())
+        val saved = service()(original.id, poster, true) // New, explicit user retry after space recovers.
+        assertEquals(original.copy(posterPath = saved.localPath), db.movieDao().getById(original.id))
+        assertEquals(history, db.watchHistoryDao().getForMovie(original.id))
+        assertEquals(listOf(7L), db.categoryDao().getCategoryIdsForMovie(original.id))
+        assertEquals(listOf(7L), db.tagDao().getTagIdsForMovie(original.id))
+        assertFalse(File(original.posterPath).exists())
+        assertEquals(setOf(File(saved.localPath).name), posterNames())
+        assertEquals(2, reads.get())
+        requireNotNull(BitmapFactory.decodeFile(saved.localPath)).let { decoded ->
+            assertEquals(Color.GRAY, decoded.getPixel(0, 0)); decoded.recycle()
+        }
+    }
+
     @Test fun failedDatabaseUpdateRemovesOnlyTheNewFileAndCanRetry() = runBlocking {
         val original = movie(); val before = posterNames(); val history = db.watchHistoryDao().getForMovie(original.id)
         db.openHelper.writableDatabase.execSQL("CREATE TRIGGER reject_remote_poster BEFORE UPDATE ON movies BEGIN SELECT RAISE(ABORT,'synthetic failure'); END")

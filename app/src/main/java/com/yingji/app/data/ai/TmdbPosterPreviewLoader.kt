@@ -28,7 +28,7 @@ class MemoryOnlyTmdbPosterLoader internal constructor(
         Dispatchers.IO.dispatch(continuation.context, Runnable {
             var connection: HttpURLConnection? = null
             fun checkActive() { if (!continuation.isActive) throw IOException("Preview cancelled") }
-            try {
+            val result = try {
                 checkActive()
                 val url = URL(poster.previewUrl)
                 require(url.protocol == "https" && url.host == "image.tmdb.org" && url.port == -1 &&
@@ -74,13 +74,15 @@ class MemoryOnlyTmdbPosterLoader internal constructor(
                 while (maxOf(bounds.outWidth, bounds.outHeight) > 512 * sample) sample *= 2
                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size,
                     BitmapFactory.Options().apply { inSampleSize = sample }) ?: throw IOException("Invalid poster image")
-                if (continuation.isActive) continuation.resumeWith(Result.success(bitmap)) else bitmap.recycle()
+                Result.success(bitmap)
             } catch (_: Exception) {
-                if (continuation.isActive) continuation.resumeWith(Result.failure(IOException("海报预览失败")))
+                Result.failure<Bitmap>(IOException("海报预览失败"))
             } finally {
                 active.set(null)
                 runCatching { connection?.disconnect() }
             }
+            // Completion includes resource release; callers must never observe an open connection.
+            if (continuation.isActive) continuation.resumeWith(result) else result.getOrNull()?.recycle()
         })
     }
 

@@ -11,3 +11,55 @@ app/build/
 Netease/
 NVIDIA Corporation/
 ~$*.docx
+
+# Release signing material and machine-local credentials
+*.jks
+*.keystore
+/keystore.properties
+/signing.properties
+*.signing.local.*
+
+# Local evidence, device exports and generated packages (keep files on disk)
+/artifacts/
+*.apk
+*.aab
+*.apks
+*.hprof
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.yjb
+
+# Local environment and secrets; sanitized templates may be shared
+.env
+.env.*
+!.env.example
+!.env.sample
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+*.pem
+*.p12
+*.pfx
+
+# Dependency caches and generated backend output
+node_modules/
+.wrangler/
+/backend/**/dist/
+coverage/
+
+# OS metadata and editor temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+~$*.xlsx
+~$*.pptx

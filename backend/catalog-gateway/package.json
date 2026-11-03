@@ -1,0 +1,26 @@
+{
+  "name": "yingji-catalog-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "test": "npm run build && node --test --test-timeout=15000 dist/test/*.test.js",
+    "start": "node dist/src/main.js",
+    "start:live": "npm run build && node dist/scripts/start-live.js",
+    "verify:live": "npm run build && node dist/scripts/test-live.js",
+    "start:live:proxy": "npm run build && node dist/scripts/start-live.js --proxy http://127.0.0.1:7897"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.0",
+    "selfsigned": "2.4.1",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "https-proxy-agent": "7.0.6"
+  }
+}
