@@ -1,16 +1,17 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Enable', 'Disable', 'Status')][string]$Action = 'Status',
-    [string]$AdbPath = 'E:\Android SDK Platform 35\platform-tools\adb.exe',
+    [string]$AdbPath,
     [string]$Serial = '',
     [ValidateRange(1024, 65535)][int]$HostProxyPort = 7897,
     [ValidateRange(1024, 65535)][int]$DeviceProxyPort = 17897
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
+. (Join-Path $PSScriptRoot 'tool-paths.ps1')
 $stateDirectory = Join-Path $projectRoot 'app\build\tmdb-usb-network'
 $stateFile = Join-Path $stateDirectory 'state.json'
-if (-not (Test-Path -LiteralPath $AdbPath -PathType Leaf)) { throw 'ADB_NOT_FOUND: supply -AdbPath.' }
+$AdbPath = Resolve-YingJiAdbPath -AdbPath $AdbPath -ProjectRoot $projectRoot
 function Invoke-Adb([string[]]$Arguments) {
     if (@($Arguments | Where-Object { $_ -notmatch '^[-a-zA-Z0-9_.:\[\]]+$' }).Count -gt 0) { throw 'UNSUPPORTED_ADB_ARGUMENT' }
     $process = New-Object System.Diagnostics.Process

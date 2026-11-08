@@ -2,14 +2,15 @@
 [CmdletBinding()]
 param(
     [switch]$InitializeSigning,
-    [string]$KeyStore = 'E:\AIPM\Signing\YingJi\yingji-release.jks',
+    [string]$KeyStore = $env:YINGJI_RELEASE_KEYSTORE,
     [string]$BackupDirectory,
-    [string]$JavaHome = 'C:\Program Files\Android\openjdk\jdk-21.0.8',
+    [string]$JavaHome,
     [string]$AndroidSdkRoot
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+. (Join-Path $PSScriptRoot 'tool-paths.ps1')
 $keyAlias = 'yingji-release'
 
 function Assert-OutsideProject([string]$Path) {
@@ -81,7 +82,7 @@ function Resolve-BackupDirectory([string]$Candidate, [string]$PrimaryDirectory) 
     if (-not $Candidate) { throw 'Enter a complete existing folder path, not the signing password.' }
     $candidatePath = $Candidate.Trim().Trim('"')
     if ($candidatePath -notmatch '^(?:[A-Za-z]:[\\/]|\\\\[^\\]+\\[^\\]+)') {
-        throw 'A full folder path is required (for example C:\Users\29133\YingJiSigningBackup). Do not enter a password here.'
+        throw 'A full folder path outside the project is required. Do not enter a password here.'
     }
     $backupFull = Assert-OutsideProject $candidatePath
     if ($backupFull.Length -gt [IO.Path]::GetPathRoot($backupFull).Length) { $backupFull = $backupFull.TrimEnd([IO.Path]::DirectorySeparatorChar) }
@@ -95,7 +96,7 @@ function Resolve-BackupDirectory([string]$Candidate, [string]$PrimaryDirectory) 
 function Read-BackupDirectory([string]$PrimaryDirectory) {
     Write-Host 'The next input is a FOLDER PATH, not a password. It will be visible.'
     while ($true) {
-        $candidatePath = Read-Host 'Backup folder full path (example C:\Users\29133\YingJiSigningBackup)'
+        $candidatePath = Read-Host 'Backup folder full path (existing folder outside the project)'
         try { return (Resolve-BackupDirectory $candidatePath $PrimaryDirectory) }
         catch { Write-Host $_.Exception.Message }
     }
@@ -135,16 +136,14 @@ function Read-SigningPassword([switch]$Confirm) {
 $secret = $null
 $runDirectory = $null
 try {
+    if (-not $KeyStore) { throw 'RELEASE_KEYSTORE_REQUIRED: pass -KeyStore or set YINGJI_RELEASE_KEYSTORE to a key file outside the project.' }
     $KeyStore = Assert-OutsideProject $KeyStore
+    $JavaHome = Resolve-YingJiJavaHome -JavaHome $JavaHome
     $keyDirectory = Split-Path -Parent $KeyStore
     $pinPath = Join-Path $keyDirectory 'yingji-release-cert.sha256'
     $java = Join-Path $JavaHome 'bin\java.exe'
     $keytool = Join-Path $JavaHome 'bin\keytool.exe'
-    if (-not $AndroidSdkRoot) {
-        $sdkLine = Get-Content -LiteralPath (Join-Path $projectRoot 'local.properties') | Where-Object { $_ -match '^sdk.dir=' } | Select-Object -First 1
-        if (-not $sdkLine) { throw 'Pass -AndroidSdkRoot or configure sdk.dir in local.properties.' }
-        $AndroidSdkRoot = $sdkLine.Substring(8).Replace('\:', ':').Replace('\\', '\')
-    }
+    $AndroidSdkRoot = Resolve-YingJiAndroidSdkRoot -AndroidSdkRoot $AndroidSdkRoot -ProjectRoot $projectRoot
     $tools = Join-Path $AndroidSdkRoot 'build-tools\34.0.0'
     $signer = Join-Path $tools 'lib\apksigner.jar'
     $aapt = Join-Path $tools 'aapt2.exe'

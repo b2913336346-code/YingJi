@@ -1,8 +1,10 @@
 [CmdletBinding()]
-param([string]$JavaHome='C:\Program Files\Android\openjdk\jdk-21.0.8')
+param([string]$JavaHome)
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 $projectRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+. (Join-Path $PSScriptRoot 'tool-paths.ps1')
+$JavaHome=Resolve-YingJiJavaHome -JavaHome $JavaHome -RequiredTools @('java','keytool','javac')
 $scriptPath=Join-Path $PSScriptRoot 'build-release.ps1'
 $testRoot=Join-Path ([IO.Path]::GetTempPath()) ('yingji-signing-test-'+[guid]::NewGuid().ToString('N'))
 [void][IO.Directory]::CreateDirectory($testRoot)
@@ -127,7 +129,7 @@ try {
         $echo=Join-Path $testRoot 'ArgumentEcho.java'
         [IO.File]::WriteAllText($echo,'class ArgumentEcho { public static void main(String[] args) { for(String s: args) System.out.println(java.util.Base64.getEncoder().encodeToString(s.getBytes(java.nio.charset.StandardCharsets.UTF_8))); } }')
         $null=Invoke-Tool (Join-Path $JavaHome 'bin\javac.exe') @($echo)
-        $values=@('space path','C:\folder with space\','a"b','a\"b','')
+        $values=@('space path',((Join-Path $testRoot 'folder with space')+[IO.Path]::DirectorySeparatorChar),'a"b','a\"b','')
         # Keep an explicit final empty argument in the expected line stream.
         $expected=($values | ForEach-Object {[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($_))}) -join "`n"
         $raw=Invoke-Tool (Join-Path $JavaHome 'bin\java.exe') (@('-cp',$testRoot,'ArgumentEcho')+$values)

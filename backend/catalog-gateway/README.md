@@ -6,12 +6,12 @@
 
 ## 准备与编译
 
-需要 Node.js 22+。本机同时安装旧 Node 16，可在当前 PowerShell 终端选择已验证的 Node 22；不修改系统设置：
+需要 Node.js 22+。在项目根目录打开 PowerShell；如需临时选择 Node.js 22，将下方占位符替换为其本机安装目录：
 
 ~~~powershell
 $env:PATHEXT = '.COM;.EXE;.BAT;.CMD;' + $env:PATHEXT
-$env:Path = 'C:\Users\29133\AppData\Local\hermes\node;' + $env:Path
-Set-Location 'E:\AIPM\Project\YingJi\backend\catalog-gateway'
+$env:Path = '<Node.js 22 安装目录>;' + $env:Path
+Set-Location .\backend\catalog-gateway
 node --version
 npm.cmd ci --ignore-scripts
 npm.cmd run typecheck
